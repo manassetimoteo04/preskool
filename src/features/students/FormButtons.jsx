@@ -11,7 +11,7 @@ const StyledFormButtons = styled.div`
   gap: 1rem;
   justify-content: end;
 `;
-function FormButtons({ handleSubmit, genre }) {
+function FormButtons({ handleSubmit, genre, parent }) {
   const [data, setData] = useState({});
   const { open, close } = useModal();
   const { createStudent, isLoading } = useCreateStudent();
@@ -20,9 +20,43 @@ function FormButtons({ handleSubmit, genre }) {
     const internNumber = `PS-${data.fullName.split(" ").at(0)[0]}${
       data.fullName.split(" ").at(-1)[0]
     }-${uniqueId}`.replaceAll("_", "");
-    const studentData = { ...data, gendre: genre, internNumber: internNumber };
+    const {
+      fullName,
+      idNumber,
+      emissionDate,
+      residence,
+      studentPhone,
+      biUpload,
+      docUpload,
+      schoolYear,
+      grade,
+      course,
+      schoolPeriod,
+    } = data;
+    const studentData = {
+      fullName,
+      idNumber,
+      emissionDate,
+      residence,
+      studentPhone,
+      biUpload,
+      docUpload,
+      schoolYear,
+      grade,
+      course,
+      schoolPeriod,
+      parent: {
+        type: parent,
+        name: data[`${parent}Name`],
+        email: data[`${parent}Email`],
+        phone: data[`${parent}Phone`],
+        occupation: data[`${parent}Occupation`],
+      },
+      gender: genre,
+      internNumber: internNumber,
+    };
+
     open("confirmInfo");
-    console.log(studentData);
     setData(studentData);
   }
   function onConfirm() {

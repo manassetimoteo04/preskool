@@ -57,9 +57,9 @@ function StudentsTable() {
             data={students}
             render={(item) => (
               <Table.Row key={item.id}>
-                <span>{item.id}</span>
+                <span>{item.internNumber}</span>
                 <FlexBox>
-                  <Img src={item.image || "/default-user.jpg"} />
+                  <Img src={item.biUpload || "/default-user.jpg"} />
                   <span>{item.fullName}</span>
                 </FlexBox>
                 <Tag type={item.status}>{item.status}</Tag>

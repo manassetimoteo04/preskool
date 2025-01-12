@@ -7,13 +7,21 @@ function FormSchoolInfor({ register, errors }) {
   return (
     <Form.Row>
       <InputRow label="Upload do Bilhete" error={errors?.biUpload?.message}>
-        <FileInput id="biUpload" accept="pdf/*" {...register("biUpload")} />
+        <FileInput
+          id="biUpload"
+          accept="image/*"
+          {...register("biUpload", { required: "Este campo é obrigatório" })}
+        />
       </InputRow>
       <InputRow
         label="Upload do Certificado/Tranferência"
         error={errors?.biUpload?.message}
       >
-        <FileInput accept="pdf/*" id="docUpload" {...register("docUpload")} />
+        <FileInput
+          accept="image/*"
+          id="docUpload"
+          {...register("docUpload", { required: "Este campo é obrigatório" })}
+        />
       </InputRow>
       <InputRow label="Ano lectivo" error={errors?.schoolYear?.message}>
         <Input

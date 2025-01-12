@@ -11,6 +11,7 @@ import {
 } from "react-icons/hi2";
 import Button from "../../ui/Button";
 import { HiX } from "react-icons/hi";
+import SpinnerMini from "../../ui/SpinnerMini";
 const StyledConfirmInformation = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +63,8 @@ function ConfirmInformation({ onCloseModal, data = {}, onConfirm, isLoading }) {
     schoolPeriod,
     genre,
   } = data;
+
+  console.log(isLoading);
   return (
     <StyledConfirmInformation>
       <Form.Group columns="1fr 1fr 1fr 1fr">
@@ -177,7 +180,7 @@ function ConfirmInformation({ onCloseModal, data = {}, onConfirm, isLoading }) {
           <HiX /> Cancelar
         </Button>
         <Button onClick={onConfirm} disabled={isLoading}>
-          <HiCheck /> Confirmar
+          {isLoading ? <SpinnerMini /> : <HiCheck />} Confirmar
         </Button>
       </FlexBox>
     </StyledConfirmInformation>

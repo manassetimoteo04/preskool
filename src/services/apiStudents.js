@@ -1,5 +1,6 @@
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
+import { uploadFile } from "./apiUpload.js";
 export async function getStudents() {
   try {
     const querySnapshot = await getDocs(collection(db, "students"));
@@ -16,11 +17,23 @@ export async function getStudents() {
 
 export async function createNewStudent(newStudentData) {
   try {
-    const data = await addDoc(collection(db, "students"), newStudentData);
-    console.log(data);
+    const hasFile = newStudentData.biUpload[0] || newStudentData.docUpload[0];
+    if (hasFile) {
+      const bi = await uploadFile(newStudentData.biUpload[0]);
+      const doc = await uploadFile(newStudentData.docUpload[0]);
+      const finalData = {
+        ...newStudentData,
+        docUpload: doc,
+        biUpload: bi,
+        status: "active",
+      };
 
-    return data;
+      const data = await addDoc(collection(db, "students"), finalData);
+      return data;
+    }
   } catch (error) {
-    console.error("Erro ao buscar usuários:", error.message);
+    throw new Error(
+      "Ups, occoreu um erro, verifique a conexão de internet e tente novamente"
+    );
   }
 }

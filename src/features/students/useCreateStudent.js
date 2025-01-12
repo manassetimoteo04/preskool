@@ -11,6 +11,9 @@ export function useCreateStudent() {
       toast.success("Estudante registrado com successo");
       queryClient.invalidateQueries({ queryKey: ["students"] });
     },
+    onError: (err) => {
+      toast.error(err.message);
+    },
   });
   return { createStudent, isLoading };
 }

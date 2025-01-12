@@ -79,6 +79,7 @@ function AddStudentForm() {
           handleSubmit={handleSubmit}
           genre={genre}
           errors={errors}
+          parent={parent}
         />
       </Form>
     </Modal>
