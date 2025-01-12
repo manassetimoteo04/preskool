@@ -1,0 +1,55 @@
+import styled from "styled-components";
+import Button from "../../ui/Button";
+import Modal, { useModal } from "../../ui/Modal";
+import ConfirmInformation from "./ConfirmInformation";
+import { useState } from "react";
+import { useCreateStudent } from "./useCreateStudent";
+import { nanoid } from "nanoid";
+
+const StyledFormButtons = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+`;
+function FormButtons({ handleSubmit, genre }) {
+  const [data, setData] = useState({});
+  const { open, close } = useModal();
+  const { createStudent, isLoading } = useCreateStudent();
+  function onClick(data) {
+    const uniqueId = nanoid(10);
+    const internNumber = `PS-${data.fullName.split(" ").at(0)[0]}${
+      data.fullName.split(" ").at(-1)[0]
+    }-${uniqueId}`.replaceAll("_", "");
+    const studentData = { ...data, gendre: genre, internNumber: internNumber };
+    open("confirmInfo");
+    console.log(studentData);
+    setData(studentData);
+  }
+  function onConfirm() {
+    createStudent(data, {
+      onSuccess: () => {
+        close();
+      },
+    });
+  }
+  return (
+    <>
+      <StyledFormButtons>
+        <Button type="reset" variation="primary">
+          Cancelar
+        </Button>
+
+        <Button onClick={handleSubmit(onClick)}>Finalizar inscrição</Button>
+      </StyledFormButtons>
+      <Modal.Window name="confirmInfo" buttonClose={true}>
+        <ConfirmInformation
+          data={data}
+          onConfirm={onConfirm}
+          isLoading={isLoading}
+        />
+      </Modal.Window>
+    </>
+  );
+}
+
+export default FormButtons;
