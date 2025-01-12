@@ -14,12 +14,12 @@ function FormPersonalInfo({ register, errors, setGenre, genre }) {
           {...register("fullName", { required: "Este campo é obrigatório" })}
         />
       </InputRow>
-      <InputRow label="Data de Nascimento" error={errors?.birthYear?.message}>
+      <InputRow label="Data de Nascimento" error={errors?.birthDate?.message}>
         <Input
           type="date"
-          id="birthYear"
-          name="birthYear"
-          {...register("birthYear", { required: "Este campo é obrigatório" })}
+          id="birthDate"
+          name="birthDate"
+          {...register("birthDate", { required: "Este campo é obrigatório" })}
         />
       </InputRow>
 

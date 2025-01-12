@@ -29,3 +29,11 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
     value
   );
+
+export function formatDate(date) {
+  return new Intl.DateTimeFormat("pt", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(date));
+}

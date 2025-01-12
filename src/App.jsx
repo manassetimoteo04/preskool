@@ -11,6 +11,7 @@ import Classes from "./pages/Classes";
 import Financial from "./pages/Financial";
 import HumanResources from "./pages/HumanResources";
 import Students from "./pages/Students";
+import Student from "./pages/Student";
 import Teachers from "./pages/Teachers";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
@@ -35,6 +36,7 @@ function App() {
             <Route path="/financial" element={<Financial />} />
             <Route path="/human-resources" element={<HumanResources />} />
             <Route path="/students" element={<Students />} />
+            <Route path="/students/:studentId" element={<Student />} />
             <Route path="students/add-student" element={<AddStudent />} />
             <Route path="/teachers" element={<Teachers />} />
             <Route path="/settings" element={<Settings />} />

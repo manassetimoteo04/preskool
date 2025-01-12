@@ -1,4 +1,4 @@
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import { getDocs, collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
 export async function getStudents() {
@@ -16,6 +16,7 @@ export async function getStudents() {
 }
 
 export async function createNewStudent(newStudentData) {
+  console.log(newStudentData);
   try {
     const hasFile = newStudentData.biUpload[0] || newStudentData.docUpload[0];
     if (hasFile) {
@@ -35,5 +36,16 @@ export async function createNewStudent(newStudentData) {
     throw new Error(
       "Ups, occoreu um erro, verifique a conexão de internet e tente novamente"
     );
+  }
+}
+
+export async function getStudent(id) {
+  const docRef = doc(db, "students", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    throw new Error("Nenhum estudante encontrado");
   }
 }

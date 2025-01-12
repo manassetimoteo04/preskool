@@ -6,6 +6,8 @@ import Pagination from "../../ui/Pagination";
 import Menus from "../../ui/Menus";
 import { HiEye, HiPencil, HiTrash } from "react-icons/hi2";
 import { useStudents } from "./useStudents";
+import { useNavigate } from "react-router-dom";
+import SpinnerMini from "../../ui/SpinnerMini";
 const StyledStudentTable = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
@@ -37,7 +39,8 @@ const FlexBox = styled.div`
 // });
 function StudentsTable() {
   const { students, isLoading } = useStudents();
-  console.log(students, isLoading);
+  const navigate = useNavigate();
+  if (isLoading) return <SpinnerMini />;
   return (
     <StyledStudentTable>
       <StudentTableOperations />
@@ -71,7 +74,12 @@ function StudentsTable() {
                 <Menus.Toggle menuId={item.internNumber} />
                 <Menus.Menu menuId={item.internNumber}>
                   <Menus.List>
-                    <Menus.Button icon={<HiEye />}>See details</Menus.Button>
+                    <Menus.Button
+                      icon={<HiEye />}
+                      onClick={() => navigate(`/students/${item.id}`)}
+                    >
+                      See details
+                    </Menus.Button>
                     <Menus.Button icon={<HiPencil />}>
                       Edit student
                     </Menus.Button>

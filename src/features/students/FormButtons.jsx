@@ -23,6 +23,7 @@ function FormButtons({ handleSubmit, genre, parent }) {
     const {
       fullName,
       idNumber,
+      birthDate,
       emissionDate,
       residence,
       studentPhone,
@@ -38,6 +39,7 @@ function FormButtons({ handleSubmit, genre, parent }) {
       idNumber,
       emissionDate,
       residence,
+      birthDate,
       studentPhone,
       biUpload,
       docUpload,
