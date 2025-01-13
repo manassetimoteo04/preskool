@@ -23,6 +23,9 @@ const Overlay = styled.div`
   width: 100%;
   height: 100dvh;
   overflow-y: scroll;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--backdrop-color);
 `;
 const StyledWindow = styled.div`
@@ -32,8 +35,6 @@ const StyledWindow = styled.div`
   animation: ${ScaleAnimation} 0.15s ease-in;
   display: flex;
   flex-direction: column;
-  max-width: 95rem;
-  margin: 10rem auto;
   border-radius: var(--border-radius-sm);
 `;
 const StyledButtonClose = styled.button`

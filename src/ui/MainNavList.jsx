@@ -42,43 +42,43 @@ function MainNavList() {
       <li>
         <StyledLink to="/">
           <HiOutlineViewGrid />
-          Home
+          Dashboard
         </StyledLink>
       </li>{" "}
       <li>
         <StyledLink to="/students">
           <HiOutlineUserGroup />
-          Students
+          Estudantes
         </StyledLink>
       </li>{" "}
       <li>
         <StyledLink to="/classes">
           <HiOutlineHomeModern />
-          Classes
+          Turmas
         </StyledLink>
       </li>{" "}
       <li>
         <StyledLink to="/teachers">
           <HiOutlineUsers />
-          Teachers
+          Professores
         </StyledLink>
       </li>
       <li>
         <StyledLink to="/human-resources">
           <HiOutlineBriefcase />
-          Human Resources
+          Recursos humanos
         </StyledLink>
       </li>
       <li>
         <StyledLink to="/financial">
           <HiOutlineBanknotes />
-          Financial
+          Financeiro
         </StyledLink>
       </li>
       <li>
         <StyledLink to="/settings">
           <HiOutlineCog6Tooth />
-          Settings
+          Configurações
         </StyledLink>
       </li>
     </StyledMainNavList>

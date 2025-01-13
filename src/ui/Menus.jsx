@@ -135,6 +135,7 @@ function Button({ children, icon, onClick }) {
   function handleClick() {
     onClick?.();
     close();
+    document.querySelector("main").style.overflowY = "scroll";
   }
   return (
     <li>

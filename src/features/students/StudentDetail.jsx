@@ -6,19 +6,27 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { useStudent } from "./useStudent";
 import styled from "styled-components";
 import Button from "../../ui/Button";
-import { HiOutlinePencil } from "react-icons/hi2";
+import {
+  HiOutlineDocument,
+  HiOutlineDocumentDuplicate,
+  HiOutlinePencil,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 import { formatDate } from "../../utils/helpers";
+import SeeStudentDocument from "./SeeStudentDocument";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useNavigate } from "react-router-dom";
 
 const StyledDetailBox = styled.div`
   background-color: var(--color-grey-0);
 
   & > h4 {
     background-color: var(--color-brand-100);
-    padding: 2rem;
+    padding: 2rem 3rem;
   }
 `;
 const StyledDetail = styled.div`
-  padding: 2rem;
+  padding: 2rem 3rem;
 `;
 const Img = styled.img`
   object-fit: cover;
@@ -59,17 +67,26 @@ const GridBox = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   gap: 2rem;
-  padding: 2rem;
+  padding: 2rem 0;
   & > div {
     display: flex;
     flex-direction: column;
   }
 `;
+
+const ButtonsAction = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+`;
 function StudentDetail() {
   const { data, isLoading } = useStudent();
+  const navigate = useNavigate();
   if (isLoading) return <SpinnerMini />;
   const {
     biUpload,
+    docUpload,
     fullName,
     status,
     birthDate,
@@ -81,8 +98,9 @@ function StudentDetail() {
     course,
     grade,
     schoolPeriod,
+    parent,
   } = data;
-
+  const { name, phone, email, occupation, type } = parent;
   return (
     <Modal>
       <Row type="horizontal">
@@ -93,6 +111,7 @@ function StudentDetail() {
       </Row>
       <StyledDetailBox>
         <Heading as="h4">Informações Pessoais</Heading>
+
         <StyledDetail>
           <FlexBox>
             <Img src={biUpload} />
@@ -122,8 +141,8 @@ function StudentDetail() {
               <span>{formatDate(birthDate)}</span>
             </div>
             <div>
-              <strong>Data de nascimento</strong>
-              <span>{formatDate(birthDate)}</span>
+              <strong>Província</strong>
+              <span>{"Luanda"}</span>
             </div>
 
             <div>
@@ -149,7 +168,71 @@ function StudentDetail() {
             </div>
           </GridBox>
         </StyledDetail>
+
+        <StyledDetail>
+          <FlexBox>
+            <div>
+              <Heading as="h3">Informações do Parente & Guardião</Heading>
+              <FlexBox>
+                <span>Relação</span>
+                &mdash;
+                <span>
+                  {type === "father"
+                    ? "Pai"
+                    : type === "mother"
+                    ? "Mãe"
+                    : "Outro"}
+                </span>
+              </FlexBox>
+            </div>
+          </FlexBox>
+          <GridBox columns="repeat(4,1fr)">
+            <div>
+              <strong>Nome Completo</strong>
+              <span>{name}</span>
+            </div>
+
+            <div>
+              <strong>Telefone</strong>
+              <span>{phone}</span>
+            </div>
+            <div>
+              <strong>Email</strong>
+              <span>{email}</span>
+            </div>
+
+            <div>
+              <strong>Ocupação</strong>
+              <span>{occupation}</span>
+            </div>
+          </GridBox>
+        </StyledDetail>
+        <StyledDetail>
+          <ButtonsAction>
+            <Modal.Open opens="documents">
+              <Button type="secondary">
+                <HiOutlineDocument /> Documentos
+              </Button>
+            </Modal.Open>
+            <Button onClick={() => navigate("marks")}>
+              <HiOutlineDocumentDuplicate /> Ver Notas
+            </Button>
+            <Modal.Open opens="confirmDelete">
+              <Button type="danger">
+                <HiOutlineTrash /> Excluir aluno
+              </Button>
+            </Modal.Open>
+          </ButtonsAction>
+        </StyledDetail>
       </StyledDetailBox>
+      <Modal.Window name="documents" buttonClose={true}>
+        <SeeStudentDocument images={[biUpload, docUpload]} />
+      </Modal.Window>{" "}
+      <Modal.Window name="confirmDelete">
+        <ConfirmDelete>
+          Tens certeza que deseja exluir esse estudante?
+        </ConfirmDelete>
+      </Modal.Window>
     </Modal>
   );
 }

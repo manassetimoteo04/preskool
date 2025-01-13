@@ -40,6 +40,16 @@ const StyledButton = styled.button`
         background-color: var(--color-grey-300);
       }
     `}
+     ${(props) =>
+    props.type === "danger" &&
+    css`
+      background-color: var(--color-red-700);
+      color: var(--color-brand-0);
+
+      &:hover {
+        background-color: var(--color-grey-800);
+      }
+    `}
 
 
   ${(props) =>
