@@ -57,7 +57,6 @@ function Footer({ children }) {
   return <StyledFooter>{children}</StyledFooter>;
 }
 function Body({ render, data }) {
-  console.log(data);
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 Table.Header = Header;

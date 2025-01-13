@@ -12,11 +12,13 @@ import {
 import Button from "../../ui/Button";
 import { HiX } from "react-icons/hi";
 import SpinnerMini from "../../ui/SpinnerMini";
+
 const StyledConfirmInformation = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
   min-width: 80rem;
+  background-color: var(--color-grey-0);
   padding: 2rem 0;
   & > section {
     display: flex;
@@ -51,10 +53,7 @@ function ConfirmInformation({ onCloseModal, data = {}, onConfirm, isLoading }) {
     emissionDate,
     residence,
     studentPhone,
-    fatherName,
-    fatherPhone,
-    fatherEmail,
-    fatherOccupation,
+    parent,
     biUpload,
     docUpload,
     schoolYear,
@@ -67,6 +66,8 @@ function ConfirmInformation({ onCloseModal, data = {}, onConfirm, isLoading }) {
   console.log(isLoading);
   return (
     <StyledConfirmInformation>
+      <Heading as="h3">Confirmar informações</Heading>
+
       <Form.Group columns="1fr 1fr 1fr 1fr">
         <Form.Header icon={<HiOutlineExclamationCircle />}>
           <Heading as="h3">Informações pessoais</Heading>
@@ -116,26 +117,33 @@ function ConfirmInformation({ onCloseModal, data = {}, onConfirm, isLoading }) {
         </Form.Header>
         <Form.Row>
           <Heading as="h4">
-            Responsável - <strong>Pai</strong>
+            Responsável -{" "}
+            <strong>
+              {parent?.type === "father"
+                ? "Pai"
+                : parent.type === "mother"
+                ? "Mãe"
+                : "Outro"}
+            </strong>
           </Heading>
 
           <StyledInforBox>
             <strong>Nome completo</strong>
-            <p>{fatherName}</p>
+            <p>{parent.name}</p>
           </StyledInforBox>
           <StyledInforBox>
             <strong>Telefone</strong>
-            <p>{fatherPhone}</p>
+            <p>{parent.name}</p>
           </StyledInforBox>
 
           <StyledInforBox>
             <strong>Email</strong>
-            <p>{fatherEmail}</p>
+            <p>{parent.email}</p>
           </StyledInforBox>
 
           <StyledInforBox>
             <strong>Ocupação</strong>
-            <p>{fatherOccupation}</p>
+            <p>{parent.occupation}</p>
           </StyledInforBox>
         </Form.Row>
       </Form.Group>

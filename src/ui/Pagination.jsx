@@ -8,13 +8,13 @@ const StyledPagination = styled.div`
   align-items: center;
 `;
 
-function Pagination() {
+function Pagination({ totalPages }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = !searchParams.get("page")
     ? 1
     : Number(searchParams.get("page"));
   function nextPage() {
-    const next = currentPage + 1;
+    const next = currentPage === totalPages ? currentPage : currentPage + 1;
     searchParams.set("page", next);
     setSearchParams(searchParams);
   }
@@ -25,11 +25,15 @@ function Pagination() {
   }
   return (
     <StyledPagination>
-      <Button size="small" onClick={prevPage}>
+      <Button size="small" onClick={prevPage} disabled={currentPage === 1}>
         <HiChevronLeft />
       </Button>
       <span>{currentPage}</span>
-      <Button size="small" onClick={nextPage}>
+      <Button
+        size="small"
+        onClick={nextPage}
+        disabled={currentPage === totalPages}
+      >
         <HiChevronRight />
       </Button>
     </StyledPagination>

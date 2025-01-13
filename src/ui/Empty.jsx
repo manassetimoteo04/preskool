@@ -1,0 +1,27 @@
+import styled from "styled-components";
+import { VscEmptyWindow } from "react-icons/vsc";
+
+const StyledEmpty = styled.p`
+  padding: 3rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  & > svg {
+    font-size: 3rem;
+  }
+`;
+
+function Empty({ children }) {
+  return (
+    <StyledEmpty>
+      <VscEmptyWindow />
+      <span>{children}</span>
+    </StyledEmpty>
+  );
+}
+
+export default Empty;
