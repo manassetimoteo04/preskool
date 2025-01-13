@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import AddStudent from "./pages/AddStudent";
 import StudentMark from "./pages/StudentMark";
+import StudentEdit from "./pages/StudentEdit";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -42,6 +43,7 @@ function App() {
               path="/students/:studentId/marks"
               element={<StudentMark />}
             />
+            <Route path="/students/:studentId/edit" element={<StudentEdit />} />
             <Route path="students/add-student" element={<AddStudent />} />
             <Route path="/teachers" element={<Teachers />} />
             <Route path="/settings" element={<Settings />} />

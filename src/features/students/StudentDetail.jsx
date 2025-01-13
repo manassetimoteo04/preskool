@@ -99,13 +99,14 @@ function StudentDetail() {
     grade,
     schoolPeriod,
     parent,
+    province,
   } = data;
   const { name, phone, email, occupation, type } = parent;
   return (
     <Modal>
       <Row type="horizontal">
         <Heading as="h2">Estudante #{data?.internNumber}</Heading>
-        <Button>
+        <Button onClick={() => navigate("edit")}>
           <HiOutlinePencil /> Editar informações
         </Button>
       </Row>
@@ -142,7 +143,7 @@ function StudentDetail() {
             </div>
             <div>
               <strong>Província</strong>
-              <span>{"Luanda"}</span>
+              <span>{province}</span>
             </div>
 
             <div>

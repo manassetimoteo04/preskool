@@ -80,7 +80,10 @@ function StudentsTable() {
                     >
                       See details
                     </Menus.Button>
-                    <Menus.Button icon={<HiPencil />}>
+                    <Menus.Button
+                      icon={<HiPencil />}
+                      onClick={() => navigate(`/students/${item.id}/edit`)}
+                    >
                       Edit student
                     </Menus.Button>
                     <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>

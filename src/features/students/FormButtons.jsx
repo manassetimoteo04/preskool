@@ -5,21 +5,34 @@ import ConfirmInformation from "./ConfirmInformation";
 import { useState } from "react";
 import { useCreateStudent } from "./useCreateStudent";
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
+import { useUpdateStudent } from "./useUpdateStudent";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const StyledFormButtons = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: end;
 `;
-function FormButtons({ handleSubmit, genre, parent }) {
+function FormButtons({
+  handleSubmit,
+  genre,
+  parent,
+  isEditSession,
+  internNumber: oldInterNumber,
+}) {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
   const { open, close } = useModal();
   const { createStudent, isLoading } = useCreateStudent();
+  const { updateStudent, isLoading: isUpdating } = useUpdateStudent();
   function onClick(data) {
     const uniqueId = nanoid(10);
-    const internNumber = `PS-${data.fullName.split(" ").at(0)[0]}${
-      data.fullName.split(" ").at(-1)[0]
-    }-${uniqueId}`.replaceAll("_", "");
+    const internNumber = isEditSession
+      ? oldInterNumber
+      : `PS-${data.fullName.split(" ").at(0)[0]}${
+          data.fullName.split(" ").at(-1)[0]
+        }-${uniqueId}`.replaceAll("_", "");
     const {
       fullName,
       idNumber,
@@ -29,6 +42,7 @@ function FormButtons({ handleSubmit, genre, parent }) {
       studentPhone,
       biUpload,
       docUpload,
+      province,
       schoolYear,
       grade,
       course,
@@ -47,6 +61,7 @@ function FormButtons({ handleSubmit, genre, parent }) {
       grade,
       course,
       schoolPeriod,
+      province,
       parent: {
         type: parent,
         name: data[`${parent}Name`],
@@ -58,7 +73,10 @@ function FormButtons({ handleSubmit, genre, parent }) {
       internNumber: internNumber,
     };
 
-    open("confirmInfo");
+    !isEditSession && open("confirmInfo");
+    if (isEditSession) {
+      updateStudent(studentData);
+    }
     setData(studentData);
   }
   function onConfirm() {
@@ -71,19 +89,28 @@ function FormButtons({ handleSubmit, genre, parent }) {
   return (
     <>
       <StyledFormButtons>
-        <Button type="reset" variation="primary">
+        <Button
+          type="reset"
+          variation="primary"
+          onClick={() => (isEditSession ? navigate(-1) : {})}
+        >
           Cancelar
         </Button>
 
-        <Button onClick={handleSubmit(onClick)}>Finalizar inscrição</Button>
+        <Button onClick={handleSubmit(onClick)} disabled={isUpdating}>
+          {isUpdating && <SpinnerMini />}
+          {isEditSession ? "Editar estudante " : "Finalizar inscrição"}
+        </Button>
       </StyledFormButtons>
-      <Modal.Window name="confirmInfo" buttonClose={true}>
-        <ConfirmInformation
-          data={data}
-          onConfirm={onConfirm}
-          isLoading={isLoading}
-        />
-      </Modal.Window>
+      {!isEditSession && (
+        <Modal.Window name="confirmInfo" buttonClose={true}>
+          <ConfirmInformation
+            data={data}
+            onConfirm={onConfirm}
+            isLoading={isLoading}
+          />
+        </Modal.Window>
+      )}
     </>
   );
 }

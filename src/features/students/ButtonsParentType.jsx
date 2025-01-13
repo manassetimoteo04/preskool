@@ -30,7 +30,7 @@ function ButtonsParentType({ parent, setParent }) {
           setParent("father");
         }}
       >
-        Mãe
+        Pai
       </ButtonSmall>
       <ButtonSmall
         active={parent === "mother"}
@@ -39,7 +39,7 @@ function ButtonsParentType({ parent, setParent }) {
           setParent("mother");
         }}
       >
-        Pai
+        Mãe
       </ButtonSmall>
       <ButtonSmall
         active={parent === "guardian"}

@@ -11,39 +11,27 @@ import ButtonsParentType from "./ButtonsParentType";
 import { useState } from "react";
 import Modal from "../../ui/Modal";
 
-const data = {
-  fullName: "234",
-  birthYear: "2025-01-15",
-  province: "234",
-  idNumber: "234",
-  emissionDate: "2025-01-16",
-  residence: "234",
-  studentPhone: "324",
-  fatherName: "234",
-  fatherPhone: "324",
-  fatherEmail: "324",
-  fatherOccupation: "234",
-  biUpload: {
-    0: {},
-  },
-  docUpload: {
-    0: {},
-  },
-  schoolYear: "234",
-  grade: "234",
-  course: "234",
-  schoolPeriod: "324",
-  genre: "m",
-};
-function AddStudentForm() {
+function AddStudentForm({ editId, data = {} }) {
   const [genre, setGenre] = useState("m");
+  const isEditSession = Boolean(editId);
 
+  const parentInfo = isEditSession
+    ? {
+        [data?.parent?.type + "Phone"]: data?.parent?.phone,
+        [data?.parent?.type + "Email"]: data?.parent?.email,
+        [data?.parent?.type + "Name"]: data?.parent?.name,
+        [data?.parent?.type + "Occupation"]: data?.parent?.occupation,
+      }
+    : {};
+  console.log(parentInfo);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: data });
-  const [parent, setParent] = useState("father");
+  } = useForm({
+    defaultValues: isEditSession ? { ...data, ...parentInfo } : {},
+  });
+  const [parent, setParent] = useState(data?.parent?.type || "father");
   return (
     <Modal>
       <Form>
@@ -73,13 +61,19 @@ function AddStudentForm() {
           <Form.Header icon={<HiOutlineDocumentDuplicate />}>
             <Heading as="h3">Documentos & Informações da inscrição</Heading>
           </Form.Header>
-          <FormSchoolInfor register={register} errors={errors} />
+          <FormSchoolInfor
+            register={register}
+            errors={errors}
+            isEditSession={isEditSession}
+          />
         </Form.Group>
         <FormButtons
           handleSubmit={handleSubmit}
           genre={genre}
           errors={errors}
           parent={parent}
+          internNumber={data?.internNumber}
+          isEditSession={isEditSession}
         />
       </Form>
     </Modal>

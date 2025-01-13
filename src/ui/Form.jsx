@@ -28,7 +28,7 @@ const StyledRow = styled.div`
 
 const StyledHeader = styled.header`
   padding: 1.5rem;
-  background-color: var(--color-grey-200);
+  background-color: var(--color-brand-100);
   display: flex;
   align-items: center;
   gap: 1rem;

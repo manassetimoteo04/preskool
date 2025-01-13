@@ -3,26 +3,34 @@ import Form from "../../ui/Form";
 import Input from "../../ui/Input";
 import InputRow from "../../ui/InputRow";
 
-function FormSchoolInfor({ register, errors }) {
+function FormSchoolInfor({ register, errors, isEditSession }) {
   return (
     <Form.Row>
-      <InputRow label="Upload do Bilhete" error={errors?.biUpload?.message}>
-        <FileInput
-          id="biUpload"
-          accept="image/*"
-          {...register("biUpload", { required: "Este campo é obrigatório" })}
-        />
-      </InputRow>
-      <InputRow
-        label="Upload do Certificado/Tranferência"
-        error={errors?.biUpload?.message}
-      >
-        <FileInput
-          accept="image/*"
-          id="docUpload"
-          {...register("docUpload", { required: "Este campo é obrigatório" })}
-        />
-      </InputRow>
+      {!isEditSession && (
+        <>
+          <InputRow label="Upload do Bilhete" error={errors?.biUpload?.message}>
+            <FileInput
+              id="biUpload"
+              accept="image/*"
+              {...register("biUpload", {
+                required: "Este campo é obrigatório",
+              })}
+            />
+          </InputRow>
+          <InputRow
+            label="Upload do Certificado/Tranferência"
+            error={errors?.biUpload?.message}
+          >
+            <FileInput
+              accept="image/*"
+              id="docUpload"
+              {...register("docUpload", {
+                required: "Este campo é obrigatório",
+              })}
+            />
+          </InputRow>
+        </>
+      )}
       <InputRow label="Ano lectivo" error={errors?.schoolYear?.message}>
         <Input
           type="text"
