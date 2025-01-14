@@ -9,7 +9,7 @@ export function usePagination(list) {
 
   const fromPage = (currentPage - 1) * PAGE_SIZE;
   const toPage = fromPage + PAGE_SIZE;
-  const totalPages = Math.ceil(list.length / PAGE_SIZE);
-  const data = list.slice(fromPage, toPage);
+  const totalPages = Math.ceil(list?.length / PAGE_SIZE);
+  const data = list?.slice(fromPage, toPage);
   return { data, fromPage, toPage, totalPages, currentPage };
 }

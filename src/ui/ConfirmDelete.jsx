@@ -2,6 +2,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import styled from "styled-components";
 import Heading from "./Heading";
 import Button from "./Button";
+import SpinnerMini from "./SpinnerMini";
 
 const StyledConfirmDelete = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ function ConfirmDelete({ children, onConfirm, isLoading, onCloseModal }) {
           Cancelar
         </Button>
         <Button type="danger" onClick={onConfirm} disabled={isLoading}>
+          {isLoading && <SpinnerMini />}
           Confirmar
         </Button>
       </FlexBox>

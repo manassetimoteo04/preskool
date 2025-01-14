@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
@@ -31,6 +32,7 @@ export async function createNewStudent(newStudentData) {
         ...newStudentData,
         docUpload: doc,
         biUpload: bi,
+        createdAt: new Date(),
         status: "active",
       };
 
@@ -69,11 +71,22 @@ export async function updateStudent({ id, updateData }) {
     await updateDoc(docRef, updateData);
 
     console.log("Estudante atualizado com sucesso!");
-    return { id, ...updateData }; // Retorna os dados atualizados
+    return { id, ...updateData };
   } catch (error) {
     console.error("Erro ao atualizar estudante:", error);
     throw new Error(
       "Ups, ocorreu um erro durante a actualização do estudante, por favor verifique a conexão e tente novamente"
     );
+  }
+}
+
+export async function deteleteStudent(id) {
+  try {
+    const docRef = doc(db, "students", id);
+
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error("Erro ao deletar estudante: ", error);
+    throw new Error("Ups, ocorreu um erro ao excluir estudante");
   }
 }

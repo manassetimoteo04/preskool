@@ -4,13 +4,15 @@ import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
 import Pagination from "../../ui/Pagination";
 import Menus from "../../ui/Menus";
-import { HiEye, HiPencil, HiTrash } from "react-icons/hi2";
+import { HiEye, HiPencil, HiPlus, HiTrash } from "react-icons/hi2";
 import { useStudents } from "./useStudents";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";
 import { usePagination } from "../../hooks/usePagination";
 import { PAGE_SIZE } from "../../utils/constants";
+import { useDeleteStudent } from "./useDeleteStudent";
+import Button from "../../ui/Button";
 const StyledStudentTable = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
@@ -43,23 +45,38 @@ const FlexBox = styled.div`
 function StudentsTable() {
   const { students, isLoading } = useStudents();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { deleteStudent, isLoading: isDeleting } = useDeleteStudent();
 
   const searchData = searchParams.get("search")
     ? students?.filter((item) =>
-        item.fullName.startsWith(searchParams.get("search"))
+        item.fullName
+          .toLowerCase()
+          .startsWith(searchParams.get("search").toLocaleLowerCase())
       )
     : students;
   const filteredData = searchParams.get("filter")
     ? searchData?.filter((item) => item.status === searchParams.get("filter"))
     : searchData;
 
-  const navigate = useNavigate();
+  const sortValue = searchParams.get("sortBy");
+  const [sortBy, direction] = (sortValue || "createdAt-asc").split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+  const sortedData = sortValue
+    ? filteredData?.sort((a, b) => {
+        if (sortBy === "fullName")
+          return a[sortBy].localeCompare(b[sortBy]) * modifier;
+        else return (a[sortBy] - b[sortBy]) * modifier;
+      })
+    : filteredData;
+
+  console.log(sortBy, direction);
   const {
     data: studentList,
 
     currentPage,
     totalPages,
-  } = usePagination(filteredData);
+  } = usePagination(sortedData);
   if (isLoading) return <Spinner />;
   return (
     <StyledStudentTable>
@@ -78,7 +95,7 @@ function StudentsTable() {
             </Table.Header>
 
             <Table.Body
-              data={studentList}
+              data={sortedData}
               render={(item) => (
                 <Table.Row key={item.id}>
                   <span>{item.internNumber}</span>
@@ -111,7 +128,13 @@ function StudentsTable() {
                       >
                         Edit student
                       </Menus.Button>
-                      <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                      <Menus.Button
+                        onClick={() => deleteStudent(item.id)}
+                        disabled={isDeleting}
+                        icon={<HiTrash />}
+                      >
+                        Delete
+                      </Menus.Button>
                     </Menus.List>
                   </Menus.Menu>
                 </Table.Row>
@@ -139,7 +162,12 @@ function StudentsTable() {
           </Table>
         </Menus>
       ) : (
-        <Empty>Nenhum dados encontrado</Empty>
+        <Empty>
+          <span>Nenhum Estudante encontrado</span>
+          <Button onClick={() => navigate("add-student")}>
+            <HiPlus />
+          </Button>
+        </Empty>
       )}
     </StyledStudentTable>
   );

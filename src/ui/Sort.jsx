@@ -3,7 +3,7 @@ import Select from "./Select";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-function Sort() {
+function Sort({ options }) {
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
@@ -11,11 +11,7 @@ function Sort() {
     searchParams.set("sortBy", value);
     setSearchParams(searchParams);
   }, [value, searchParams, setSearchParams]);
-  const options = [
-    { value: "", label: "Sort" },
-    { value: "active", label: "Active" },
-    { value: "inactive", label: "Inactive" },
-  ];
+
   return (
     <Select
       value={value}

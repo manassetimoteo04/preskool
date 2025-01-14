@@ -1,5 +1,11 @@
+import ClassesLayout from "../features/classes/ClassesLayout";
+
 function Classes() {
-  return <div>Classes</div>;
+  return (
+    <>
+      <ClassesLayout />
+    </>
+  );
 }
 
 export default Classes;

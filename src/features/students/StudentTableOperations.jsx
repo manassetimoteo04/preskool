@@ -17,12 +17,24 @@ const FlexBox = styled.div`
   gap: 2rem;
 `;
 function StudentTableOperations() {
+  const filterOptions = [
+    { value: "", label: "Filtrar" },
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+  ];
+  const sortOptions = [
+    { value: "", label: "Ordernar" },
+    { value: "fullName-asc", label: "Nome (A-Z)" },
+    { value: "fullName-desc", label: "Nome (Z-A)" },
+    { value: "grade-asc", label: "Classe (A-Z)" },
+    { value: "grade-desc", label: "Classe (Z-A)" },
+  ];
   return (
     <StyledStudentOperations>
       <SearchForm label="student" />
       <FlexBox>
-        <Filter query="filter" />
-        <Sort />
+        <Filter query="filter" options={filterOptions} />
+        <Sort options={sortOptions} />
       </FlexBox>
     </StyledStudentOperations>
   );

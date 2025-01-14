@@ -2,7 +2,7 @@ import Heading from "../../ui/Heading";
 import Modal from "../../ui/Modal";
 import Row from "../../ui/Row";
 import Tag from "../../ui/Tag";
-import SpinnerMini from "../../ui/SpinnerMini";
+import Spinner from "../../ui/Spinner";
 import { useStudent } from "./useStudent";
 import styled from "styled-components";
 import Button from "../../ui/Button";
@@ -16,6 +16,7 @@ import { formatDate } from "../../utils/helpers";
 import SeeStudentDocument from "./SeeStudentDocument";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useNavigate } from "react-router-dom";
+import { useDeleteStudent } from "./useDeleteStudent";
 
 const StyledDetailBox = styled.div`
   background-color: var(--color-grey-0);
@@ -82,8 +83,9 @@ const ButtonsAction = styled.div`
 `;
 function StudentDetail() {
   const { data, isLoading } = useStudent();
+  const { deleteStudent, isLoading: isDeleting } = useDeleteStudent();
   const navigate = useNavigate();
-  if (isLoading) return <SpinnerMini />;
+  if (isLoading) return <Spinner />;
   const {
     biUpload,
     docUpload,
@@ -100,6 +102,7 @@ function StudentDetail() {
     schoolPeriod,
     parent,
     province,
+    id,
   } = data;
   const { name, phone, email, occupation, type } = parent;
   return (
@@ -230,7 +233,14 @@ function StudentDetail() {
         <SeeStudentDocument images={[biUpload, docUpload]} />
       </Modal.Window>{" "}
       <Modal.Window name="confirmDelete">
-        <ConfirmDelete>
+        <ConfirmDelete
+          onConfirm={() =>
+            deleteStudent(id, {
+              onSuccess: () => navigate("/students", { replace: true }),
+            })
+          }
+          isLoading={isDeleting}
+        >
           Tens certeza que deseja exluir esse estudante?
         </ConfirmDelete>
       </Modal.Window>

@@ -5,13 +5,13 @@ import Modal from "../../ui/Modal";
 import Row from "../../ui/Row";
 import { useNavigate } from "react-router-dom";
 import { useStudent } from "./useStudent";
-import SpinnerMini from "../../ui/SpinnerMini";
+import Spinner from "../../ui/Spinner";
 import AddStudentForm from "./AddStudentForm";
 
 function StudentEditSection() {
   const navigate = useNavigate();
   const { data, isLoading } = useStudent();
-  if (isLoading) return <SpinnerMini />;
+  if (isLoading) return <Spinner />;
   return (
     <Modal>
       <Row type="horizontal">

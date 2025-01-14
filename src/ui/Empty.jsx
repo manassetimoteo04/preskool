@@ -9,7 +9,7 @@ const StyledEmpty = styled.p`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   & > svg {
     font-size: 3rem;
   }
@@ -19,7 +19,7 @@ function Empty({ children }) {
   return (
     <StyledEmpty>
       <VscEmptyWindow />
-      <span>{children}</span>
+      {children}
     </StyledEmpty>
   );
 }

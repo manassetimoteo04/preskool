@@ -1,7 +1,7 @@
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
 import Tag from "../../ui/Tag";
-import SpinnerMini from "../../ui/SpinnerMini";
+import Spinner from "../../ui/Spinner";
 import { useStudent } from "./useStudent";
 import styled from "styled-components";
 import Button from "../../ui/Button";
@@ -59,7 +59,7 @@ const array = Array.from({ length: 9 }, (_, index) => index);
 function StudentMarksDetail() {
   const { data, isLoading } = useStudent();
   const navigate = useNavigate();
-  if (isLoading) return <SpinnerMini />;
+  if (isLoading) return <Spinner />;
   const {
     biUpload,
     fullName,
