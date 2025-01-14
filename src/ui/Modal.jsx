@@ -31,7 +31,7 @@ const Overlay = styled.div`
 const StyledWindow = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
-  padding: 1rem;
+  padding: 2rem;
   animation: ${ScaleAnimation} 0.15s ease-in;
   display: flex;
   flex-direction: column;
@@ -41,6 +41,7 @@ const StyledButtonClose = styled.button`
   background: none;
   border: none;
   align-self: self-end;
+  margin-bottom: 1rem;
 `;
 const ModalContext = createContext();
 function Modal({ children }) {

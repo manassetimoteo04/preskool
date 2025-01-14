@@ -9,14 +9,13 @@ const StyledForm = styled.form`
 
 const StyledGroup = styled.section`
   background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-200);
   border-radius: var(--border-radius-sm);
 `;
 const StyledRow = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   gap: 2rem;
-  padding: 2rem;
+  position: relative;
   & > div {
     display: flex;
     flex-direction: column;
@@ -47,8 +46,8 @@ const StyledHeader = styled.header`
   }
 `;
 const FormGroupContext = createContext();
-function Form({ children }) {
-  return <StyledForm>{children}</StyledForm>;
+function Form({ children, onSubmit }) {
+  return <StyledForm onSubmit={onSubmit}>{children}</StyledForm>;
 }
 
 function Header({ children, icon }) {

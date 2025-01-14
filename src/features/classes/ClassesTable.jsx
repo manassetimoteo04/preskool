@@ -58,11 +58,7 @@ function ClassesTable({ children }) {
   return <StyledClassTable>{children}</StyledClassTable>;
 }
 
-function Box({ classe: id }) {
-  console.log(id);
-  const { classe, isLoading } = useClasse(id);
-
-  if (isLoading) return <Spinner />;
+function Box({ classe }) {
   const { grade, period, students, subjects } = classe;
   return (
     <TableBox>
@@ -87,8 +83,12 @@ function Box({ classe: id }) {
 function Header({ children }) {
   return <StyledHeader>{children}</StyledHeader>;
 }
-function Body({ render, data }) {
-  return <StyledBody>{data.map(render)}</StyledBody>;
+function Body({ render, courseId }) {
+  console.log(courseId.id);
+  const { classe: data, isLoading } = useClasse({ courseId: courseId?.id });
+  if (isLoading) return <Spinner />;
+
+  return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 
 ClassesTable.Box = Box;

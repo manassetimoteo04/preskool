@@ -63,14 +63,10 @@ export async function getStudent(id) {
 }
 
 export async function updateStudent({ id, updateData }) {
-  console.log(id, updateData);
   try {
-    console.log("Atualizando estudante:", id, updateData);
-
     const docRef = doc(db, "students", id);
     await updateDoc(docRef, updateData);
 
-    console.log("Estudante atualizado com sucesso!");
     return { id, ...updateData };
   } catch (error) {
     console.error("Erro ao atualizar estudante:", error);

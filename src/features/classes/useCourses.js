@@ -4,7 +4,7 @@ import { getCourses } from "../../services/apiClasses";
 export function useCourses() {
   const { data: courses, isLoading } = useQuery({
     queryFn: getCourses,
-    queryKey: ["courses"],
+    queryKey: ["classes", "courses"],
   });
   return { courses, isLoading };
 }

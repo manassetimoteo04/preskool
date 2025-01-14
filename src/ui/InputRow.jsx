@@ -13,13 +13,13 @@ const Error = styled.span`
 `;
 const StyledInputRow = styled.div`
   display: flex;
-  flex-direction: columns;
+  flex-direction: column;
   position: relative;
 `;
 function InputRow({ label, error, children }) {
   return (
     <StyledInputRow>
-      <label htmlFor={children.props?.id}>{label}</label>
+      <label htmlFor={children?.props?.id}>{label}</label>
       {children}
 
       {error && (

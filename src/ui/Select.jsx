@@ -30,7 +30,7 @@ function Select({ icon, value, options, setValue }) {
     <StyledSelect>
       {icon}
       <RealSelect value={value} onChange={(e) => setValue(e.target.value)}>
-        {options.map((opt) => (
+        {options?.map((opt) => (
           <option value={opt.value} key={opt.value}>
             {opt.label}
           </option>
