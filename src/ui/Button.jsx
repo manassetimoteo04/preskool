@@ -6,6 +6,7 @@ const StyledButton = styled.button`
   border-radius: var(--border-radius-sm);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   border-radius: var();
   & > svg {

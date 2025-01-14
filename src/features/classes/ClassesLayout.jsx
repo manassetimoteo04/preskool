@@ -1,27 +1,29 @@
-import { HiPlus } from "react-icons/hi2";
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
-import Button from "../../ui/Button";
+import Spinner from "../../ui/Spinner";
 import ClassesTable from "./ClassesTable";
+import { useCourses } from "./useCourses";
 function ClassesLayout() {
+  const { courses, isLoading } = useCourses();
+  if (isLoading) return <Spinner />;
+  console.log(courses);
   return (
     <Row>
-      <Row type="horizontal">
-        <Heading as="h2">Turmas</Heading>
-        <Button>
-          <HiPlus />
-          Cadastrar Turma
-        </Button>
-      </Row>
-      <ClassesTable>
-        <ClassesTable.Header>
-          <Heading as="h3">Informática</Heading>
-        </ClassesTable.Header>
-        <ClassesTable.Body
-          render={() => <ClassesTable.Box>Box</ClassesTable.Box>}
-          data={[1, 2, 3]}
-        />
-      </ClassesTable>
+      {courses.map((course) => {
+        return (
+          <ClassesTable key={course?.id}>
+            <ClassesTable.Header>
+              <Heading as="h4">{course?.courseName}</Heading>
+            </ClassesTable.Header>
+            <ClassesTable.Body
+              render={(classe) => (
+                <ClassesTable.Box classe={classe}></ClassesTable.Box>
+              )}
+              data={course.classes}
+            />
+          </ClassesTable>
+        );
+      })}
     </Row>
   );
 }
