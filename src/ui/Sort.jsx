@@ -1,7 +1,8 @@
 import { HiOutlineSortDescending } from "react-icons/hi";
-import Select from "./Select";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import SelectWithIcon from "./SelectWithIcon";
 
 function Sort({ options }) {
   const [value, setValue] = useState("");
@@ -13,12 +14,12 @@ function Sort({ options }) {
   }, [value, searchParams, setSearchParams]);
 
   return (
-    <Select
+    <SelectWithIcon
       value={value}
       setValue={setValue}
       icon={<HiOutlineSortDescending />}
       options={options}
-    ></Select>
+    ></SelectWithIcon>
   );
 }
 

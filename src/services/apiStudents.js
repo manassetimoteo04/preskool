@@ -6,6 +6,7 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
@@ -22,24 +23,32 @@ export async function getStudents() {
   }
 }
 
-export async function createNewStudent(newStudentData) {
+export async function createNewStudent(newStudentData = {}) {
   try {
     const hasFile = newStudentData.biUpload[0] || newStudentData.docUpload[0];
+    const [courseName, courseId] = newStudentData.course.split("-");
+    const [grade, classId] = newStudentData.grade.split("-");
+    console.log(grade, classId);
     if (hasFile) {
       const bi = await uploadFile(newStudentData.biUpload[0]);
-      const doc = await uploadFile(newStudentData.docUpload[0]);
+      const document = await uploadFile(newStudentData.docUpload[0]);
       const finalData = {
         ...newStudentData,
-        docUpload: doc,
+        docUpload: document,
         biUpload: bi,
         createdAt: new Date(),
         status: "active",
+        course: courseName,
+        grade,
+        courseId,
       };
-
       const data = await addDoc(collection(db, "students"), finalData);
+      const docRef = doc(db, "classes", classId);
+      await updateDoc(docRef, { students: arrayUnion(data.id) });
       return data;
     }
   } catch (error) {
+    console.error(error);
     throw new Error(
       "Ups, occoreu um erro, verifique a conexão de internet e tente novamente"
     );

@@ -7,7 +7,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
   border-radius: var();
   & > svg {
     font-size: 2rem;

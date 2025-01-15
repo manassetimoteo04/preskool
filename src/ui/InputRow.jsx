@@ -1,5 +1,5 @@
 import { HiOutlineExclamationCircle } from "react-icons/hi2";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Error = styled.span`
   color: var(--color-red-700);
@@ -15,10 +15,15 @@ const StyledInputRow = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  ${(props) =>
+    props.spread &&
+    css`
+      grid-column: 1/-1;
+    `}
 `;
-function InputRow({ label, error, children }) {
+function InputRow({ label, error, children, spread }) {
   return (
-    <StyledInputRow>
+    <StyledInputRow spread={spread}>
       <label htmlFor={children?.props?.id}>{label}</label>
       {children}
 

@@ -8,6 +8,7 @@ import {
 import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { useClasse } from "./useClasse";
+import { useNavigate } from "react-router-dom";
 const StyledClassTable = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,6 +47,12 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  & > h3 span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
 `;
 
 const StyledBody = styled.div`
@@ -59,7 +66,8 @@ function ClassesTable({ children }) {
 }
 
 function Box({ classe }) {
-  const { grade, period, students, subjects } = classe;
+  const navigate = useNavigate();
+  const { grade, period, students, subjects, id } = classe;
   return (
     <TableBox>
       <Heading as="h3">
@@ -75,7 +83,7 @@ function Box({ classe }) {
         <span>
           <HiOutlineClock /> {period}
         </span>
-        <Button>Ver detalhes</Button>
+        <Button onClick={() => navigate(`/classes/${id}`)}>Ver detalhes</Button>
       </div>
     </TableBox>
   );
@@ -83,9 +91,9 @@ function Box({ classe }) {
 function Header({ children }) {
   return <StyledHeader>{children}</StyledHeader>;
 }
-function Body({ render, courseId }) {
-  console.log(courseId.id);
+function Body({ render, courseId, index }) {
   const { classe: data, isLoading } = useClasse({ courseId: courseId?.id });
+  console.log(index, courseId.id);
   if (isLoading) return <Spinner />;
 
   return <StyledBody>{data?.map(render)}</StyledBody>;

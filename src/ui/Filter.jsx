@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import Select from "./Select";
+
 import { HiOutlineFilter } from "react-icons/hi";
 import { useSearchParams } from "react-router-dom";
+import SelectWithIcon from "./SelectWithIcon";
 
 function Filter({ query, options }) {
   const [value, setValue] = useState("");
@@ -13,12 +14,12 @@ function Filter({ query, options }) {
   }, [value, searchParams, setSearchParams, query]);
 
   return (
-    <Select
+    <SelectWithIcon
       value={value}
       setValue={setValue}
       icon={<HiOutlineFilter />}
       options={options}
-    ></Select>
+    ></SelectWithIcon>
   );
 }
 

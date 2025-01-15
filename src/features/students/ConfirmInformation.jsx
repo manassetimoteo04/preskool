@@ -171,11 +171,11 @@ function ConfirmInformation({ onCloseModal, data = {}, onConfirm, isLoading }) {
           </StyledInforBox>
           <StyledInforBox>
             <strong>Classe</strong>
-            <p>{grade}ª Classe</p>
+            <p>{grade.split("-")[0]}ª Classe</p>
           </StyledInforBox>
           <StyledInforBox>
             <strong>Curso</strong>
-            <p>{course}</p>
+            <p>{course.split("-")[0]}</p>
           </StyledInforBox>
           <StyledInforBox>
             <strong>Turno</strong>

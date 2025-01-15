@@ -1,4 +1,4 @@
-import { HiCheck, HiOutlineHomeModern } from "react-icons/hi2";
+import { HiCheck } from "react-icons/hi2";
 import Form from "../../ui/Form";
 import Heading from "../../ui/Heading";
 import InputRow from "../../ui/InputRow";
@@ -11,19 +11,7 @@ import { useCourses } from "./useCourses";
 import Button from "../../ui/Button";
 import { HiX } from "react-icons/hi";
 import { useCreateClass } from "./useCreateClass";
-
-const Select = styled.select`
-  padding: 0.8rem 1rem;
-  background-color: var(--color-grey-0);
-  font-size: inherit;
-  border-radius: var(--border-radius-sm);
-  border: none;
-  border: 1px solid var(--color-grey-200);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
+import Select from "../../ui/Select";
 
 const FlexBox = styled.div`
   display: flex;
@@ -38,13 +26,13 @@ function CreateClassForm() {
 
   const { errors } = formState;
   function onSubmit(data) {
+    console.log(data);
     createClass(data, { onSuccess: () => reset() });
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Form.Header icon={<HiOutlineHomeModern />}>
-        <Heading as="h3">Cadastrar Turma</Heading>
-      </Form.Header>
+      <Heading as="h2">Cadastrar Turma</Heading>
+
       <Form.Group columns="repeat(2,1fr)">
         <Form.Row>
           <InputRow label={`Classe`} error={errors?.grade?.message}>

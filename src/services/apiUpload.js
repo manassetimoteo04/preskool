@@ -3,7 +3,6 @@ export async function uploadFile(file) {
   formData.append("file", file); // Adiciona o arquivo
   formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET_NAME);
   formData.append("cloud_name", import.meta.env.VITE_UPLOAD_CLOUD_NAME); // Nome do seu Cloudinary
-  console.log(file, formData);
   try {
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${

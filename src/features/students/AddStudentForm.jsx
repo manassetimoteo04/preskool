@@ -23,11 +23,11 @@ function AddStudentForm({ editId, data = {} }) {
         [data?.parent?.type + "Occupation"]: data?.parent?.occupation,
       }
     : {};
-  console.log(parentInfo);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     defaultValues: isEditSession ? { ...data, ...parentInfo } : {},
   });
@@ -65,6 +65,7 @@ function AddStudentForm({ editId, data = {} }) {
             register={register}
             errors={errors}
             isEditSession={isEditSession}
+            watch={watch}
           />
         </Form.Group>
         <FormButtons

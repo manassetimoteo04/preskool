@@ -12,7 +12,7 @@ import {
 import { db } from "./firebase.js";
 
 export async function getClasse({ id, courseId }) {
-  console.log(id, courseId.courseId);
+  console.log("ID", courseId);
   try {
     if (id) {
       const docRef = doc(db, "classes", id);
@@ -23,14 +23,15 @@ export async function getClasse({ id, courseId }) {
         throw new Error("Document not found");
       }
     }
-    if (courseId.courseId) {
+    if (courseId) {
       const ref = collection(db, "classes");
-      const q = query(ref, where("course", "==", courseId.courseId));
+      const q = query(ref, where("course", "==", courseId));
       const querySnapshot = await getDocs(q);
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+      console.log("fetchedData", data);
       return data;
     } else {
       throw new Error("You must provide either an id or a courseId");
@@ -61,11 +62,29 @@ export async function createNewClass(newClassData) {
       subjects: [],
       type: "medium",
     };
+    console.log(finalData);
     const data = await addDoc(collection(db, "classes"), finalData);
     const docRef = doc(db, "courses", finalData.course);
     await updateDoc(docRef, { classes: arrayUnion(finalData.course) });
     return data;
   } catch (error) {
+    console.error(error.message);
+
     throw new Error("UPS! ocorreu um erro ao cadastrar turma");
+  }
+}
+
+export async function createNewCourse(courseData) {
+  try {
+    const finalData = {
+      ...courseData,
+      classes: [],
+    };
+    const data = await addDoc(collection(db, "courses"), finalData);
+    return data;
+  } catch (error) {
+    console.error(error.message);
+
+    throw new Error("UPS! ocorreu um erro ao cadastrar curso");
   }
 }

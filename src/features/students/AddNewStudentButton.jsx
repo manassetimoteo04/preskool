@@ -11,7 +11,7 @@ function AddNewStudentButton() {
         <p>Form</p>
       </Modal.Window>
       <Button onClick={() => navigate("add-student")}>
-        <HiPlus /> Add Student
+        <HiPlus /> Estudante
       </Button>
     </>
   );

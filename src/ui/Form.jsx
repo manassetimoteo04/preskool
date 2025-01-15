@@ -15,6 +15,7 @@ const StyledRow = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   gap: 2rem;
+  padding: 2rem;
   position: relative;
   & > div {
     display: flex;

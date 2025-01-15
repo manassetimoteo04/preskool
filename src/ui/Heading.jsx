@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components";
 
 const StyledHeading = styled.h1`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
   ${(props) =>
     props.as === "h1" &&
     css`
