@@ -31,9 +31,9 @@ function CreateClassForm() {
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Heading as="h2">Cadastrar Turma</Heading>
-
       <Form.Group columns="repeat(2,1fr)">
+        <Heading as="h2">Cadastrar Turma</Heading>
+        <span>Preencha o formulário para cadastrar nova turma</span>
         <Form.Row>
           <InputRow label={`Classe`} error={errors?.grade?.message}>
             <Input
@@ -99,7 +99,7 @@ function CreateClassForm() {
           </InputRow>
         </Form.Row>
         <FlexBox>
-          <Button type="secondary">
+          <Button variation="secondary">
             <HiX /> Cancelar
           </Button>
           <Button disabled={isCreating}>

@@ -20,10 +20,20 @@ const StyledInputRow = styled.div`
     css`
       grid-column: 1/-1;
     `}
+  ${(props) =>
+    props.error &&
+    css`
+      & > input:focus {
+        outline-color: var(--color-red-700);
+      }
+      & > select:focus {
+        outline-color: var(--color-red-700);
+      }
+    `}
 `;
 function InputRow({ label, error, children, spread }) {
   return (
-    <StyledInputRow spread={spread}>
+    <StyledInputRow spread={spread} error={error}>
       <label htmlFor={children?.props?.id}>{label}</label>
       {children}
 

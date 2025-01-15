@@ -11,12 +11,15 @@ import {
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
 export async function getStudents() {
+  // const isIds = ids && Array.isArray(ids);
   try {
-    const querySnapshot = await getDocs(collection(db, "students"));
+    const ref = collection(db, "students");
+    const querySnapshot = await getDocs(ref);
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Erro ao buscar usuários:", error.message);

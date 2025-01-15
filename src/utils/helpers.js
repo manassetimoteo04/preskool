@@ -1,6 +1,5 @@
 import { formatDistance, parseISO } from "date-fns";
 import { differenceInDays } from "date-fns";
-export const PAGE_SIZE = 10;
 
 // We want to make this function work for both Date objects and strings (which come from Supabase)
 export const subtractDates = (dateStr1, dateStr2) =>
@@ -36,4 +35,16 @@ export function formatDate(date) {
     day: "numeric",
     year: "numeric",
   }).format(new Date(date));
+}
+
+export function calcAge(year) {
+  const birthYear = new Date(year).getFullYear();
+  return Number(new Date().getFullYear()) - Number(birthYear);
+}
+
+export function normalizeText(string) {
+  return string
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }

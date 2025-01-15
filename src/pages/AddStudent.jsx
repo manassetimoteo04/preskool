@@ -10,9 +10,9 @@ function AddStudent() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h2">Add new student</Heading>
-        <Button type="secondary" onClick={() => navigate(-1)}>
-          <HiArrowLeft /> back
+        <Heading as="h2">Cadastrar estudante</Heading>
+        <Button variation="secondary" onClick={() => navigate(-1)}>
+          <HiArrowLeft /> Voltar
         </Button>
       </Row>
 

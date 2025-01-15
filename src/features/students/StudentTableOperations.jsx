@@ -16,7 +16,7 @@ const FlexBox = styled.div`
   align-items: center;
   gap: 2rem;
 `;
-function StudentTableOperations() {
+function StudentTableOperations({ query, setQuery }) {
   const filterOptions = [
     { value: "", label: "Filtrar" },
     { value: "active", label: "Active" },
@@ -31,7 +31,7 @@ function StudentTableOperations() {
   ];
   return (
     <StyledStudentOperations>
-      <SearchForm label="student" />
+      <SearchForm label="student" query={query} setQuery={setQuery} />
       <FlexBox>
         <Filter query="filter" options={filterOptions} />
         <Sort options={sortOptions} />

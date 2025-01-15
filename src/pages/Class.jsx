@@ -1,5 +1,7 @@
+import ClassDetail from "../features/classes/ClassDetail";
+
 function Class() {
-  return <>Class</>;
+  return <ClassDetail />;
 }
 
 export default Class;

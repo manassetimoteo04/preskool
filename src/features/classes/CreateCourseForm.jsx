@@ -31,9 +31,9 @@ function CreateCourseForm({ onCloseModal }) {
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Heading as="h2">Cadastrar Curso</Heading>
-
       <Form.Group columns="1fr">
+        <Heading as="h2">Cadastrar Curso</Heading>
+        <span>Preencha o formulário para cadastrar curso</span>
         <Form.Row>
           <InputRow
             label={`Nome do curso`}

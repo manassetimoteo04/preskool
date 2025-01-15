@@ -12,7 +12,6 @@ import {
 import { db } from "./firebase.js";
 
 export async function getClasse({ id, courseId }) {
-  console.log("ID", courseId);
   try {
     if (id) {
       const docRef = doc(db, "classes", id);
@@ -31,7 +30,6 @@ export async function getClasse({ id, courseId }) {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("fetchedData", data);
       return data;
     } else {
       throw new Error("You must provide either an id or a courseId");
@@ -62,7 +60,6 @@ export async function createNewClass(newClassData) {
       subjects: [],
       type: "medium",
     };
-    console.log(finalData);
     const data = await addDoc(collection(db, "classes"), finalData);
     const docRef = doc(db, "courses", finalData.course);
     await updateDoc(docRef, { classes: arrayUnion(finalData.course) });
@@ -86,5 +83,20 @@ export async function createNewCourse(courseData) {
     console.error(error.message);
 
     throw new Error("UPS! ocorreu um erro ao cadastrar curso");
+  }
+}
+
+export async function getCourse(id) {
+  try {
+    const docRef = doc(db, "courses", id);
+    const docSnapshot = await getDoc(docRef);
+    if (docSnapshot.exists()) {
+      return { id: docSnapshot.id, ...docSnapshot.data() };
+    } else {
+      throw new Error("Document not found");
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw new Error("UPS! ocorreu um erro ao buscar curso");
   }
 }

@@ -21,7 +21,7 @@ const StyledButton = styled.button`
   }
 
   ${(props) =>
-    props.type === "primary" &&
+    props.variation === "primary" &&
     css`
       background-color: var(--color-brand-600);
       color: var(--color-brand-0);
@@ -32,7 +32,7 @@ const StyledButton = styled.button`
     `}
 
   ${(props) =>
-    props.type === "secondary" &&
+    props.variation === "secondary" &&
     css`
       background-color: var(--color-grey-200);
       color: var(--color-grey-700);
@@ -42,7 +42,7 @@ const StyledButton = styled.button`
       }
     `}
      ${(props) =>
-    props.type === "danger" &&
+    props.variation === "danger" &&
     css`
       background-color: var(--color-red-700);
       color: var(--color-brand-0);
@@ -68,12 +68,19 @@ const StyledButton = styled.button`
 function Button({
   children,
   onClick,
-  type = "primary",
+  variation = "primary",
   size = "medium",
   disabled,
+  type,
 }) {
   return (
-    <StyledButton onClick={onClick} type={type} size={size} disabled={disabled}>
+    <StyledButton
+      onClick={onClick}
+      variation={variation}
+      size={size}
+      disabled={disabled}
+      type={type}
+    >
       {children}
     </StyledButton>
   );

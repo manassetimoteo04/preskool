@@ -10,9 +10,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";
 import { usePagination } from "../../hooks/usePagination";
-import { PAGE_SIZE } from "../../utils/constants";
 import { useDeleteStudent } from "./useDeleteStudent";
 import Button from "../../ui/Button";
+import { useState } from "react";
+import { normalizeText } from "../../utils/helpers";
 const StyledStudentTable = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
@@ -44,17 +45,16 @@ const FlexBox = styled.div`
 // });
 function StudentsTable() {
   const { students, isLoading } = useStudents();
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { deleteStudent, isLoading: isDeleting } = useDeleteStudent();
 
-  const searchData = searchParams.get("search")
-    ? students?.filter((item) =>
-        item.fullName
-          .toLowerCase()
-          .startsWith(searchParams.get("search").toLocaleLowerCase())
-      )
-    : students;
+  console.log(searchQuery);
+  const searchData = students?.filter((item) =>
+    normalizeText(item.fullName).startsWith(normalizeText(searchQuery))
+  );
+
   const filteredData = searchParams.get("filter")
     ? searchData?.filter((item) => item.status === searchParams.get("filter"))
     : searchData;
@@ -70,17 +70,15 @@ function StudentsTable() {
       })
     : filteredData;
 
-  console.log(sortBy, direction);
   const {
     data: studentList,
 
-    currentPage,
     totalPages,
   } = usePagination(sortedData);
   if (isLoading) return <Spinner />;
   return (
     <StyledStudentTable>
-      <StudentTableOperations />
+      <StudentTableOperations query={searchQuery} setQuery={setSearchQuery} />
       {studentList?.length ? (
         <Menus>
           <Table columns="1.2fr 1.5fr 0.5fr 0.5fr 0.7fr 1fr 4rem">
@@ -95,7 +93,7 @@ function StudentsTable() {
             </Table.Header>
 
             <Table.Body
-              data={sortedData}
+              data={studentList}
               render={(item) => (
                 <Table.Row key={item.id}>
                   <span>{item.internNumber}</span>
@@ -142,21 +140,10 @@ function StudentsTable() {
             />
             {totalPages > 1 && (
               <Table.Footer>
-                <div>
-                  <p>
-                    {" "}
-                    <strong>
-                      {(currentPage - 1) * PAGE_SIZE + 1}
-                    </strong> &mdash;{" "}
-                    <strong>
-                      {currentPage === PAGE_SIZE
-                        ? filteredData.length
-                        : currentPage * PAGE_SIZE}
-                    </strong>{" "}
-                    de <strong>{filteredData.length}</strong> resultados
-                  </p>
-                </div>
-                <Pagination totalPages={totalPages} />
+                <Pagination
+                  totalPages={totalPages}
+                  count={filteredData.length}
+                />
               </Table.Footer>
             )}
           </Table>

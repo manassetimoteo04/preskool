@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
 const StyledTable = styled.div`
-  overflow: scroll;
+  max-width: 100%;
 `;
 
 const StyledBody = styled.section`
@@ -15,7 +15,6 @@ const StyledHeader = styled.header`
   padding: 1rem 3rem;
   font-weight: 600;
   column-gap: 1rem;
-  min-width: 100rem;
 `;
 
 const StyledRow = styled.div`
@@ -24,7 +23,6 @@ const StyledRow = styled.div`
   grid-template-columns: ${(props) => props.columns};
   padding: 1.5rem 3rem;
   column-gap: 1rem;
-  min-width: 100rem;
 
   border-bottom: 1px solid var(--color-grey-100);
 `;

@@ -9,7 +9,7 @@ function Students() {
     <>
       <Modal>
         <Row type="horizontal">
-          <Heading as="h2">Students</Heading>
+          <Heading as="h2">Estudantes</Heading>
           <AddNewStudentButton />
         </Row>
         <StudentsTable />

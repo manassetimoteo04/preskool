@@ -10,7 +10,11 @@ import { useForm } from "react-hook-form";
 import ButtonsParentType from "./ButtonsParentType";
 import { useState } from "react";
 import Modal from "../../ui/Modal";
+import styled from "styled-components";
 
+const FormContainer = styled.section`
+  padding: 2rem;
+`;
 function AddStudentForm({ editId, data = {} }) {
   const [genre, setGenre] = useState("m");
   const isEditSession = Boolean(editId);
@@ -39,34 +43,44 @@ function AddStudentForm({ editId, data = {} }) {
           <Form.Header icon={<HiOutlineExclamationCircle />}>
             <Heading as="h3">Informações pessoais</Heading>
           </Form.Header>
-          <FormPersonalInfo
-            register={register}
-            errors={errors}
-            setGenre={setGenre}
-            genre={genre}
-          />
+          <FormContainer>
+            <FormPersonalInfo
+              register={register}
+              errors={errors}
+              setGenre={setGenre}
+              genre={genre}
+            />
+          </FormContainer>
         </Form.Group>
 
         <Form.Group columns="1fr 1fr 1fr 1fr">
           <Form.Header icon={<HiOutlineUserPlus />}>
             <Heading as="h3">Informação do Parentes & Guardião</Heading>
           </Form.Header>
-          <Form.Row>
-            <ButtonsParentType parent={parent} setParent={setParent} />
-          </Form.Row>
-          <FormParentInfo register={register} parent={parent} errors={errors} />
+          <FormContainer>
+            <Form.Row>
+              <ButtonsParentType parent={parent} setParent={setParent} />
+            </Form.Row>
+            <FormParentInfo
+              register={register}
+              parent={parent}
+              errors={errors}
+            />
+          </FormContainer>
         </Form.Group>
 
         <Form.Group columns="1fr 1fr">
           <Form.Header icon={<HiOutlineDocumentDuplicate />}>
             <Heading as="h3">Documentos & Informações da inscrição</Heading>
           </Form.Header>
-          <FormSchoolInfor
-            register={register}
-            errors={errors}
-            isEditSession={isEditSession}
-            watch={watch}
-          />
+          <FormContainer>
+            <FormSchoolInfor
+              register={register}
+              errors={errors}
+              isEditSession={isEditSession}
+              watch={watch}
+            />
+          </FormContainer>
         </Form.Group>
         <FormButtons
           handleSubmit={handleSubmit}

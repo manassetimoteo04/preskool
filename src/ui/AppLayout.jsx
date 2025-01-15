@@ -10,9 +10,10 @@ const StyledAppLayout = styled.div`
 `;
 const Main = styled.main`
   background-color: green;
-  padding: 4rem 4.8rem 6.4rem;
+  padding: 4rem 3rem 6.4rem;
   background-color: var(--color-grey-100);
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: unset;
 `;
 
 const Container = styled.div`

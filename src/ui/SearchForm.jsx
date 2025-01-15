@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { HiOutlineSearch } from "react-icons/hi";
-import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
 
 const StyledSearchForm = styled.form`
   display: flex;
@@ -29,25 +27,13 @@ const StyledSearchForm = styled.form`
   }
 `;
 
-function SearchForm({ label }) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState("");
-
+function SearchForm({ label, query, setQuery }) {
   function handleChange(e) {
     setQuery(e.target.value);
   }
-  function onsubmit(e) {
-    e.preventDefault();
-    if (!query) {
-      searchParams.delete("search");
-    }
-    console.log(query);
-    searchParams.set("search", query);
-    setSearchParams(searchParams);
-  }
 
   return (
-    <StyledSearchForm onSubmit={onsubmit}>
+    <StyledSearchForm>
       <HiOutlineSearch />
       <input
         placeholder={`Search for a ${label}`}

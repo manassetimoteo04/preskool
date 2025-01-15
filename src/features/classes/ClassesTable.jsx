@@ -91,9 +91,8 @@ function Box({ classe }) {
 function Header({ children }) {
   return <StyledHeader>{children}</StyledHeader>;
 }
-function Body({ render, courseId, index }) {
+function Body({ render, courseId }) {
   const { classe: data, isLoading } = useClasse({ courseId: courseId?.id });
-  console.log(index, courseId.id);
   if (isLoading) return <Spinner />;
 
   return <StyledBody>{data?.map(render)}</StyledBody>;

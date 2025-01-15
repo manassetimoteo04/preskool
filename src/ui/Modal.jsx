@@ -6,13 +6,22 @@ import { useOutsideClick } from "../hooks/useOutsideClick";
 // eslint-disable-next-line no-unused-vars
 const ScaleAnimation = keyframes`
     from{
-        transform: scale(70%);
-        opacity: 0.5;
+        transform: scale(50%);
     }
 
     to{
         transform: scale(100%);
-        opacity: 1;
+    }
+`;
+
+const OpacityAnimation = keyframes`
+    from{
+      background-color: transparent;
+
+    }
+
+    to{
+      background-color: var(--backdrop-color);
     }
 `;
 
@@ -27,21 +36,27 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--backdrop-color);
+
+  animation: ${OpacityAnimation} 0.5s ease;
 `;
 const StyledWindow = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
-  padding: 2rem;
-  animation: ${ScaleAnimation} 0.15s ease-in;
+  animation: ${ScaleAnimation} 0.15s ease-in-out;
   display: flex;
   flex-direction: column;
   border-radius: var(--border-radius-sm);
+  position: relative;
+
+  padding: 2rem;
 `;
 const StyledButtonClose = styled.button`
   background: none;
   border: none;
   align-self: self-end;
-  margin-bottom: 1rem;
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
 `;
 const ModalContext = createContext();
 function Modal({ children }) {
