@@ -9,8 +9,10 @@ import styled from "styled-components";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import CreateEditSubjectForm from "./CreateEditSubjectForm";
 import { HiEye, HiPencil, HiTrash } from "react-icons/hi2";
+import { useDeleteSubject } from "./useDeleteSubject";
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,6 +27,7 @@ const TableContainer = styled.div`
 `;
 function ClassSubjectsTable({ classId }) {
   const { data: subjects, isLoading } = useSubject({ classId });
+  const { deleteSubject, isLoading: isDeleting } = useDeleteSubject();
   const [query, setQuery] = useState("");
   if (isLoading) return <Spinner />;
   return (
@@ -62,7 +65,11 @@ function ClassSubjectsTable({ classId }) {
                             Editar
                           </Menus.Button>
                         </Modal.Open>
-                        <Menus.Button icon={<HiTrash />}>Deletar</Menus.Button>
+                        <Modal.Open opens={subject.id + "-delete"}>
+                          <Menus.Button icon={<HiTrash />}>
+                            Deletar
+                          </Menus.Button>
+                        </Modal.Open>
                       </Menus.List>
                     </Menus.Menu>
                     <Modal.Window name={subject.id} buttonClose={true}>
@@ -70,6 +77,19 @@ function ClassSubjectsTable({ classId }) {
                         subjectId={subject.id}
                         subject={subject}
                       />
+                    </Modal.Window>{" "}
+                    <Modal.Window
+                      name={subject.id + "-delete"}
+                      buttonClose={true}
+                    >
+                      <ConfirmDelete
+                        onConfirm={() => deleteSubject(subject.id)}
+                        isLoading={isDeleting}
+                      >
+                        <span>
+                          Tens a certeza que deseja exluir essa disciplina?
+                        </span>
+                      </ConfirmDelete>
                     </Modal.Window>
                   </Table.Row>
                 )}

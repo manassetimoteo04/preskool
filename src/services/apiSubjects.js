@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -55,5 +56,15 @@ export async function updateSubject(id, updateData) {
     throw new Error(
       "Ocorreu um erro ao actualizar disciplina, tente novamente"
     );
+  }
+}
+
+export async function deleteSubject(id) {
+  try {
+    const docRef = doc(db, "subjects", id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error("Erro ao deletar disciplina: ", error);
+    throw new Error("Ups, ocorreu um erro ao excluir disciplina");
   }
 }

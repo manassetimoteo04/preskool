@@ -16,7 +16,7 @@ const StyledConfirmDelete = styled.div`
     align-items: center;
     & > span {
       padding: 2rem;
-      background-color: var(--color-red-100);
+      background-color: var(--color-grey-100);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -44,10 +44,10 @@ function ConfirmDelete({ children, onConfirm, isLoading, onCloseModal }) {
       </div>
       <p>{children} Está operação não pode ser cancelada</p>
       <FlexBox>
-        <Button type="secondary" onClick={onCloseModal}>
+        <Button variation="secondary" onClick={onCloseModal}>
           Cancelar
         </Button>
-        <Button type="danger" onClick={onConfirm} disabled={isLoading}>
+        <Button variation="danger" onClick={onConfirm} disabled={isLoading}>
           {isLoading && <SpinnerMini />}
           Confirmar
         </Button>
