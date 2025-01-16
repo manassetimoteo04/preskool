@@ -14,6 +14,7 @@ const Error = styled.span`
 const StyledInputRow = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   position: relative;
   ${(props) =>
     props.spread &&

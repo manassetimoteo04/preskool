@@ -4,7 +4,6 @@ import styled from "styled-components";
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 3rem;
 `;
 
 const StyledGroup = styled.section`

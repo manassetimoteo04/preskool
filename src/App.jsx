@@ -19,6 +19,7 @@ import AddStudent from "./pages/AddStudent";
 import StudentMark from "./pages/StudentMark";
 import StudentEdit from "./pages/StudentEdit";
 import Class from "./pages/Class";
+import AddTeacher from "./pages/AddTeacher";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/students/:studentId/edit" element={<StudentEdit />} />
             <Route path="students/add-student" element={<AddStudent />} />
             <Route path="/teachers" element={<Teachers />} />
+            <Route path="/teachers/add-teacher" element={<AddTeacher />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
