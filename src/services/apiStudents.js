@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
+
 export async function getStudents() {
   // const isIds = ids && Array.isArray(ids);
   try {
@@ -19,7 +20,6 @@ export async function getStudents() {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Erro ao buscar usuários:", error.message);

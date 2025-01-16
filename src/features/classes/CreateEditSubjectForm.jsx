@@ -5,10 +5,14 @@ import InputRow from "../../ui/InputRow";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import Button from "../../ui/Button";
+import SpinnerMini from "../../ui/SpinnerMini";
 import styled from "styled-components";
 import { HiX } from "react-icons/hi";
 import { HiCheck } from "react-icons/hi2";
 import { useForm } from "react-hook-form";
+import { useCreateSubject } from "./useCreateSubject";
+import { useParams } from "react-router-dom";
+import { useUpdateSubject } from "./useUpdateSubject";
 
 const FlexBox = styled.div`
   display: flex;
@@ -16,18 +20,33 @@ const FlexBox = styled.div`
   justify-content: end;
   align-items: center;
 `;
-function CreateSubjectForm() {
+function CreateSubjectForm({ onCloseModal, subjectId, subject }) {
+  const isEditSession = Boolean(subjectId);
+  const { classId } = useParams();
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
-  function onSubmit() {}
+  } = useForm({ defaultValues: isEditSession ? subject : {} });
+  const { createSubject, isLoading } = useCreateSubject();
+  const { updateSubject, isLoading1 } = useUpdateSubject();
+  function onSubmit(data) {
+    const subjectData = { ...data, classId };
+    isEditSession
+      ? updateSubject({ data, id: subjectId }, { onSuccess: onCloseModal })
+      : createSubject(subjectData, { onSuccess: onCloseModal });
+  }
   return (
     <Row>
       <div>
-        <Heading as="h2">Adicionar cadeira</Heading>
-        <span>Preecnha o formulário para cadeira nova a turma</span>
+        <Heading as="h2">
+          {isEditSession ? "Editar disciplina" : "Adicionar cadeira"}
+        </Heading>
+        <span>
+          {isEditSession
+            ? "Preencha os campos necessário para actualizar"
+            : "Preecnha o formulário para cadeira nova a turma"}
+        </span>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group columns="1fr">
@@ -55,6 +74,7 @@ function CreateSubjectForm() {
                 })}
               >
                 <option value="">Nenhum selecionado</option>
+                <option value="Teacher Phisyc">Prof Luzolo</option>
               </Select>
             </InputRow>
             <InputRow
@@ -76,8 +96,9 @@ function CreateSubjectForm() {
               <HiX />
               Cancelar
             </Button>
-            <Button>
-              <HiCheck /> Adicionar
+            <Button disabled={isLoading || isLoading1}>
+              {isLoading || isLoading1 ? <SpinnerMini /> : <HiCheck />}{" "}
+              {isEditSession ? "Actualizar" : "Adicionar"}
             </Button>
           </FlexBox>
         </Form.Group>

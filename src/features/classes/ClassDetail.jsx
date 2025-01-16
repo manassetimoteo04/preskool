@@ -11,7 +11,7 @@ import { HiOutlineBookOpen, HiOutlineUserGroup, HiPlus } from "react-icons/hi2";
 import { useState } from "react";
 
 import Modal from "../../ui/Modal";
-import CreateSubjectForm from "./CreateSubjectForm";
+import CreateEditSubjectForm from "./CreateEditSubjectForm";
 import ClassStudentsTable from "./ClassStudentsTable";
 import ClassSubjectsTable from "./ClassSubjectsTable";
 const StyledClassDetailGrid = styled.div`
@@ -140,7 +140,7 @@ function ClassDetail() {
         </Row>
       </StyledClassDetailGrid>
       <Modal.Window name="subject-form" buttonClose={true}>
-        <CreateSubjectForm />
+        <CreateEditSubjectForm />
       </Modal.Window>
     </Modal>
   );

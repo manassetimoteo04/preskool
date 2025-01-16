@@ -11,6 +11,8 @@ import { calcAge, normalizeText } from "../../utils/helpers";
 import { useStudents } from "../students/useStudents";
 import { useState } from "react";
 import { usePagination } from "../../hooks/usePagination";
+import { HiEye, HiPencil, HiTrash } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 const TableContainer = styled.div`
   display: flex;
@@ -21,9 +23,11 @@ const TableContainer = styled.div`
 
   & > header {
     padding: 1rem 2rem;
+    border-bottom: 1px solid var(--color-grey-200);
   }
 `;
 function ClassStudentsTable({ classe }) {
+  const navigate = useNavigate();
   const { students } = useStudents();
   const [query, setQuery] = useState("");
 
@@ -56,11 +60,11 @@ function ClassStudentsTable({ classe }) {
           <span></span>
         </Table.Header>
         <Menus>
-          {studentsList.length > 0 ? (
+          {studentsList?.length > 0 ? (
             <Table.Body
               render={(student, i) => (
                 <Table.Row>
-                  <span>{i}</span>
+                  <span>{String(i + 1).padStart(1, "0")}</span>
                   <span>
                     {student.fullName.split(" ")[0]}{" "}
                     {student.fullName.split(" ").at(-1)}
@@ -70,7 +74,24 @@ function ClassStudentsTable({ classe }) {
                   <Tag type={student.status}>
                     {student.status === "active" ? "activo" : "inactivo"}
                   </Tag>
-                  <Menus.Toggle />
+                  <Menus.Toggle menuId={student.id} />
+                  <Menus.Menu menuId={student.id}>
+                    <Menus.List>
+                      <Menus.Button
+                        icon={<HiEye />}
+                        onClick={() => navigate(`/students/${student.id}`)}
+                      >
+                        Ver detalhes
+                      </Menus.Button>
+                      <Menus.Button
+                        icon={<HiPencil />}
+                        onClick={() => navigate(`/students/${student.id}/edit`)}
+                      >
+                        Editar dados
+                      </Menus.Button>
+                      <Menus.Button icon={<HiTrash />}>Deletar</Menus.Button>
+                    </Menus.List>
+                  </Menus.Menu>
                 </Table.Row>
               )}
               data={studentsList}
