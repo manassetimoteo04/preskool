@@ -47,8 +47,6 @@ const StyledWindow = styled.div`
   flex-direction: column;
   border-radius: var(--border-radius-sm);
   position: relative;
-
-  padding: 2rem;
 `;
 const StyledButtonClose = styled.button`
   background: none;

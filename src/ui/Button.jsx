@@ -63,6 +63,11 @@ const StyledButton = styled.button`
       align-items: center;
       gap: 0.1rem;
     `}
+    ${(props) =>
+    props.disabled &&
+    css`
+      cursor: progress;
+    `}
 `;
 
 function Button({

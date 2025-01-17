@@ -30,7 +30,7 @@ const StyledNavButton = styled.button`
     background-color: var(--color-grey-100);
   }
   ${(props) =>
-    props.active &&
+    props.activetab === "true" &&
     css`
       border-bottom-color: var(--color-brand-700);
       background-color: var(--color-grey-100);
@@ -42,7 +42,7 @@ function TeacherNav({ active, setActive }) {
       <ul>
         <li>
           <StyledNavButton
-            active={active === "basic-details"}
+            activetab={(active === "basic-details").toString()}
             onClick={() => setActive("basic-details")}
           >
             <HiOutlineExclamationCircle />
@@ -51,7 +51,7 @@ function TeacherNav({ active, setActive }) {
         </li>{" "}
         <li>
           <StyledNavButton
-            active={active === "payments"}
+            activetab={(active === "payments").toString()}
             onClick={() => setActive("payments")}
           >
             <HiOutlineCurrencyDollar />
@@ -60,7 +60,7 @@ function TeacherNav({ active, setActive }) {
         </li>{" "}
         <li>
           <StyledNavButton
-            active={active === "missings"}
+            activetab={(active === "missings").toString()}
             onClick={() => setActive("missings")}
           >
             <HiOutlineArchiveBoxArrowDown />

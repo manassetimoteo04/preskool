@@ -7,7 +7,7 @@ const DetailBox = styled.div`
   & > header {
     padding: 1.5rem 2rem;
     border-bottom: 1px solid var(--color-grey-200);
-    background-color: var(--color-grey-100);
+    /* background-color: var(--color-grey-100); */
   }
 `;
 export default DetailBox;
