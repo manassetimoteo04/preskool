@@ -8,6 +8,7 @@ import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
 import Menus from "../../ui/Menus";
 import { HiEye, HiPencil, HiTrash } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 const StyledTeacherTable = styled.div`
   background-color: var(--color-grey-0);
@@ -42,10 +43,10 @@ const FirstLetterBox = styled.div`
   font-weight: 600;
 `;
 function TeachersTable() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const { teachers, isLoading } = useTeachers();
   if (isLoading) return <Spinner />;
-  console.log(teachers);
   return (
     <StyledTeacherTable>
       <header>
@@ -83,7 +84,12 @@ function TeachersTable() {
                 <Menus.Toggle menuId={teacher.id} />
                 <Menus.Menu menuId={teacher.id}>
                   <Menus.List>
-                    <Menus.Button icon={<HiEye />}>Ver Perfil</Menus.Button>
+                    <Menus.Button
+                      icon={<HiEye />}
+                      onClick={() => navigate(`/teachers/${teacher.id}`)}
+                    >
+                      Ver Perfil
+                    </Menus.Button>
                     <Menus.Button icon={<HiPencil />}>Editar</Menus.Button>
                     <Menus.Button icon={<HiTrash />}>Deletar</Menus.Button>
                   </Menus.List>

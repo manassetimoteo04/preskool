@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledLogo = styled.div`
   padding: 0.77rem 2rem;
-  border-bottom: 1px solid var(--color-grey-50);
+  border-bottom: 1px solid var(--color-grey-100);
   & > img {
     width: auto;
     height: 100%;

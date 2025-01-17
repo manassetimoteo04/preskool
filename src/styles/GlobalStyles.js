@@ -46,7 +46,7 @@ const GlobalStyles = createGlobalStyle`
   --image-opacity: 100%;
 }
 
-&.dark-mode{
+&,&.dark-mode{
  --color-grey-0: #18212f;
 --color-grey-50: #111827;
 --color-grey-100: #1f2937;

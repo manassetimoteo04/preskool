@@ -1,4 +1,9 @@
-import { HiAcademicCap, HiDocument, HiIdentification } from "react-icons/hi2";
+import {
+  HiAcademicCap,
+  HiBuildingLibrary,
+  HiDocument,
+  HiIdentification,
+} from "react-icons/hi2";
 import Form from "../../ui/Form";
 import Heading from "../../ui/Heading";
 import styled from "styled-components";
@@ -9,6 +14,7 @@ import TeachersDocumentsInfo from "./TeachersDocuments.Info";
 import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
 import { useCreateTeacher } from "./useCreateTeacher";
+import TeacherBankAccInfor from "./TeacherBankAccInfor";
 const StyledFormPad = styled.div`
   padding: 2rem 2rem;
   background-color: var(--color-grey-0);
@@ -56,6 +62,14 @@ function CreateTeacherForm() {
       <StyledFormPad>
         <Form.Group columns="repeat(3,1fr)">
           <TeacherExperienceFormInfo errors={errors} register={register} />
+        </Form.Group>
+      </StyledFormPad>{" "}
+      <Form.Header icon={<HiBuildingLibrary />}>
+        <Heading as="h3">Coordenadas bancárias</Heading>
+      </Form.Header>
+      <StyledFormPad>
+        <Form.Group columns="repeat(3,1fr)">
+          <TeacherBankAccInfor errors={errors} register={register} />
         </Form.Group>
       </StyledFormPad>{" "}
       <Form.Header icon={<HiDocument />}>

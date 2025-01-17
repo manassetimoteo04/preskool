@@ -17,6 +17,7 @@ import SeeStudentDocument from "./SeeStudentDocument";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useNavigate } from "react-router-dom";
 import { useDeleteStudent } from "./useDeleteStudent";
+import ProfileImg from "../../ui/ProfileImg";
 
 const StyledDetailBox = styled.div`
   background-color: var(--color-grey-0);
@@ -29,14 +30,7 @@ const StyledDetailBox = styled.div`
 const StyledDetail = styled.div`
   padding: 2rem 3rem;
 `;
-const Img = styled.img`
-  object-fit: cover;
-  width: 10rem;
-  height: 10rem;
-  border-radius: 50%;
-  border: 4px solid
-    var(--color-${(props) => (props.type === "active" ? "yellow" : "red")}-100);
-`;
+
 const FlexBox = styled.div`
   display: flex;
   gap: 2rem;
@@ -118,7 +112,7 @@ function StudentDetail() {
 
         <StyledDetail>
           <FlexBox>
-            <Img src={biUpload} />
+            <ProfileImg src={biUpload} />
             <div>
               <Heading as="h1">
                 {fullName}
