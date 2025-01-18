@@ -82,6 +82,9 @@ function TeacherDetailTab({ teacher }) {
     biDocument,
     lastInsitutionEmail,
     lastInsitutionAddress,
+    bankAccNumber,
+    bankAccName,
+    bankName,
   } = teacher || {};
   const openBlankLink = useCallback((link) => {
     window.open(link, "_blank", "noopener,noreferrer");
@@ -206,7 +209,7 @@ function TeacherDetailTab({ teacher }) {
                 </span>
                 <div>
                   <strong>Nome da conta</strong>
-                  <span>Manasse Timóteo</span>
+                  <span>{bankAccName}</span>
                 </div>
               </DetailRow>
               <DetailRow>
@@ -215,7 +218,7 @@ function TeacherDetailTab({ teacher }) {
                 </span>
                 <div>
                   <strong>Número da Conta</strong>
-                  <span>000.3434.555.5.3</span>
+                  <span>{bankAccNumber}</span>
                 </div>
               </DetailRow>
               <DetailRow>
@@ -224,7 +227,7 @@ function TeacherDetailTab({ teacher }) {
                 </span>
                 <div>
                   <strong>Nome do banco</strong>
-                  <span>proglory@hotmail.com</span>
+                  <span>{bankName}</span>
                 </div>
               </DetailRow>
             </DetailBoxGrid>

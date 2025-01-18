@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { VscEmptyWindow } from "react-icons/vsc";
 
 const StyledEmpty = styled.p`
   padding: 3rem;
@@ -17,12 +16,7 @@ const StyledEmpty = styled.p`
 `;
 
 function Empty({ children }) {
-  return (
-    <StyledEmpty>
-      <VscEmptyWindow />
-      {children}
-    </StyledEmpty>
-  );
+  return <StyledEmpty>{children}</StyledEmpty>;
 }
 
 export default Empty;

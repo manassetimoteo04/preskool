@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { HiOutlineSearch } from "react-icons/hi";
+import { useSearchParams } from "react-router-dom";
 
 const StyledSearchForm = styled.form`
   display: flex;
@@ -28,7 +29,12 @@ const StyledSearchForm = styled.form`
 `;
 
 function SearchForm({ label, query, setQuery }) {
+  const [searchParams, setSearchParams] = useSearchParams();
   function handleChange(e) {
+    if (searchParams.get("page") && +searchParams.get("page") > 1) {
+      searchParams.set("page", 1);
+      setSearchParams(searchParams);
+    }
     setQuery(e.target.value);
   }
 

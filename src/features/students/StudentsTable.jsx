@@ -1,19 +1,23 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { HiEye, HiPencil, HiPlus, HiTrash } from "react-icons/hi2";
+
 import StudentTableOperations from "./StudentTableOperations";
 import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
 import Pagination from "../../ui/Pagination";
 import Menus from "../../ui/Menus";
-import { HiEye, HiPencil, HiPlus, HiTrash } from "react-icons/hi2";
 import { useStudents } from "./useStudents";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";
 import { usePagination } from "../../hooks/usePagination";
 import { useDeleteStudent } from "./useDeleteStudent";
 import Button from "../../ui/Button";
-import { useState } from "react";
 import { normalizeText } from "../../utils/helpers";
+import { VscEmptyWindow } from "react-icons/vsc";
+import { HiSearch } from "react-icons/hi";
+
 const StyledStudentTable = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
@@ -30,19 +34,7 @@ const FlexBox = styled.div`
   align-items: center;
   gap: 1rem;
 `;
-// const data = Array.from({ length: 10 }, (_, i) => {
-//   return {
-//     id: i,
-//     image: `/avatars/avatar${1 + i}.jpg`,
-//     grade: "12ª Classe",
-//     fullName: "Manasse Timóteo",
-//     status: i % 2 === 0 ? "active" : "inactive",
-//     genre: i % 2 === 0 ? "male" : "female",
 
-//     internNumber: Math.ceil(Math.random() * 99999999999999 + 1),
-//     course: "Informática " + i,
-//   };
-// });
 function StudentsTable() {
   const { students, isLoading } = useStudents();
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,7 +42,6 @@ function StudentsTable() {
   const navigate = useNavigate();
   const { deleteStudent, isLoading: isDeleting } = useDeleteStudent();
 
-  console.log(searchQuery);
   const searchData = students?.filter((item) =>
     normalizeText(item.fullName).startsWith(normalizeText(searchQuery))
   );
@@ -150,10 +141,18 @@ function StudentsTable() {
         </Menus>
       ) : (
         <Empty>
-          <span>Nenhum Estudante encontrado</span>
-          <Button onClick={() => navigate("add-student")}>
-            <HiPlus />
-          </Button>
+          {!searchQuery ? <VscEmptyWindow /> : <HiSearch />}
+
+          <span>
+            {!searchQuery
+              ? "Nenhum estudante foi encontrado"
+              : `Nenhum resultado para ${searchQuery}`}
+          </span>
+          {!searchQuery && (
+            <Button onClick={() => navigate("add-student")}>
+              <HiPlus />
+            </Button>
+          )}
         </Empty>
       )}
     </StyledStudentTable>

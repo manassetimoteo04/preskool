@@ -1,5 +1,5 @@
 import { HiArrowLeft } from "react-icons/hi2";
-import CreateTeacherForm from "../features/teachers/CreateTeacherForm";
+import CreateEditTeacherForm from "../features/teachers/CreateEditTeacherForm";
 import Button from "../ui/Button";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
@@ -13,7 +13,7 @@ function AddTeacher() {
           <HiArrowLeft /> Voltar
         </Button>
       </Row>
-      <CreateTeacherForm />
+      <CreateEditTeacherForm />
     </Row>
   );
 }

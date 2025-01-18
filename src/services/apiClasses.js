@@ -8,6 +8,7 @@ import {
   updateDoc,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "./firebase.js";
 
@@ -98,5 +99,24 @@ export async function getCourse(id) {
   } catch (error) {
     console.error(error.message);
     throw new Error("UPS! ocorreu um erro ao buscar curso");
+  }
+}
+
+export async function updateCourse({ id, updateData }) {
+  try {
+    const docRef = doc(db, "courses", id);
+    await updateDoc(docRef, updateData);
+  } catch (error) {
+    console.error(error.message);
+    throw new Error("Ups! ocorreu um erro ao actualizar o curso");
+  }
+}
+export async function deleteCourse(id) {
+  try {
+    const docRef = doc(db, "courses", id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error(error.message);
+    throw new Error("Ups! ocorreu um erro ao deletar o curso");
   }
 }

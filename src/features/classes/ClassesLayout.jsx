@@ -4,13 +4,15 @@ import Modal from "../../ui/Modal";
 import Row from "../../ui/Row";
 import Spinner from "../../ui/Spinner";
 import Menus from "../../ui/Menus";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import ClassesTable from "./ClassesTable";
 import CreateClassForm from "./CreateClassForm";
-import CreateCourseForm from "./CreateCourseForm";
+import CreateEditCourseForm from "./CreateEditCourseForm";
 import { useCourses } from "./useCourses";
+import { useDeleteCourse } from "./useDeleteCourse";
 function ClassesLayout() {
   const { courses, isLoading } = useCourses();
-  console.log(courses);
+  const { deleteCourse, isLoading: isDeleting } = useDeleteCourse();
   if (isLoading) return <Spinner />;
   return (
     <Row>
@@ -18,12 +20,23 @@ function ClassesLayout() {
         <CreateClassForm />
       </Modal.Window>
       <Modal.Window name="course-form" buttonClose={true}>
-        <CreateCourseForm />
-      </Modal.Window>
+        <CreateEditCourseForm />
+      </Modal.Window>{" "}
       <Menus>
         {courses.map((course, i) => {
           return (
             <ClassesTable key={course?.id}>
+              <Modal.Window name={course.id} buttonClose={true}>
+                <CreateEditCourseForm course={course} id={course.id} />
+              </Modal.Window>
+              <Modal.Window name={"delete-" + course.id} buttonClose={true}>
+                <ConfirmDelete
+                  onConfirm={() => deleteCourse(course.id)}
+                  isLoading={isDeleting}
+                >
+                  <span>Tens a certeza que deseja deletar este curso?</span>
+                </ConfirmDelete>
+              </Modal.Window>
               <ClassesTable.Header>
                 <Heading as="h3">
                   <span>
@@ -44,8 +57,12 @@ function ClassesLayout() {
               />
               <Menus.Menu menuId={course?.id}>
                 <Menus.List>
-                  <Menus.Button icon={<HiPencil />}>Editar nome</Menus.Button>
-                  <Menus.Button icon={<HiTrash />}>Exluir curso</Menus.Button>
+                  <Modal.Open opens={course.id}>
+                    <Menus.Button icon={<HiPencil />}>Editar nome</Menus.Button>
+                  </Modal.Open>
+                  <Modal.Open opens={"delete-" + course.id}>
+                    <Menus.Button icon={<HiTrash />}>Exluir curso</Menus.Button>
+                  </Modal.Open>
                 </Menus.List>
               </Menus.Menu>
             </ClassesTable>

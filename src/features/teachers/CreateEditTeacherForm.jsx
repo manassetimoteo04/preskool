@@ -1,6 +1,7 @@
 import {
   HiAcademicCap,
   HiBuildingLibrary,
+  HiCheck,
   HiDocument,
   HiIdentification,
 } from "react-icons/hi2";
@@ -15,6 +16,8 @@ import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
 import { useCreateTeacher } from "./useCreateTeacher";
 import TeacherBankAccInfor from "./TeacherBankAccInfor";
+import { useUpdateTeacher } from "./useUpdateTeacher";
+import SpinnerMini from "../../ui/SpinnerMini";
 const StyledFormPad = styled.div`
   padding: 2rem 2rem;
   background-color: var(--color-grey-0);
@@ -26,17 +29,18 @@ const FormGroup = styled.div`
   gap: 1rem;
   margin-top: 2rem;
 `;
-function CreateTeacherForm() {
+function CreateEditTeacherForm({ editId, editTeacher }) {
+  const isEditSession = Boolean(editId);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const { createTeacher, isLoading } = useCreateTeacher();
+  } = useForm({ defaultValues: isEditSession ? editTeacher : {} });
+  const { createTeacher, isLoading: isCreating } = useCreateTeacher();
+  const { updateTeacher, isLoading: isUpdating } = useUpdateTeacher();
 
   function onSubmit(data) {
-    console.log(data);
-    createTeacher(data);
+    isEditSession ? updateTeacher({ editId, data }) : createTeacher(data);
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -72,22 +76,29 @@ function CreateTeacherForm() {
           <TeacherBankAccInfor errors={errors} register={register} />
         </Form.Group>
       </StyledFormPad>{" "}
-      <Form.Header icon={<HiDocument />}>
-        <Heading as="h3">Qualificação e Documentos</Heading>
-      </Form.Header>
-      <StyledFormPad>
-        <Form.Group columns="repeat(2,1fr)">
-          <TeachersDocumentsInfo errors={errors} register={register} />
-        </Form.Group>
-      </StyledFormPad>
+      {!isEditSession && (
+        <>
+          <Form.Header icon={<HiDocument />}>
+            <Heading as="h3">Qualificação e Documentos</Heading>
+          </Form.Header>
+          <StyledFormPad>
+            <Form.Group columns="repeat(2,1fr)">
+              <TeachersDocumentsInfo errors={errors} register={register} />
+            </Form.Group>
+          </StyledFormPad>
+        </>
+      )}
       <FormGroup>
         <Button variation="secondary" type="reset">
           Cancelar
         </Button>
-        <Button disabled={isLoading}>Finalizar Cadastro</Button>
+        <Button disabled={isCreating || isUpdating}>
+          {isCreating || isUpdating ? <SpinnerMini /> : <HiCheck />}
+          {isEditSession ? "Editar informações" : "Finalizar Cadastro"}
+        </Button>
       </FormGroup>
     </Form>
   );
 }
 
-export default CreateTeacherForm;
+export default CreateEditTeacherForm;

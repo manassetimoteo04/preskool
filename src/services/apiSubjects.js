@@ -1,5 +1,6 @@
 import {
   addDoc,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -11,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-export async function getSubject({ id, classId }) {
+export async function getSubject({ id, filterId, filterField }) {
   try {
     if (id) {
       const docRef = doc(db, "subjects", id);
@@ -22,9 +23,9 @@ export async function getSubject({ id, classId }) {
         throw new Error("Document not found");
       }
     }
-    if (classId) {
+    if (filterId) {
       const ref = collection(db, "subjects");
-      const q = query(ref, where("classId", "==", classId));
+      const q = query(ref, where(filterField, "==", filterId));
       const querySnapshot = await getDocs(q);
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -40,8 +41,11 @@ export async function getSubject({ id, classId }) {
 }
 
 export async function createSubject(data) {
+  console.log(data);
   try {
     const refData = addDoc(collection(db, "subjects"), data);
+    const docRef = doc(db, "classes", data.classId);
+    await updateDoc(docRef, { subjects: arrayUnion(docRef.id) });
     return refData;
   } catch (error) {
     throw new Error("Ocorreu um erro ao adicionar disciplina, tente novamente");

@@ -11,25 +11,29 @@ import {
   HiOutlineUser,
   HiOutlineWallet,
 } from "react-icons/hi2";
-import Button from "../../ui/Button";
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
-import styled from "styled-components";
-import { useGetTeacher } from "./useGetTeacher";
-import { useParams } from "react-router-dom";
-import Spinner from "../../ui/Spinner";
-import ProfileImg from "../../ui/ProfileImg";
-import Tag from "../../ui/Tag";
-import TeacherNav from "./TeacherNav";
-import { useState } from "react";
-import TeacherDetailTab from "./TeacherDetailTab";
-import DetailBox from "../../ui/DetailBox";
-import { calcAge } from "../../utils/helpers";
-import TeacherPaymentTab from "./TeacherPaymentTab";
-import TeacherMissingsTab from "./TeacherMissingsTab";
-import DetailRow from "../../ui/DetailRow";
-import Modal from "../../ui/Modal";
 
+import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+
+import Button from "../../ui/Button";
+import DetailBox from "../../ui/DetailBox";
+import DetailRow from "../../ui/DetailRow";
+import Heading from "../../ui/Heading";
+import Loader from "../../ui/Loader";
+import Modal from "../../ui/Modal";
+import ProfileImg from "../../ui/ProfileImg";
+import Row from "../../ui/Row";
+import Spinner from "../../ui/Spinner";
+import Tag from "../../ui/Tag";
+import TeacherDetailTab from "./TeacherDetailTab";
+import TeacherMissingsTab from "./TeacherMissingsTab";
+import TeacherPaymentTab from "./TeacherPaymentTab";
+import TeacherNav from "./TeacherNav";
+
+import { useGetTeacher } from "./useGetTeacher";
+import { calcAge } from "../../utils/helpers";
+import { useSubject } from "../classes/useSubject";
 const StyledDetailsGrid = styled.div`
   display: grid;
   grid-template-columns: 40rem 1fr;
@@ -54,26 +58,34 @@ const Detail = styled.div`
 `;
 
 function TeacherDetails() {
+  const navigate = useNavigate();
   const { teacherId: id } = useParams();
   const { data: teacher = {}, isLoading } = useGetTeacher(id);
   const {
     fullName,
-    mainSubject,
     birthDate,
     idCardNumber,
     qualification,
     qualificationCourse,
     institutionAddress,
     institutionName,
+    emailAddress,
+    phoneNumber,
   } = teacher;
+
+  const { data: subjects, isLoading: isLoadingSubject } = useSubject({
+    filterField: "teacherId",
+    filterId: id,
+  });
   const [activeTab, setActiveTab] = useState("basic-details");
+
   if (isLoading) return <Spinner />;
   return (
     <Modal>
       <Row>
         <Row type="horizontal">
           <Heading as="h2">Detalhes do professor</Heading>
-          <Button>
+          <Button onClick={() => navigate("edit")}>
             <HiOutlinePencil /> Informações
           </Button>
         </Row>
@@ -98,7 +110,11 @@ function TeacherDetails() {
                   </span>
                   <div>
                     <strong>Disciplinas</strong>
-                    <span>{mainSubject} </span>
+                    <span>
+                      {isLoadingSubject && <Loader />}
+                      {!subjects?.length && <span>indisponível</span>}
+                      {subjects?.map((subj) => subj.subjectName).join(", ")}
+                    </span>
                   </div>
                 </DetailRow>
                 <DetailRow>
@@ -184,7 +200,7 @@ function TeacherDetails() {
                   </span>
                   <div>
                     <strong>Email</strong>
-                    <span>manassetimoteo4@gmail.com </span>
+                    <span>{emailAddress} </span>
                   </div>
                 </DetailRow>
                 <DetailRow>
@@ -193,7 +209,7 @@ function TeacherDetails() {
                   </span>
                   <div>
                     <strong>Telefone</strong>
-                    <span>940 407 979 </span>
+                    <span>{phoneNumber} </span>
                   </div>
                 </DetailRow>{" "}
               </Detail>

@@ -19,96 +19,103 @@ const FlexBox = styled.div`
   margin-top: 3rem;
   gap: 1rem;
 `;
-function CreateClassForm() {
+const StyledClassForm = styled.div`
+  padding: 2rem;
+`;
+function CreateClassForm({ onCloseModal }) {
   const { courses, isLoading } = useCourses();
   const { createClass, isLoading: isCreating } = useCreateClass();
-  const { register, formState, handleSubmit, reset } = useForm();
+  const { register, formState, handleSubmit } = useForm();
 
   const { errors } = formState;
   function onSubmit(data) {
-    console.log(data);
-    createClass(data, { onSuccess: () => reset() });
+    createClass(data, { onSuccess: onCloseModal });
   }
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Form.Group columns="repeat(2,1fr)">
-        <Heading as="h2">Cadastrar Turma</Heading>
-        <span>Preencha o formulário para cadastrar nova turma</span>
-        <Form.Row>
-          <InputRow label={`Classe`} error={errors?.grade?.message}>
-            <Input
-              type="number"
-              id="grade"
-              name={`grade`}
-              {...register(`grade`, {
-                required: "Este Campo é obrigatório",
-                min: {
-                  value: 10,
-                  message: "Mínimo 10ª Classe",
-                },
-                max: {
-                  value: 13,
-                  message: "Classe inserida é inválida ",
-                },
-              })}
-            />
-          </InputRow>
-          <InputRow label={`Número da sala`} error={errors?.grade?.message}>
-            <Input
-              type="number"
-              id="roomNumber"
-              name={`roomNumber`}
-              {...register(`roomNumber`, {
-                required: "Este Campo é obrigatório",
-              })}
-            />
-          </InputRow>
-          <InputRow label={`Selecionar Curso`} error={errors?.course?.message}>
-            <Select
-              id="course"
-              name={`course`}
-              disabled={isLoading}
-              {...register(`course`, {
-                required: "Este Campo é obrigatório",
-              })}
+    <StyledClassForm>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Group columns="repeat(2,1fr)">
+          <Heading as="h2">Cadastrar Turma</Heading>
+          <span>Preencha o formulário para cadastrar nova turma</span>
+          <Form.Row>
+            <InputRow label={`Classe`} error={errors?.grade?.message}>
+              <Input
+                type="number"
+                id="grade"
+                name={`grade`}
+                {...register(`grade`, {
+                  required: "Este Campo é obrigatório",
+                  min: {
+                    value: 10,
+                    message: "Mínimo 10ª Classe",
+                  },
+                  max: {
+                    value: 13,
+                    message: "Classe inserida é inválida ",
+                  },
+                })}
+              />
+            </InputRow>
+            <InputRow label={`Número da sala`} error={errors?.grade?.message}>
+              <Input
+                type="number"
+                id="roomNumber"
+                name={`roomNumber`}
+                {...register(`roomNumber`, {
+                  required: "Este Campo é obrigatório",
+                })}
+              />
+            </InputRow>
+            <InputRow
+              label={`Selecionar Curso`}
+              error={errors?.course?.message}
             >
-              <option value="">Nenhum selecionado</option>
-              {courses?.map((course) => (
-                <option value={course.id} key={course?.courseName}>
-                  {course?.courseName}
-                </option>
-              ))}
-            </Select>
-          </InputRow>
+              <Select
+                id="course"
+                name={`course`}
+                disabled={isLoading}
+                {...register(`course`, {
+                  required: "Este Campo é obrigatório",
+                })}
+              >
+                <option value="">Nenhum selecionado</option>
+                {courses?.map((course) => (
+                  <option value={course.id} key={course?.courseName}>
+                    {course?.courseName}
+                  </option>
+                ))}
+              </Select>
+            </InputRow>
 
-          <InputRow
-            label={`Selecionar Período`}
-            error={errors?.period?.message}
-          >
-            <Select
-              id="period"
-              name={`period`}
-              {...register(`period`, {
-                required: "Este Campo é obrigatório",
-              })}
+            <InputRow
+              label={`Selecionar Período`}
+              error={errors?.period?.message}
             >
-              <option value="">Nenhum selecionado</option>
-              <option value="Manhã">Manhã</option>
-              <option value="Tarde">Tarde</option>
-            </Select>
-          </InputRow>
-        </Form.Row>
-        <FlexBox>
-          <Button variation="secondary">
-            <HiX /> Cancelar
-          </Button>
-          <Button disabled={isCreating}>
-            {isCreating ? <SpinnerMini /> : <HiCheck />}
-            Cadastrar
-          </Button>
-        </FlexBox>
-      </Form.Group>
-    </Form>
+              <Select
+                id="period"
+                name={`period`}
+                {...register(`period`, {
+                  required: "Este Campo é obrigatório",
+                })}
+              >
+                <option value="">Nenhum selecionado</option>
+                <option value="Manhã">Manhã</option>
+                <option value="Tarde">Tarde</option>
+              </Select>
+            </InputRow>
+          </Form.Row>
+          <FlexBox>
+            <Button variation="secondary">
+              <HiX /> Cancelar
+            </Button>
+            <Button disabled={isCreating}>
+              {isCreating ? <SpinnerMini /> : <HiCheck />}
+              Cadastrar
+            </Button>
+          </FlexBox>
+        </Form.Group>
+      </Form>
+    </StyledClassForm>
   );
 }
 

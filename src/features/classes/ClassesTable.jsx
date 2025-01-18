@@ -68,7 +68,6 @@ function ClassesTable({ children }) {
 function Box({ classe }) {
   const navigate = useNavigate();
   const { grade, period, students, subjects, id } = classe;
-  console.log(students);
   return (
     <TableBox>
       <Heading as="h3">

@@ -1,4 +1,12 @@
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "./firebase";
 import { uploadFile } from "./apiUpload";
 
@@ -41,5 +49,24 @@ export async function createNewTeacher(newData) {
   } catch (error) {
     console.error("Erro ao cadastrar professores:", error.message);
     throw new Error("Ocorreu um erro ao cadastrar, tente novamente");
+  }
+}
+export async function updateTeacher({ editId, data }) {
+  try {
+    const docRef = doc(db, "teachers", editId);
+    await updateDoc(docRef, data);
+  } catch (error) {
+    console.error("Erro ao actualizar professores:", error.message);
+    throw new Error("Ocorreu um erro ao editar professor, tente novamente");
+  }
+}
+
+export async function deleteTeacher(id) {
+  try {
+    const docRef = doc(db, "teachers", id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error("Erro ao deletar professores:", error.message);
+    throw new Error("Ocorreu um erro ao depetar professor, tente novamente");
   }
 }

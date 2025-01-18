@@ -8,7 +8,6 @@ function Sort({ options }) {
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
-    if (!value) return;
     searchParams.set("sortBy", value);
     setSearchParams(searchParams);
   }, [value, searchParams, setSearchParams]);

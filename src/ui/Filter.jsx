@@ -8,7 +8,6 @@ function Filter({ query, options }) {
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
-    if (!value) return;
     searchParams.set(query, value);
     setSearchParams(searchParams);
   }, [value, searchParams, setSearchParams, query]);

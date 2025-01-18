@@ -17,9 +17,9 @@ function TeacherQualificationFormInfo({ errors, register }) {
             required: "Este campo é obrigatório",
           })}
         >
-          <option value="high-school">Ensino médio</option>
-          <option value="graduated">Licenciatura</option>
-          <option value="phd">PHD</option>
+          <option value="Ensino médio">Ensino médio</option>
+          <option value="Licenciatura">Licenciatura</option>
+          <option value="PHD">PHD</option>
         </Select>
       </InputRow>{" "}
       <InputRow

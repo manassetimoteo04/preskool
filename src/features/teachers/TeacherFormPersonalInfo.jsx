@@ -62,6 +62,30 @@ function TeacherFormPersonalInfo({ errors, register }) {
             required: "Este campo é obrigatório",
           })}
         />
+      </InputRow>{" "}
+      <InputRow label="Telefone" error={errors?.phoneNumber?.message}>
+        <Input
+          type="text"
+          name="phoneNumber"
+          id="phoneNumber"
+          {...register("phoneNumber", {
+            required: "Este campo é obrigatório",
+          })}
+        />
+      </InputRow>{" "}
+      <InputRow label="Email" error={errors?.emailAddress?.message}>
+        <Input
+          type="text"
+          name="emailAddress"
+          id="emailAddress"
+          {...register("emailAddress", {
+            required: "Este campo é obrigatório",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Providencie email válido",
+            },
+          })}
+        />
       </InputRow>
     </Form.Row>
   );

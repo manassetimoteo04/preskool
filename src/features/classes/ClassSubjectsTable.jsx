@@ -26,7 +26,10 @@ const TableContainer = styled.div`
   }
 `;
 function ClassSubjectsTable({ classId }) {
-  const { data: subjects, isLoading } = useSubject({ classId });
+  const { data: subjects, isLoading } = useSubject({
+    filterField: "classId",
+    filterId: classId,
+  });
   const { deleteSubject, isLoading: isDeleting } = useDeleteSubject();
   const [query, setQuery] = useState("");
   if (isLoading) return <Spinner />;
