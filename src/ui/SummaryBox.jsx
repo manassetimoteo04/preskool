@@ -11,7 +11,6 @@ const StyledSummaryBox = styled.div`
   & > div {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
   }
 `;
 const StyledIcon = styled.div`

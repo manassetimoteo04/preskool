@@ -1,5 +1,7 @@
+import HumanResourcesLayout from "../features/humanResources/HumanResourcesLayout";
+
 function HumanResources() {
-  return <div>Human resources</div>;
+  return <HumanResourcesLayout />;
 }
 
 export default HumanResources;

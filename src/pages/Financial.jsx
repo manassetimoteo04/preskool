@@ -1,5 +1,7 @@
+import FinancialLayout from "../features/financial/FinancialLayout";
+
 function Financial() {
-  return <div>Financial</div>;
+  return <FinancialLayout />;
 }
 
 export default Financial;

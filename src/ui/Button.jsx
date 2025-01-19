@@ -56,12 +56,16 @@ const StyledButton = styled.button`
   ${(props) =>
     props.size === "small" &&
     css`
-      padding: 0.5rem !important;
+      padding: 0.4rem 1rem !important;
       border: none;
       border-radius: var(--border-radius-sm);
       display: flex;
       align-items: center;
-      gap: 0.1rem;
+      gap: 0.3rem;
+      font-size: 1.4rem;
+      & > svg {
+        font-size: 1.4rem;
+      }
     `}
     ${(props) =>
     props.disabled &&
