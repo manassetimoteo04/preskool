@@ -23,6 +23,7 @@ import AddTeacher from "./pages/AddTeacher";
 import Teacher from "./pages/Teacher";
 import TeacherEdit from "./pages/TeacherEdit";
 import EmployeeHire from "./pages/EmployeeHire";
+import Employee from "./pages/Employee";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -44,6 +45,10 @@ function App() {
             <Route path="/financial" element={<Financial />} />
             <Route path="/human-resources" element={<HumanResources />} />
             <Route path="/human-resources/hire" element={<EmployeeHire />} />
+            <Route
+              path="/human-resources/employee/:employeeId"
+              element={<Employee />}
+            />
             <Route path="/students" element={<Students />} />
             <Route path="/students/:studentId" element={<Student />} />
             <Route

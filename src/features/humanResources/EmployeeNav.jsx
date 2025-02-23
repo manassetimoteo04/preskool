@@ -6,7 +6,7 @@ import {
 import DetailsNav from "../../ui/DetailsNav";
 import DetailNavButton from "../../ui/DetailNavButton";
 
-function TeacherNav({ active, setActive }) {
+function EmployeeNav({ active, setActive }) {
   return (
     <DetailsNav>
       <li>
@@ -40,4 +40,4 @@ function TeacherNav({ active, setActive }) {
   );
 }
 
-export default TeacherNav;
+export default EmployeeNav;

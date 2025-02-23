@@ -1,45 +1,16 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
+import { uploadFile } from "./apiUpload";
 
-export async function createNewEmployee() {
+export async function createNewEmployee(employeeData) {
   try {
-    const finalData = {
-      fullName: "Manasse",
-      createdAt: new Date(),
-      birthDate: new Date(),
-      idCardNumber: "sdfsdf",
-      fatherName: "Sdf",
-      motherName: "sdf",
-      residence: "sdf",
-      sectorId: "2342",
-      status: "hired",
-      phoneNumber: "3453",
-      email: "sddf",
-      qualifications: {
-        qualification: "sad",
-        qualificationArea: "sdsd",
-        institutionName: "sdf",
-        institutionAddress: "sdf",
-      },
-      experiences: {
-        years: 4,
-        lastInsitutionName: "sdf",
-        lastInsitutionAddress: "sdf",
-        lastInsitutionEmail: "sdf",
-        lastInsitutionPhone: "sdf",
-      },
-      bankAccount: {
-        accountNumber: "234234",
-        accountName: "sdf",
-        bankName: "as",
-      },
-      documents: {
-        idCard: "",
-        cv: "",
-      },
-      description: "",
-    };
-    const data = addDoc(collection(db, "employees"), finalData);
+    const biDocument = await uploadFile(employeeData.biDocument[0]);
+    const cvDocument = await uploadFile(employeeData.cvDocument[0]);
+
+    const finalData = { ...employeeData, biDocument, cvDocument };
+    const data = await addDoc(collection(db, "employees"), finalData);
+
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Erro ao cadastrar professores:", error.message);
@@ -58,5 +29,20 @@ export async function getEmployees() {
     return data;
   } catch (error) {
     console.error("Erro ao buscar usuários:", error.message);
+  }
+}
+
+export async function getEmployeeById(id) {
+  try {
+    const docRef = doc(db, "employees", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap?.exists()) {
+      return { ...docSnap.data(), id: docSnap.id };
+    } else {
+      throw new Error("Nenhum funcionário encontrado");
+    }
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
