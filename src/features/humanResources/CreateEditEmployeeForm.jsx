@@ -14,6 +14,8 @@ import EmployeeDocumentsInfo from "./EmployeeDocuments.Info";
 import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
 import { useCreateEmployee } from "./useCreateEmployee";
+import { useUpdateEmployee } from "./useUpdateEmployee";
+import SpinnerMini from "../../ui/SpinnerMini";
 const StyledFormPad = styled.div`
   padding: 2rem 2rem;
   background-color: var(--color-grey-0);
@@ -26,45 +28,19 @@ const FormGroup = styled.div`
   margin-top: 2rem;
 `;
 
-const defaultData = {
-  fullName: "Manasse Timóteo",
-  birthDate: "2025-02-06",
-  idCardNumber: "23423423",
-  fatherName: "Ricardo Pembele",
-  motherName: "Augustina Mpaka",
-  actualResidence: "Luanda, Cazenga",
-  phoneNumber: "+244 92883009",
-  emailAddress: "antonia@gmail.com",
-  qualification: "Licenciatura",
-  qualificationCourse: "Informática de Gestão",
-  institutionName: "Universidade Católica de Angola",
-  institutionAddress: "Luanda, Golf II",
-  experienceYears: "2",
-  lastInsitutionName: "",
-  lastInsitutionAddress: "",
-  lastInsitutionEmail: "",
-  lastInsitutionPhone: "",
-  bankAccNumber: "123231",
-  bankAccName: "BAI",
-  bankName: "123123",
-  cvDocument: {
-    0: {},
-  },
-  biDocument: {
-    0: {},
-  },
-  mainSubject: "teacher",
-  employeeFunction: "23",
-};
-function CreateEditEmployeeForm() {
+function CreateEditEmployeeForm({ editId, editEmployee }) {
+  const isEditSession = Boolean(editId);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ defaultValues: defaultData });
-  const { createEmployee, isLoading } = useCreateEmployee();
+  } = useForm({ defaultValues: isEditSession ? editEmployee : {} });
+  const { createEmployee, isLoading: isCreating } = useCreateEmployee();
+  const { updateEmployee, isLoading: isUpdating } = useUpdateEmployee();
   function onSubmit(data) {
-    createEmployee(data);
+    console.log(data);
+    !isEditSession ? createEmployee(data) : updateEmployee({ editId, data });
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -113,11 +89,15 @@ function CreateEditEmployeeForm() {
       </>{" "}
       <>
         <Form.Header icon={<HiBuildingLibrary />}>
-          <h4>Documentos</h4>
+          <h4>Documentos & Outros</h4>
         </Form.Header>
         <StyledFormPad>
           <Form.Group columns="1fr 1fr">
-            <EmployeeDocumentsInfo errors={errors} register={register} />
+            <EmployeeDocumentsInfo
+              errors={errors}
+              isEditSession={isEditSession}
+              register={register}
+            />
           </Form.Group>
         </StyledFormPad>
       </>
@@ -125,8 +105,9 @@ function CreateEditEmployeeForm() {
         <Button variation="secondary" type="reset">
           Cancelar
         </Button>
-        <Button disabled={isLoading}>
-          <HiCheck /> Finzalizar Cadastro
+        <Button disabled={isUpdating || isCreating}>
+          {isUpdating || isCreating ? <SpinnerMini /> : <HiCheck />}Finzalizar
+          Cadastro
         </Button>
       </FormGroup>
     </Form>

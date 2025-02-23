@@ -1,4 +1,11 @@
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "./firebase";
 import { uploadFile } from "./apiUpload";
 
@@ -44,5 +51,16 @@ export async function getEmployeeById(id) {
     }
   } catch (error) {
     throw new Error(error.message);
+  }
+}
+
+export async function updateEmployee({ editId, data }) {
+  try {
+    console.log(data);
+    const docRef = doc(db, "employees", editId);
+    await updateDoc(docRef, data);
+  } catch (error) {
+    console.error("Erro ao actualizar professores:", error.message);
+    throw new Error("Ocorreu um erro ao editar professor, tente novamente");
   }
 }
