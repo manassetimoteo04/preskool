@@ -24,6 +24,7 @@ function Pagination({ totalPages, count }) {
     searchParams.set("page", next);
     setSearchParams(searchParams);
   }
+
   return (
     <>
       <p>

@@ -1,7 +1,18 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+const animation = keyframes`
+  from{
+    transform: translateY(-10rem);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+
+`;
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 26rem 1fr;
@@ -14,6 +25,7 @@ const Main = styled.main`
   background-color: var(--color-grey-50);
   overflow-y: scroll;
   overflow-x: unset;
+  animation: ${animation} 5s linear ease;
 `;
 
 const Container = styled.div`
@@ -22,6 +34,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+  animation: ${animation} 5s linear ease;
 `;
 function AppLayout() {
   return (

@@ -31,6 +31,7 @@ const StyledSearchForm = styled.form`
 function SearchForm({ label, query, setQuery }) {
   const [searchParams, setSearchParams] = useSearchParams();
   function handleChange(e) {
+    e.preventDefault();
     if (searchParams.get("page") && +searchParams.get("page") > 1) {
       searchParams.set("page", 1);
       setSearchParams(searchParams);

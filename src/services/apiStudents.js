@@ -12,7 +12,6 @@ import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
 
 export async function getStudents() {
-  // const isIds = ids && Array.isArray(ids);
   try {
     const ref = collection(db, "students");
     const querySnapshot = await getDocs(ref);

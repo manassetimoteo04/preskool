@@ -15,7 +15,7 @@ import {
 } from "recharts";
 const StyledStatsGrid = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   gap: 2rem;
 `;
 const HiringList = styled.div`
