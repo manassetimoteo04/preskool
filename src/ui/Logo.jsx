@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledLogo = styled.div`
   padding: 0.77rem 2rem;
-  border-bottom: 1px solid var(--color-grey-100);
+  height: 8rem;
   & > img {
     width: auto;
     height: 100%;
@@ -11,7 +11,7 @@ const StyledLogo = styled.div`
 function Logo() {
   return (
     <StyledLogo>
-      <img src="/logo.svg" alt="School logo" />
+      <img src="/logo-light.png" alt="School logo" />
     </StyledLogo>
   );
 }

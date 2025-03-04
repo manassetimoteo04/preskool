@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -16,8 +17,20 @@ export async function createNewEmployee(employeeData) {
 
     const finalData = { ...employeeData, biDocument, cvDocument };
     const data = await addDoc(collection(db, "employees"), finalData);
-
-    console.log(data);
+    const permissions = {
+      manageMonthlyPayments: false,
+      addTeacher: false,
+      userId: data.id,
+      generateBillsCharges: true,
+      status: true,
+      postGrades: true,
+      systemsAccess: false,
+      updateProfile: true,
+      AddStudent: true,
+      manageClassSubject: false,
+    };
+    await addDoc(collection(db, "permissions"), permissions);
+    console.log(permissions);
     return data;
   } catch (error) {
     console.error("Erro ao cadastrar professores:", error.message);
@@ -62,5 +75,15 @@ export async function updateEmployee({ editId, data }) {
   } catch (error) {
     console.error("Erro ao actualizar professores:", error.message);
     throw new Error("Ocorreu um erro ao editar professor, tente novamente");
+  }
+}
+
+export async function deleteEmployee(id) {
+  try {
+    const docRef = doc(db, "employees", id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error(error.message);
+    throw new Error("Ups! ocorreu um erro ao deletar o funcionário");
   }
 }

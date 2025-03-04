@@ -17,15 +17,15 @@ function SummaryGrid() {
     <StyledSummaryGrid>
       <SummaryBox icon={<HiOutlineUsers />} color="yellow">
         <small>Total funcionários</small>
-        <Heading as="h3">23009</Heading>
+        <Heading as="h2">23009</Heading>
       </SummaryBox>{" "}
       <SummaryBox icon={<HiOutlineUserCircle />} color="indigo">
         <small>Novos funcionários</small>
-        <Heading as="h3">23009</Heading>
+        <Heading as="h2">23009</Heading>
       </SummaryBox>{" "}
       <SummaryBox icon={<HiOutlineSquaresPlus />} color="blue">
         <small>Sectores</small>
-        <Heading as="h3">23009</Heading>
+        <Heading as="h2">23009</Heading>
       </SummaryBox>
     </StyledSummaryGrid>
   );

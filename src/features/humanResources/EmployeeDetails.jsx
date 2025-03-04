@@ -7,6 +7,7 @@ import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 import Button from "../../ui/Button";
 import {
+  HiCog6Tooth,
   HiOutlineAcademicCap,
   HiOutlineAtSymbol,
   HiOutlineBuildingOffice,
@@ -20,6 +21,7 @@ import {
 } from "react-icons/hi2";
 import styled from "styled-components";
 import DetailBox from "../../ui/DetailBox";
+import UserPermissionsBox from "../../ui/UserPermissionsBox";
 import ProfileImg from "../../ui/ProfileImg";
 import Tag from "../../ui/Tag";
 import DetailRow from "../../ui/DetailRow";
@@ -43,12 +45,26 @@ const FlexBox = styled.div`
     flex-direction: column;
     gap: 0.5rem;
   }
-`;
+}`;
 const Detail = styled.div`
   padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+const StyledConfigButton = styled.button`
+  background: none;
+  border: none;
+  transition: all 0.5s ease;
+  & > svg {
+    font-size: 2.4rem;
+  }
+  &:hover {
+    transform: rotate(180deg);
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 function EmployeeDetails() {
   const navigate = useNavigate();
@@ -85,7 +101,9 @@ function EmployeeDetails() {
                 <FlexBox>
                   <ProfileImg src="/default-user.jpg" type="active" />
                   <div>
-                    <Tag type="active">Activo</Tag>
+                    <Row type="horizontal">
+                      <Tag type="active">Activo</Tag>
+                    </Row>
                     <Heading as="h2">{fullName}</Heading>
                     <small>Aderido aos 12 de Jan de 2024</small>
                   </div>
@@ -192,7 +210,16 @@ function EmployeeDetails() {
             </DetailBox>{" "}
           </Row>
           <Row>
-            <EmployeeNav active={activeTab} setActive={setActiveTab} />
+            <Row type="horizontal">
+              <EmployeeNav active={activeTab} setActive={setActiveTab} />
+
+              <StyledConfigButton onClick={() => setActiveTab("permissions")}>
+                <HiCog6Tooth />
+              </StyledConfigButton>
+              {/* <Modal.Window name="permissions" buttonClose={true}>
+                <UserPermissionsBox />
+              </Modal.Window> */}
+            </Row>
             {activeTab === "basic-details" && (
               <EmployeeDetailTab employee={employee} />
             )}{" "}
@@ -201,7 +228,8 @@ function EmployeeDetails() {
             )}
             {activeTab === "missings" && (
               <EmployeeMissingsTab employee={employee} />
-            )}
+            )}{" "}
+            {activeTab === "permissions" && <UserPermissionsBox />}
           </Row>
         </StyledDetailsGrid>
       </Row>

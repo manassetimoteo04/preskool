@@ -48,7 +48,7 @@ const StyledButton = styled.button`
       color: var(--color-brand-0);
 
       &:hover {
-        background-color: var(--color-grey-800);
+        background-color: var(--color-red-800);
       }
     `}
 

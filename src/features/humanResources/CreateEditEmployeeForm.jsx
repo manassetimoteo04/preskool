@@ -30,7 +30,7 @@ const FormGroup = styled.div`
 
 function CreateEditEmployeeForm({ editId, editEmployee }) {
   const isEditSession = Boolean(editId);
-
+  console.log(editEmployee, editId);
   const {
     handleSubmit,
     register,

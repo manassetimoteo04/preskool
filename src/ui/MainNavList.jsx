@@ -26,11 +26,9 @@ const StyledLink = styled(NavLink)`
   font-weight: 400;
   &.active {
     background-color: var(--color-brand-100);
-    color: var(--color-brand-700);
   }
   &:hover {
     background-color: var(--color-brand-100);
-    color: var(--color-brand-700);
   }
   & > svg {
     font-size: 2rem;

@@ -96,7 +96,12 @@ function EmployesTable() {
                     >
                       Ver Detalhes
                     </Menus.Button>
-                    <Menus.Button icon={<HiPencil />}>Editar</Menus.Button>
+                    <Menus.Button
+                      onClick={() => navigate(`employee/${employee.id}/edit`)}
+                      icon={<HiPencil />}
+                    >
+                      Editar
+                    </Menus.Button>
                     <Menus.Button icon={<HiTrash />}>Deletar </Menus.Button>
                   </Menus.List>
                 </Menus.Menu>
