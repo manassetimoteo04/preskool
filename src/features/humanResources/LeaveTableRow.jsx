@@ -35,8 +35,8 @@ function LeaveTableRow({ leave }) {
         <SmallUserImg src="/default-user.jpg" />
       </FirstLetterBox>
       <StyledConcatedBox>
-        <p>{leave.employee.fullName}</p>
-        <span>{leave.employee.emailAddress}</span>
+        <p>{leave?.employee?.fullName}</p>
+        <span>{leave?.employee?.emailAddress}</span>
       </StyledConcatedBox>
 
       <span>{leave?.licenseType}</span>
@@ -50,13 +50,13 @@ function LeaveTableRow({ leave }) {
       <Menus.Menu menuId={leave.id}>
         <Menus.List>
           <Menus.Button
-            onClick={() => navigate(`leave/${leave.id}`)}
+            onClick={() => navigate(`${leave.id}`)}
             icon={<HiEye />}
           >
             Ver Detalhes
           </Menus.Button>
           <Menus.Button
-            onClick={() => navigate(`leave/${leave.id}/edit`)}
+            onClick={() => navigate(`leave/${leave?.id}/edit`)}
             icon={<HiPencil />}
           >
             Editar

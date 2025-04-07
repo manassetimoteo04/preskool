@@ -8,12 +8,18 @@ import { useForm } from "react-hook-form";
 import { useCreateLeaves } from "./useCreateLeaves";
 import { useParams } from "react-router-dom";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { HiX } from "react-icons/hi";
+import { useGetEmployees } from "./useGetEmployees";
 
 const StyledLicenseForm = styled.form`
   min-width: 40rem;
   & > header {
     padding: 2rem;
     border-bottom: 1px solid var(--color-grey-200);
+    display: flex;
+  }
+  & > header > span {
+    cursor: pointer;
   }
   & > div {
     padding: 2rem;
@@ -31,7 +37,7 @@ const StyledLicenseForm = styled.form`
     margin-top: 2rem;
   }
 `;
-function CreateLicenceForm({ onCloseModal }) {
+function CreateLicenceForm({ onCloseModal, hasUser = true }) {
   const { createLeave, isLoading } = useCreateLeaves();
   const {
     register,
@@ -39,6 +45,7 @@ function CreateLicenceForm({ onCloseModal }) {
     handleSubmit,
   } = useForm();
   const { employeeId } = useParams();
+  const { employees, isLoading: isGettingEmployees } = useGetEmployees();
   function onSubmit(data) {
     data = {
       ...data,
@@ -48,12 +55,37 @@ function CreateLicenceForm({ onCloseModal }) {
     };
     createLeave(data, { onSuccess: onCloseModal });
   }
+  console.log(employees);
   return (
     <StyledLicenseForm onSubmit={handleSubmit(onSubmit)}>
       <header>
         <Heading as="h3">Adicionar Licença</Heading>
+
+        <span onClick={onCloseModal}>
+          <HiX />
+        </span>
       </header>
       <div>
+        {!hasUser && (
+          <InputRow
+            label="Selecionar Funcionário"
+            error={errors?.startDate?.message}
+          >
+            <Select
+              disabled={isGettingEmployees}
+              {...register("employeeId", {
+                required: "Este campo é obrigatório",
+              })}
+            >
+              {employees?.map((e) => (
+                <option key={e.id}>
+                  <img src="/default-user.jpg" alt="" />
+                  <span>{e?.fullName}</span>
+                </option>
+              ))}
+            </Select>
+          </InputRow>
+        )}
         <InputRow label="Data de início" error={errors?.startDate?.message}>
           <Input
             type="date"
@@ -61,7 +93,7 @@ function CreateLicenceForm({ onCloseModal }) {
               required: "Este campo é obrigatório",
             })}
           />
-        </InputRow>{" "}
+        </InputRow>
         <InputRow label="Data de fim" error={errors?.endDate?.message}>
           <Input
             type="date"

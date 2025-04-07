@@ -37,11 +37,11 @@ export async function createNewEmployee(employeeData) {
   }
 }
 
-export async function getEmployees(idList) {
+export async function getEmployees(idList = []) {
   try {
     const results = [];
     const CHUNK_SIZE = 10;
-    if (idList.length === 0) {
+    if (idList?.length === 0) {
       const snapshot = await getDocs(collection(db, "employees"));
       snapshot.forEach((doc) => {
         results.push({ id: doc.id, ...doc.data() });
@@ -141,5 +141,30 @@ export async function getEmployeesLeaves() {
   } catch (error) {
     console.error("Erro ao buscar licenças:", error.message);
     throw new Error("Ups! ocorreu um erro ao buscar licenças");
+  }
+}
+
+export async function getEmployeeLeaveById(id) {
+  try {
+    const docRef = doc(db, "employeeLeaves", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap?.exists()) {
+      return { ...docSnap.data(), id: docSnap.id };
+    } else {
+      throw new Error("Nenhuma licença encontrada");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function deleteEmployeeLeave(id) {
+  try {
+    const docRef = doc(db, "employeeLeaves", id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error(error.message);
+    throw new Error("Ups! ocorreu um erro ao deletar licença");
   }
 }

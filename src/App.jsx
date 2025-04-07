@@ -26,6 +26,7 @@ import EmployeeHire from "./pages/EmployeeHire";
 import Employee from "./pages/Employee";
 import EditEmployee from "./pages/EditEmployee";
 import EmployeeLeaves from "./pages/EmployeeLeaves";
+import EmployeeLeaveDetail from "./pages/EmployeeLeaveDetail";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -58,6 +59,10 @@ function App() {
             <Route
               path="/human-resources/leaves"
               element={<EmployeeLeaves />}
+            />
+            <Route
+              path="/human-resources/leaves/:leaveId"
+              element={<EmployeeLeaveDetail />}
             />
             <Route path="/students" element={<Students />} />
             <Route path="/students/:studentId" element={<Student />} />

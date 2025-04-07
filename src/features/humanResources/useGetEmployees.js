@@ -4,7 +4,7 @@ import { getEmployees } from "../../services/apiEmployees";
 export function useGetEmployees(idList) {
   const { data: employees, isLoading } = useQuery({
     queryFn: () => getEmployees(idList),
-    queryKey: ["employees"],
+    queryKey: ["employees", idList || []],
   });
   return { employees, isLoading };
 }

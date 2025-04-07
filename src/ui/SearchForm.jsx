@@ -43,7 +43,7 @@ function SearchForm({ label, query, setQuery }) {
     <StyledSearchForm>
       <HiOutlineSearch />
       <input
-        placeholder={`Search for a ${label}`}
+        placeholder={`Procurar ${label}`}
         value={query}
         onChange={handleChange}
       />

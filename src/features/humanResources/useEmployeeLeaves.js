@@ -10,11 +10,9 @@ export function useEmployeeLeaves() {
   const employeesId = !isLoading && data?.map((d) => d.employeeId);
 
   const { employees } = useGetEmployees(Array.from(new Set(employeesId || [])));
-  console.log(employees);
-  const results = data.map((leave) => {
-    const employee = employees.find((e) => e.id === leave.employeeId);
+  const results = data?.map((leave) => {
+    const employee = employees?.find((e) => e.id === leave.employeeId);
     return { ...leave, employee: employee };
   });
-  console.log(results);
   return { data: results, isLoading };
 }

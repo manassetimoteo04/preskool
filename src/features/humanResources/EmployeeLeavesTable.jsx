@@ -17,13 +17,13 @@ function EmployeeLeavesTable() {
       <header>
         <Row type="horizontal">
           <Heading as="h3">Todas a licenças</Heading>
-          <EmployesTableOperation searchForm={false} />
+          <EmployesTableOperation />
         </Row>
       </header>
       <Table columns="4rem 2.5fr 1fr 1.5fr 1fr 1fr    4rem">
         <Table.Header>
           <span></span>
-          <span>ID</span>
+          <span>Funcionário</span>
           <span>Tipo</span>
           <span>Data início</span>
           <span>Dias</span>
