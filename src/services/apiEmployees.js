@@ -5,7 +5,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
+  Timestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { uploadFile } from "./apiUpload";
@@ -129,8 +132,26 @@ export async function createEmployeeLeaves(data) {
   }
 }
 
-export async function getEmployeesLeaves() {
+export async function getEmployeesLeaves(range) {
   try {
+    if (range > 0) {
+      const now = new Date();
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(now.getDate() - range);
+
+      const q = query(
+        collection(db, "employeeLeaves"),
+        where("createdAt", ">=", Timestamp.fromDate(sevenDaysAgo))
+      );
+
+      const snapshot = await getDocs(q);
+
+      const results = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return results;
+    }
     const ref = collection(db, "employeeLeaves");
     const querySnapshot = await getDocs(ref);
     const data = querySnapshot.docs.map((doc) => ({
@@ -166,5 +187,16 @@ export async function deleteEmployeeLeave(id) {
   } catch (error) {
     console.error(error.message);
     throw new Error("Ups! ocorreu um erro ao deletar licença");
+  }
+}
+
+export async function updateEmployeeLeave({ editId, data }) {
+  try {
+    console.log(data);
+    const docRef = doc(db, "employeeLeaves", editId);
+    await updateDoc(docRef, data);
+  } catch (error) {
+    console.error("Erro ao actualizar licença:", error.message);
+    throw new Error("Ocorreu um erro ao editar licença, tente novamente");
   }
 }

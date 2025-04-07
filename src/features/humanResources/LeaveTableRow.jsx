@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { HiEye, HiPencil, HiTrash } from "react-icons/hi";
 import { calcDaysDiference, formatDate } from "../../utils/helpers";
 import SmallUserImg from "../../ui/SmallUserImg";
+import Modal from "../../ui/Modal";
+import CreateEditLicenceForm from "./CreateEditLicenceForm";
 // import { formatDate } from "../../utils/helpers";
 const StyledConcatedBox = styled.div`
   display: flex;
@@ -55,15 +57,19 @@ function LeaveTableRow({ leave }) {
           >
             Ver Detalhes
           </Menus.Button>
-          <Menus.Button
-            onClick={() => navigate(`leave/${leave?.id}/edit`)}
-            icon={<HiPencil />}
-          >
-            Editar
-          </Menus.Button>
+          <Modal.Open opens={"edit-license-" + leave.id}>
+            <Menus.Button icon={<HiPencil />}>Editar</Menus.Button>
+          </Modal.Open>
           <Menus.Button icon={<HiTrash />}>Deletar </Menus.Button>
         </Menus.List>
       </Menus.Menu>
+      <Modal.Window name={"edit-license-" + leave.id}>
+        <CreateEditLicenceForm
+          hasUser={true}
+          employeeLeaveId={leave?.employee?.id}
+          leaveId={leave.id}
+        />
+      </Modal.Window>
     </Table.Row>
   );
 }

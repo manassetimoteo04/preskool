@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getEmployeesLeaves } from "../../services/apiEmployees";
 import { useGetEmployees } from "./useGetEmployees";
 
-export function useEmployeeLeaves() {
+export function useEmployeeLeaves(daysRange = 0) {
   const { data, isLoading } = useQuery({
-    queryKey: ["employeeLeaves"],
-    queryFn: getEmployeesLeaves,
+    queryKey: ["employeeLeaves", daysRange],
+    queryFn: () => getEmployeesLeaves(daysRange),
   });
   const employeesId = !isLoading && data?.map((d) => d.employeeId);
 

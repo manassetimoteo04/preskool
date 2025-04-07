@@ -10,6 +10,10 @@ import { useParams } from "react-router-dom";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { HiX } from "react-icons/hi";
 import { useGetEmployees } from "./useGetEmployees";
+import { useEmployeeLeave } from "./useEmployeLeave";
+import { useUpdateEmployeeLeave } from "./useUpdateEmployeeLeave";
+import SmallUserImg from "../../ui/SmallUserImg";
+import Spinner from "../../ui/Spinner";
 
 const StyledLicenseForm = styled.form`
   min-width: 40rem;
@@ -37,13 +41,24 @@ const StyledLicenseForm = styled.form`
     margin-top: 2rem;
   }
 `;
-function CreateLicenceForm({ onCloseModal, hasUser = true }) {
+function CreateEditLicenceForm({
+  onCloseModal,
+  hasUser = true,
+  leaveId: licenseID,
+  employeeLeaveId,
+}) {
+  const isEditSession = Boolean(licenseID);
   const { createLeave, isLoading } = useCreateLeaves();
+  const { updateEmployeeLeave, isLoading: isUpdating } =
+    useUpdateEmployeeLeave();
+  const { data: license, isLoading: loadingLeave } =
+    useEmployeeLeave(licenseID);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({ defaultValues: license || {} });
   const { employeeId } = useParams();
   const { employees, isLoading: isGettingEmployees } = useGetEmployees();
   function onSubmit(data) {
@@ -51,15 +66,22 @@ function CreateLicenceForm({ onCloseModal, hasUser = true }) {
       ...data,
       status: "onleave",
       createdAt: new Date(),
-      employeeId,
+      employeeId: isEditSession ? employeeLeaveId : employeeId,
     };
-    createLeave(data, { onSuccess: onCloseModal });
+    isEditSession
+      ? updateEmployeeLeave(
+          { editId: licenseID, data },
+          { onSuccess: onCloseModal }
+        )
+      : createLeave(data, { onSuccess: onCloseModal });
   }
-  console.log(employees);
+  if (loadingLeave) return <Spinner />;
   return (
     <StyledLicenseForm onSubmit={handleSubmit(onSubmit)}>
       <header>
-        <Heading as="h3">Adicionar Licença</Heading>
+        <Heading as="h2">
+          {isEditSession ? "Actualizar Licença" : "Criar nova Licença"}
+        </Heading>
 
         <span onClick={onCloseModal}>
           <HiX />
@@ -79,7 +101,7 @@ function CreateLicenceForm({ onCloseModal, hasUser = true }) {
             >
               {employees?.map((e) => (
                 <option key={e.id}>
-                  <img src="/default-user.jpg" alt="" />
+                  <SmallUserImg src="/default-user.jpg" />
                   <span>{e?.fullName}</span>
                 </option>
               ))}
@@ -122,11 +144,19 @@ function CreateLicenceForm({ onCloseModal, hasUser = true }) {
           />
         </InputRow>{" "}
         <div>
-          <Button>{isLoading ? <SpinnerMini /> : "Criar Licença"}</Button>
+          <Button>
+            {isLoading || isUpdating ? (
+              <SpinnerMini />
+            ) : isEditSession ? (
+              "Editar Licença"
+            ) : (
+              "Criar Licença"
+            )}
+          </Button>
         </div>
       </div>
     </StyledLicenseForm>
   );
 }
 
-export default CreateLicenceForm;
+export default CreateEditLicenceForm;

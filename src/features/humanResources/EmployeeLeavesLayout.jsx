@@ -4,7 +4,7 @@ import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
 import Modal from "../../ui/Modal";
 import EmployeeLeavesTable from "./EmployeeLeavesTable";
-import CreateLicenceForm from "./CreateLicenceForm";
+import CreateEditLicenceForm from "./CreateEditLicenceForm";
 
 function EmployeeLeavesLayout() {
   return (
@@ -21,7 +21,7 @@ function EmployeeLeavesLayout() {
         <EmployeeLeavesTable />
       </Row>
       <Modal.Window name="create-license">
-        <CreateLicenceForm hasUser={false} />
+        <CreateEditLicenceForm hasUser={false} />
       </Modal.Window>
     </Modal>
   );

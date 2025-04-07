@@ -11,11 +11,15 @@ import Row from "../../ui/Row";
 import Tag from "../../ui/Tag";
 import AlertMessage from "../../ui/AlertMessage";
 import Button from "../../ui/Button";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useEmployeeLeave } from "./useEmployeLeave";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import { useEmployee } from "./useEmployee";
 import { calcDaysDiference, formatDate } from "../../utils/helpers";
+import Modal from "../../ui/Modal";
+import { useDeleteEmployeeLeave } from "./useDeleteEmployeeLeave";
+import CreateEditLicenceForm from "./CreateEditLicenceForm";
 
 const StyledLicenseBox = styled.div`
   background-color: var(--color-grey-0);
@@ -68,6 +72,7 @@ const StyledButtonsGroup = styled.div`
   }
 `;
 function LicenseBox() {
+  const navigate = useNavigate();
   const { leaveId } = useParams();
   const { data: leave, isLoading } = useEmployeeLeave(leaveId);
   const {
@@ -84,6 +89,9 @@ function LicenseBox() {
     data: { fullName, emailAddress, idCardNumber } = {},
     isLoading: isLoadingEmployee,
   } = useEmployee(employeeId);
+
+  const { mutate: deleteLicense, isLoading: isDeleting } =
+    useDeleteEmployeeLeave();
   if (isLoading || isLoadingEmployee) return <Spinner />;
   return (
     <StyledLicenseBox>
@@ -136,15 +144,32 @@ function LicenseBox() {
           </span>
 
           <div>
-            <Button>
-              <HiOutlinePencil /> Editar Licença
-            </Button>
-            <Button variation="danger">
-              <HiOutlineTrash /> Excluir Licença
-            </Button>
+            <Modal.Open opens="edit-license">
+              <Button>
+                <HiOutlinePencil /> Editar Licença
+              </Button>
+            </Modal.Open>
+            <Modal.Open opens="delete-alert">
+              <Button variation="danger">
+                <HiOutlineTrash /> Excluir Licença
+              </Button>
+            </Modal.Open>
           </div>
         </StyledButtonsGroup>
       </StyledContentBox>
+      <Modal.Window name="delete-alert">
+        <ConfirmDelete
+          onConfirm={() =>
+            deleteLicense(leaveId, { onSuccess: () => navigate(-1) })
+          }
+          isLoading={isDeleting}
+        >
+          Tens a certeza que deseja excluir esta licença?
+        </ConfirmDelete>
+      </Modal.Window>
+      <Modal.Window name="edit-license">
+        <CreateEditLicenceForm leaveId={leaveId} employeeLeaveId={employeeId} />
+      </Modal.Window>
     </StyledLicenseBox>
   );
 }

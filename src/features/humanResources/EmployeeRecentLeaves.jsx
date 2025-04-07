@@ -1,54 +1,61 @@
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
 import Tag from "../../ui/Tag";
 import styled from "styled-components";
+import SmallUserImg from "../../ui/SmallUserImg";
+import { calcDaysDiference, formatDate } from "../../utils/helpers";
+// import { calcDaysDiference, formatDate } from "../../utils/helpers";
 
 const StyledEmployeeRecentLeave = styled(Link)`
-  display: flex;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: 4rem 2.5fr 1fr 1fr 1fr;
   align-items: center;
+  gap: 2rem;
   padding: 1rem 2rem;
   &:hover {
     background-color: var(--color-grey-50);
   }
+`;
+
+const StyledConcatedBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > p {
+    font-weight: 500;
+  }
   & > span {
-    width: 4rem;
-    height: 4rem;
-    background-color: var(--color-brand-700);
-    border-radius: var(--border-radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    & > svg {
-      font-size: 2rem;
-    }
-  }
-  & > div {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr 1fr;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    & > span {
-      font-size: 1.4rem;
-    }
+    font-size: 1.2rem;
   }
 `;
-const Avatar = styled.img`
-  width: 3rem;
-  height: 3rem;
+const FirstLetterBox = styled.div`
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--color-grey-100);
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
 `;
-function EmployeeRecentLeaves() {
+function EmployeeRecentLeaves({ leave }) {
+  console.log(leave);
   return (
     <>
-      <StyledEmployeeRecentLeave to="leaves">
-        <Avatar src="/default-user.jpg" />
-        <div>
-          <span>Doença</span>
-          <span>Lorem ipsum dolor sit amet...</span>
-          <Tag type="pending">Aprovado</Tag>
-          <span>Há dois dias</span>
-        </div>
+      <StyledEmployeeRecentLeave to={`leaves/${leave.id}`}>
+        <FirstLetterBox>
+          <SmallUserImg src="/default-user.jpg" />
+        </FirstLetterBox>
+        <StyledConcatedBox>
+          <p>{leave?.employee?.fullName}</p>
+          <span>{leave?.employee?.emailAddress}</span>
+        </StyledConcatedBox>
+
+        <span>{leave?.licenseType}</span>
+        <span>{calcDaysDiference(leave.endDate, leave.startDate)} dia(s)</span>
+
+        <Tag type={leave.status === "onleave" ? "active" : "inactive"}>
+          {leave.status}
+        </Tag>
       </StyledEmployeeRecentLeave>
     </>
   );

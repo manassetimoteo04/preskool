@@ -32,7 +32,7 @@ import EmployeePaymentTab from "./EmployeePaymentTab";
 import EmployeeMissingsTab from "./EmployeeMissingsTab";
 import { usePermissions } from "./usePermissions";
 import { HiPlus } from "react-icons/hi";
-import CreateLicenceForm from "./CreateLicenceForm";
+import CreateEditLicenceForm from "./CreateEditLicenceForm";
 const StyledDetailsGrid = styled.div`
   display: grid;
   grid-template-columns: 40rem 1fr;
@@ -249,7 +249,7 @@ function EmployeeDetails() {
         </StyledDetailsGrid>
       </Row>
       <Modal.Window name="license" buttonClose={true}>
-        <CreateLicenceForm />
+        <CreateEditLicenceForm />
       </Modal.Window>
     </Modal>
   );
