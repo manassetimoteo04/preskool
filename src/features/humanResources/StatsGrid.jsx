@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import DetailBox from "../../ui/DetailBox";
 import Heading from "../../ui/Heading";
-import { HiArrowRight } from "react-icons/hi2";
 import Row from "../../ui/Row";
-import Button from "../../ui/Button";
-import HiringRow from "./HiringRow";
+import EmployeeRecentLeaves from "./EmployeeRecentLeaves";
 import {
   Cell,
   Legend,
@@ -13,12 +11,13 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { Link } from "react-router-dom";
 const StyledStatsGrid = styled.div`
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   gap: 2rem;
 `;
-const HiringList = styled.div`
+const EmployeeRecentLeavesList = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem 0rem;
@@ -70,19 +69,16 @@ function StatsGrid() {
       <DetailBox>
         <header>
           <Row type="horizontal">
-            <Heading as="h3">Contratações & Demissões</Heading>
-            <Button size="small">
-              todos
-              <HiArrowRight />
-            </Button>
+            <Heading as="h3">Funcionários em licença</Heading>
+            <Link to="leaves"> todos</Link>
           </Row>
         </header>
-        <HiringList>
-          <HiringRow />
-          <HiringRow />
-          <HiringRow />
-          <HiringRow />
-        </HiringList>
+        <EmployeeRecentLeavesList>
+          <EmployeeRecentLeaves />
+          <EmployeeRecentLeaves />
+          <EmployeeRecentLeaves />
+          <EmployeeRecentLeaves />
+        </EmployeeRecentLeavesList>
       </DetailBox>{" "}
       <DetailBox>
         <header>

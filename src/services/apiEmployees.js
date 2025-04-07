@@ -30,7 +30,6 @@ export async function createNewEmployee(employeeData) {
       manageClassSubject: false,
     };
     await addDoc(collection(db, "permissions"), permissions);
-    console.log(permissions);
     return data;
   } catch (error) {
     console.error("Erro ao cadastrar professores:", error.message);
@@ -38,17 +37,34 @@ export async function createNewEmployee(employeeData) {
   }
 }
 
-export async function getEmployees() {
+export async function getEmployees(idList) {
   try {
-    const ref = collection(db, "employees");
-    const querySnapshot = await getDocs(ref);
-    const data = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    return data;
+    const results = [];
+    const CHUNK_SIZE = 10;
+    if (idList.length === 0) {
+      const snapshot = await getDocs(collection(db, "employees"));
+      snapshot.forEach((doc) => {
+        results.push({ id: doc.id, ...doc.data() });
+      });
+      return results;
+    } else {
+      for (let i = 0; i < idList.length; i += CHUNK_SIZE) {
+        const chunk = idList.slice(i, i + CHUNK_SIZE);
+
+        const promises = chunk.map((id) => getDoc(doc(db, "employees", id)));
+        const docs = await Promise.all(promises);
+
+        docs.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            results.push({ id: docSnap.id, ...docSnap.data() });
+          }
+        });
+        return results;
+      }
+    }
   } catch (error) {
-    console.error("Erro ao buscar usuários:", error.message);
+    console.error("Erro ao buscar funcionários:", error.message);
+    return []; // retorna array vazio em caso de erro
   }
 }
 
@@ -85,5 +101,45 @@ export async function deleteEmployee(id) {
   } catch (error) {
     console.error(error.message);
     throw new Error("Ups! ocorreu um erro ao deletar o funcionário");
+  }
+}
+
+export async function getDepartments() {
+  try {
+    const ref = collection(db, "departments");
+    const querySnapshot = await getDocs(ref);
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return data;
+  } catch (error) {
+    console.error("Erro ao buscar departamentos:", error.message);
+    throw new Error("Ups! ocorreu um erro ao buscar departamentos");
+  }
+}
+
+export async function createEmployeeLeaves(data) {
+  try {
+    await addDoc(collection(db, "employeeLeaves"), data);
+    return data;
+  } catch (error) {
+    console.error("Erro ao criar licença:", error.message);
+    throw new Error("Ups! ocorreu um erro ao criar licença");
+  }
+}
+
+export async function getEmployeesLeaves() {
+  try {
+    const ref = collection(db, "employeeLeaves");
+    const querySnapshot = await getDocs(ref);
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return data;
+  } catch (error) {
+    console.error("Erro ao buscar licenças:", error.message);
+    throw new Error("Ups! ocorreu um erro ao buscar licenças");
   }
 }

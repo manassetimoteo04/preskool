@@ -4,7 +4,6 @@ import { HiEllipsisVertical } from "react-icons/hi2";
 import styled, { keyframes } from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
-// eslint-disable-next-line no-unused-vars
 const reveal = keyframes`
   
   from{
@@ -17,12 +16,11 @@ const reveal = keyframes`
   }
 `;
 
-const MenuOverlay = styled.div``;
 const StyledMenu = styled.div`
   background-color: var(--color-grey-0);
   padding: 0.5rem;
   border-radius: var(--border-radius-sm);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
   border: 1px solid var(--color-grey-100);
   position: fixed;
   transform: scale(100%);
@@ -93,11 +91,9 @@ function Menu({ children, menuId }) {
   const ref = useOutsideClick(close, false);
   if (openId == menuId)
     return createPortal(
-      <MenuOverlay>
-        <StyledMenu ref={ref} position={position}>
-          {children}
-        </StyledMenu>
-      </MenuOverlay>,
+      <StyledMenu ref={ref} position={position}>
+        {children}
+      </StyledMenu>,
       document.body
     );
 }

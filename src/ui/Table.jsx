@@ -21,9 +21,9 @@ const StyledRow = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: ${(props) => props.columns};
-  padding: 1.5rem 3rem;
+  padding: 1rem 3rem;
   column-gap: 1rem;
-
+  position: relative;
   border-bottom: 1px solid var(--color-grey-100);
 `;
 

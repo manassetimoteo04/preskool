@@ -10,8 +10,8 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "./firebase.js";
 
+import { db } from "./firebase.js";
 export async function getClasse({ id, courseId }) {
   try {
     if (id) {
@@ -61,6 +61,7 @@ export async function createNewClass(newClassData) {
       subjects: [],
       type: "medium",
     };
+
     const data = await addDoc(collection(db, "classes"), finalData);
     const docRef = doc(db, "courses", finalData.course);
     await updateDoc(docRef, { classes: arrayUnion(finalData.course) });

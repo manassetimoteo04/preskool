@@ -6,6 +6,7 @@ import {
   HiOutlineUsers,
 } from "react-icons/hi2";
 import Heading from "../../ui/Heading";
+import { useGetEmployees } from "./useGetEmployees";
 const StyledSummaryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -13,11 +14,12 @@ const StyledSummaryGrid = styled.div`
 `;
 
 function SummaryGrid() {
+  const { employees } = useGetEmployees();
   return (
     <StyledSummaryGrid>
       <SummaryBox icon={<HiOutlineUsers />} color="yellow">
         <small>Total funcionários</small>
-        <Heading as="h2">23009</Heading>
+        <Heading as="h2">{employees?.length}</Heading>
       </SummaryBox>{" "}
       <SummaryBox icon={<HiOutlineUserCircle />} color="indigo">
         <small>Novos funcionários</small>

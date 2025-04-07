@@ -38,6 +38,7 @@ export async function getTeacher(id) {
     throw new Error(error.message);
   }
 }
+
 export async function createNewTeacher(newData) {
   try {
     const biDocument = await uploadFile(newData.biDocument[0]);

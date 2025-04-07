@@ -30,6 +30,9 @@ import EmployeeNav from "./EmployeeNav";
 import EmployeeDetailTab from "./EmployeeDetailTab";
 import EmployeePaymentTab from "./EmployeePaymentTab";
 import EmployeeMissingsTab from "./EmployeeMissingsTab";
+import { usePermissions } from "./usePermissions";
+import { HiPlus } from "react-icons/hi";
+import CreateLicenceForm from "./CreateLicenceForm";
 const StyledDetailsGrid = styled.div`
   display: grid;
   grid-template-columns: 40rem 1fr;
@@ -83,7 +86,7 @@ function EmployeeDetails() {
   } = employee;
 
   const [activeTab, setActiveTab] = useState("basic-details");
-
+  const { permissions: { status } = {} } = usePermissions(id);
   if (isLoading) return <Spinner />;
   return (
     <Modal>
@@ -99,13 +102,25 @@ function EmployeeDetails() {
             <DetailBox>
               <header>
                 <FlexBox>
-                  <ProfileImg src="/default-user.jpg" type="active" />
+                  <ProfileImg
+                    src="/default-user.jpg"
+                    type={status ? "active" : "inactive"}
+                  />
                   <div>
                     <Row type="horizontal">
-                      <Tag type="active">Activo</Tag>
+                      <Tag type={status ? "active" : "inactive"}>
+                        {status ? "Activo" : "Inactivo"}
+                      </Tag>
                     </Row>
                     <Heading as="h2">{fullName}</Heading>
                     <small>Aderido aos 12 de Jan de 2024</small>
+                    <div>
+                      <Modal.Open opens="license">
+                        <Button size="small">
+                          <HiPlus /> Criar licença
+                        </Button>
+                      </Modal.Open>
+                    </div>
                   </div>
                 </FlexBox>
               </header>
@@ -233,6 +248,9 @@ function EmployeeDetails() {
           </Row>
         </StyledDetailsGrid>
       </Row>
+      <Modal.Window name="license" buttonClose={true}>
+        <CreateLicenceForm />
+      </Modal.Window>
     </Modal>
   );
 }

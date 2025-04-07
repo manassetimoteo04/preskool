@@ -72,7 +72,7 @@ const GlobalStyles = createGlobalStyle`
 --color-indigo-700: #e0e7ff;
 --color-brand-100:#232c49;
 
---color-red-100: #fee2e2;
+--color-red-100:hsl(0, 74.80%, 76.70%);
 --color-red-700: #b91c1c;
 --color-red-800: #991b1b;
 

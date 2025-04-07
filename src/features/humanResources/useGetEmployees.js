@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getEmployees } from "../../services/apiEmployees";
 
-export function useGetEmployees() {
+export function useGetEmployees(idList) {
   const { data: employees, isLoading } = useQuery({
-    queryFn: getEmployees,
+    queryFn: () => getEmployees(idList),
     queryKey: ["employees"],
   });
   return { employees, isLoading };

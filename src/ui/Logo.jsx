@@ -11,7 +11,7 @@ const StyledLogo = styled.div`
 function Logo() {
   return (
     <StyledLogo>
-      <img src="/logo-light.png" alt="School logo" />
+      <img src="/logo-dark.png" alt="School logo" />
     </StyledLogo>
   );
 }
