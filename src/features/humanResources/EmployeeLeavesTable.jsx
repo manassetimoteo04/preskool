@@ -36,7 +36,7 @@ function EmployeeLeavesTable() {
 
   const [field, direction] = sortBy.split("-") || "";
   const modifier = direction === "asc" ? 1 : -1;
-  const sortedData = filteredData.sort(
+  const sortedData = filteredData?.sort(
     (a, b) => (a[field] - b[field]) * modifier
   );
   if (isLoading) return <Spinner />;

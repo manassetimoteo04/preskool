@@ -70,7 +70,7 @@ const StyledButton = styled.button`
     ${(props) =>
     props.disabled &&
     css`
-      cursor: progress;
+      opacity: 0.5;
     `}
 `;
 

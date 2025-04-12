@@ -38,7 +38,6 @@ const FirstLetterBox = styled.div`
   font-weight: 600;
 `;
 function EmployeeRecentLeaves({ leave }) {
-  console.log(leave);
   return (
     <>
       <StyledEmployeeRecentLeave to={`leaves/${leave.id}`}>

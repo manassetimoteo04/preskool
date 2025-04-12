@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { HiEllipsisVertical } from "react-icons/hi2";
 import styled, { keyframes } from "styled-components";
@@ -56,7 +63,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledButton = styled.button`
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   border-radius: var(--border-radius-sm);
   background-color: var(--color-grey-0);
   border: none;
@@ -69,7 +76,7 @@ const StyledButton = styled.button`
   }
   gap: 1rem;
   &:hover {
-    background-color: var(--color-grey-200);
+    background-color: var(--color-grey-100);
   }
 `;
 const MenusContext = createContext();
@@ -97,7 +104,7 @@ function Menu({ children, menuId }) {
       document.body
     );
 }
-function Toggle({ menuId }) {
+function Toggle({ menuId, showIcon = true, children }) {
   const ref = useRef();
   const { openId, close, open, setPosition } = useContext(MenusContext);
 
@@ -109,6 +116,7 @@ function Toggle({ menuId }) {
 
   function handleClick(e) {
     e.stopPropagation();
+    console.log(e);
     const rect = e.target.closest("button").getBoundingClientRect();
     ref.current = e.target.closest("button");
     setPosition({
@@ -118,9 +126,15 @@ function Toggle({ menuId }) {
     openId === "" || openId !== menuId ? open(menuId) : close();
   }
   return (
-    <StyledToggle onClick={handleClick}>
-      <HiEllipsisVertical />
-    </StyledToggle>
+    <>
+      {showIcon ? (
+        <StyledToggle onClick={handleClick}>
+          <HiEllipsisVertical />
+        </StyledToggle>
+      ) : (
+        cloneElement(children, { onClick: handleClick })
+      )}
+    </>
   );
 }
 function List({ children }) {

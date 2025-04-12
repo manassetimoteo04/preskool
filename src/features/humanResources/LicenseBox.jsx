@@ -93,6 +93,10 @@ function LicenseBox() {
   const { mutate: deleteLicense, isLoading: isDeleting } =
     useDeleteEmployeeLeave();
   if (isLoading || isLoadingEmployee) return <Spinner />;
+  const millis =
+    createdAt.seconds * 1000 + Math.floor(createdAt.nanoseconds / 1e6);
+  const data = new Date(millis);
+
   return (
     <StyledLicenseBox>
       <header>
@@ -137,11 +141,7 @@ function LicenseBox() {
           autem. Deserunt molestias sed dolor itaque
         </AlertMessage>
         <StyledButtonsGroup>
-          <span>
-            Emitido aos {formatDate(Date(createdAt))}, as{" "}
-            {new Date(Date(createdAt)).getHours()} :{" "}
-            {new Date(Date(createdAt)).getMinutes()}
-          </span>
+          <span>Emitido aos {formatDate(new Date(data))} </span>
 
           <div>
             <Modal.Open opens="edit-license">
