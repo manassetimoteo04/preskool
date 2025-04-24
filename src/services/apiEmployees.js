@@ -132,7 +132,7 @@ export async function createEmployeeLeaves(data) {
   }
 }
 
-export async function getEmployeesLeaves(range) {
+export async function getEmployeesLeaves(range = 0) {
   try {
     if (range > 0) {
       const now = new Date();
@@ -146,11 +146,11 @@ export async function getEmployeesLeaves(range) {
 
       const snapshot = await getDocs(q);
 
-      const results = snapshot.docs.map((doc) => ({
+      const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      return results;
+      return data;
     }
     const ref = collection(db, "employeeLeaves");
     const querySnapshot = await getDocs(ref);
@@ -200,3 +200,4 @@ export async function updateEmployeeLeave({ editId, data }) {
     throw new Error("Ocorreu um erro ao editar licença, tente novamente");
   }
 }
+

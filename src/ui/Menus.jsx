@@ -104,6 +104,7 @@ function Menu({ children, menuId }) {
       document.body
     );
 }
+
 function Toggle({ menuId, showIcon = true, children }) {
   const ref = useRef();
   const { openId, close, open, setPosition } = useContext(MenusContext);
@@ -116,7 +117,6 @@ function Toggle({ menuId, showIcon = true, children }) {
 
   function handleClick(e) {
     e.stopPropagation();
-    console.log(e);
     const rect = e.target.closest("button").getBoundingClientRect();
     ref.current = e.target.closest("button");
     setPosition({
@@ -132,7 +132,10 @@ function Toggle({ menuId, showIcon = true, children }) {
           <HiEllipsisVertical />
         </StyledToggle>
       ) : (
-        cloneElement(children, { onClick: handleClick })
+        cloneElement(children, {
+          onClick: handleClick,
+          isOpen: Boolean(openId),
+        })
       )}
     </>
   );

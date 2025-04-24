@@ -41,7 +41,6 @@ export async function getSubject({ id, filterId, filterField }) {
 }
 
 export async function createSubject(data) {
-  console.log(data);
   try {
     const refData = addDoc(collection(db, "subjects"), data);
     const docRef = doc(db, "classes", data.classId);
@@ -56,6 +55,7 @@ export async function updateSubject(id, updateData) {
   try {
     const docRef = doc(db, "subjects", id);
     await updateDoc(docRef, updateData);
+
   } catch (error) {
     throw new Error(
       "Ocorreu um erro ao actualizar disciplina, tente novamente"

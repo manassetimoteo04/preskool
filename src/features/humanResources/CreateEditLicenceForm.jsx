@@ -13,7 +13,6 @@ import { useGetEmployees } from "./useGetEmployees";
 import { useEmployeeLeave } from "./useEmployeLeave";
 import { useUpdateEmployeeLeave } from "./useUpdateEmployeeLeave";
 import SmallUserImg from "../../ui/SmallUserImg";
-import Spinner from "../../ui/Spinner";
 
 const StyledLicenseForm = styled.form`
   min-width: 40rem;
@@ -51,7 +50,7 @@ function CreateEditLicenceForm({
   const { createLeave, isLoading } = useCreateLeaves();
   const { updateEmployeeLeave, isLoading: isUpdating } =
     useUpdateEmployeeLeave();
-  const { data: license, isLoading: loadingLeave } =
+  const { data: license, isLoading: isLoadingLeave } =
     useEmployeeLeave(licenseID);
 
   const {
@@ -59,14 +58,19 @@ function CreateEditLicenceForm({
     formState: { errors },
     handleSubmit,
   } = useForm({ defaultValues: license || {} });
-  const { employeeId } = useParams();
+  const { employeeIdParams } = useParams();
   const { employees, isLoading: isGettingEmployees } = useGetEmployees();
   function onSubmit(data) {
+    console.log(data);
     data = {
       ...data,
       status: "onleave",
       createdAt: new Date(),
-      employeeId: isEditSession ? employeeLeaveId : employeeId,
+      employeeId: isEditSession
+        ? employeeLeaveId
+        : employeeIdParams
+        ? employeeIdParams
+        : data.employeeId,
     };
     isEditSession
       ? updateEmployeeLeave(
@@ -75,7 +79,6 @@ function CreateEditLicenceForm({
         )
       : createLeave(data, { onSuccess: onCloseModal });
   }
-  if (loadingLeave) return <Spinner />;
   return (
     <StyledLicenseForm onSubmit={handleSubmit(onSubmit)}>
       <header>
@@ -94,13 +97,13 @@ function CreateEditLicenceForm({
             error={errors?.startDate?.message}
           >
             <Select
-              disabled={isGettingEmployees}
+              disabled={isGettingEmployees || isLoadingLeave}
               {...register("employeeId", {
                 required: "Este campo é obrigatório",
               })}
             >
               {employees?.map((e) => (
-                <option key={e.id}>
+                <option key={e.id} value={e.id}>
                   <SmallUserImg src="/default-user.jpg" />
                   <span>{e?.fullName}</span>
                 </option>
@@ -110,6 +113,7 @@ function CreateEditLicenceForm({
         )}
         <InputRow label="Data de início" error={errors?.startDate?.message}>
           <Input
+            disabled={isGettingEmployees || isLoadingLeave}
             type="date"
             {...register("startDate", {
               required: "Este campo é obrigatório",
@@ -118,6 +122,7 @@ function CreateEditLicenceForm({
         </InputRow>
         <InputRow label="Data de fim" error={errors?.endDate?.message}>
           <Input
+            disabled={isGettingEmployees || isLoadingLeave}
             type="date"
             {...register("endDate", {
               required: "Este campo é obrigatório",
@@ -126,6 +131,7 @@ function CreateEditLicenceForm({
         </InputRow>{" "}
         <InputRow label="Tipo de Licença" error={errors?.licenseType?.message}>
           <Select
+            disabled={isGettingEmployees || isLoadingLeave}
             {...register("licenseType", {
               required: "Este campo é obrigatório",
             })}
@@ -137,6 +143,7 @@ function CreateEditLicenceForm({
         </InputRow>
         <InputRow label="Descrição" error={errors?.description?.message}>
           <Input
+            disabled={isGettingEmployees || isLoadingLeave}
             type="text"
             {...register("description", {
               required: "Este campo é obrigatório",

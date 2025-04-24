@@ -8,6 +8,7 @@ import { calcDaysDiference, formatDate } from "../../utils/helpers";
 import SmallUserImg from "../../ui/SmallUserImg";
 import Modal from "../../ui/Modal";
 import CreateEditLicenceForm from "./CreateEditLicenceForm";
+import { useEmployee } from "./useEmployee";
 // import { formatDate } from "../../utils/helpers";
 const StyledConcatedBox = styled.div`
   display: flex;
@@ -30,6 +31,8 @@ const FirstLetterBox = styled.div`
   font-weight: 600;
 `;
 function LeaveTableRow({ leave }) {
+  const { data } = useEmployee(leave.employeeId);
+  console.log(data);
   const navigate = useNavigate();
   return (
     <Table.Row key={leave.id}>

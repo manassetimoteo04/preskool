@@ -9,10 +9,12 @@ export function useEmployeeLeaves(daysRange = 0) {
   });
   const employeesId = !isLoading && data?.map((d) => d.employeeId);
 
-  const { employees } = useGetEmployees(Array.from(new Set(employeesId || [])));
+  const { employees, isLoading: isLoadingEmployees } = useGetEmployees(
+    Array.from(new Set(employeesId || []))
+  );
   const results = data?.map((leave) => {
     const employee = employees?.find((e) => e.id === leave.employeeId);
-    return { ...leave, employee: employee };
+    return { ...leave, employee: employee, isLoading: isLoadingEmployees };
   });
   return { data: results, isLoading };
 }

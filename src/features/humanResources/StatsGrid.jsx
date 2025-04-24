@@ -86,10 +86,9 @@ const NavigateButton = styled.button`
 `;
 function StatsGrid() {
   const navigate = useNavigate();
-  const range = 7;
+  const range = 30;
 
   const { data, isLoading } = useEmployeeLeaves(range);
-  console.log(data, isLoading);
   return (
     <Modal>
       <StyledStatsGrid>

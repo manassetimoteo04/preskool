@@ -21,6 +21,7 @@ function EmployeeLeavesTable() {
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState();
 
+  console.log(employeeLeavesList);
   const filter = !searchParams.get("filter") ? "" : searchParams.get("filter");
   const sortBy = !searchParams.get("sortBy") ? "" : searchParams.get("sortBy");
   const searchedData = query
@@ -49,7 +50,7 @@ function EmployeeLeavesTable() {
         </Row>
       </header>
       {sortedData.length ? (
-        <Table columns="4rem 2.5fr 1fr 1.5fr 1fr 1fr    4rem">
+        <Table columns="4rem 2.5fr 1fr 1.5fr 1fr 1fr 4rem">
           <Table.Header>
             <span></span>
             <span>Funcionário</span>

@@ -16,15 +16,15 @@ const StyledSummaryBox = styled.div`
 const StyledIcon = styled.div`
   width: 5rem;
   height: 5rem;
-  border-radius: 50%;
-  background-color: var(--color-${(props) => props.color}-100);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-brand-700);
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--color-grey-200);
 
   & > svg {
-    font-size: 3rem;
+    font-size: 4rem;
     color: var(--color-${(props) => props.color}-700);
   }
 `;
