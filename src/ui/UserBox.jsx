@@ -34,6 +34,11 @@ const StyledUserBox = styled.button`
     align-items: start;
   }
 
+  ${(props) =>
+    props.isOpen &&
+    css`
+      background-color: var(--color-grey-100);
+    `};
   & > svg {
     ${(props) =>
       props.isOpen &&

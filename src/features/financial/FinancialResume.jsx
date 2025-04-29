@@ -2,6 +2,7 @@ import styled from "styled-components";
 import SummaryBox from "../../ui/SummaryBox";
 import Heading from "../../ui/Heading";
 import { HiOutlineCreditCard, HiOutlineCurrencyDollar } from "react-icons/hi2";
+import { HiOutlineArrowNarrowDown } from "react-icons/hi";
 
 const StyledFinancialResume = styled.div`
   display: grid;
@@ -20,7 +21,7 @@ function FinancialResume() {
         <Heading as="h2">2.000.000 Kz</Heading>
       </SummaryBox>
 
-      <SummaryBox icon={<HiOutlineCreditCard />}>
+      <SummaryBox icon={<HiOutlineArrowNarrowDown />}>
         <Heading as="h4">Inadiplência</Heading>
         <Heading as="h2">8% (18 alunos)</Heading>
       </SummaryBox>

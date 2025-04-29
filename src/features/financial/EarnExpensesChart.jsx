@@ -111,13 +111,13 @@ function EarnExpensesChart() {
               tick={{ fill: colors.text }}
               tickLine={{ stroke: colors.text }}
             />
-            <Tooltip />
+            <Tooltip contentStyle={{ backgroundColor: colors.background }} />
             <CartesianGrid stroke="#92959936" vertical={false} />
             <Area
-              type="linear" // sem curvas
+              type="monotone"
               dataKey="earnings"
               stroke={colors.earnings.stroke}
-              fill="url(#colorEarnings)" // sombra com degradê
+              fill="url(#colorEarnings)"
               strokeWidth={2}
               dot={{
                 r: 3,
@@ -125,20 +125,23 @@ function EarnExpensesChart() {
                 stroke: colors.earnings.stroke,
               }}
               activeDot={{ r: 3 }}
+              name="Ganhos"
+              unit="Kz"
             />
             <Area
-              type="linear" // sem curvas
+              type="monotone"
               dataKey="expenses"
               stroke={colors.expenses.stroke}
-              fill="url(#colorExpenses)" // sombra com degradê
+              fill="url(#colorExpenses)"
               strokeWidth={2}
               dot={{
                 r: 3,
-                fill: colors.expenses.stroke,
-                stroke: "black",
-                strokeWidth: 1,
+                fill: colors.expenses.fill,
+                stroke: colors.expenses.stroke,
               }}
-              activeDot={{ r: 6 }}
+              activeDot={{ r: 3 }}
+              name="Despesas"
+              unit="Kz"
             />
           </AreaChart>
         </ResponsiveContainer>

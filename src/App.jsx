@@ -44,15 +44,26 @@ function App() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/students" element={<Students />} />
+            <Route path="/students/:studentId" element={<Student />} />
+            <Route
+              path="/students/:studentId/marks"
+              element={<StudentMark />}
+            />
+            <Route path="/students/:studentId/edit" element={<StudentEdit />} />
+            <Route path="students/add-student" element={<AddStudent />} />
             <Route path="/classes" element={<Classes />} />
             <Route path="/classes/:classId" element={<Class />} />
-            <Route path="/financial" element={<Financial />} />
+            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/teachers/:teacherId" element={<Teacher />} />
+            <Route path="/teachers/:teacherId/edit" element={<TeacherEdit />} />
+            <Route path="/teachers/add-teacher" element={<AddTeacher />} />
             <Route path="/human-resources" element={<HumanResources />} />
             <Route path="/human-resources/hire" element={<EmployeeHire />} />
             <Route
               path="/human-resources/employee/:employeeId"
               element={<Employee />}
-            />{" "}
+            />
             <Route
               path="/human-resources/employee/:employeeId/edit"
               element={<EditEmployee />}
@@ -65,18 +76,8 @@ function App() {
               path="/human-resources/leaves/:leaveId"
               element={<EmployeeLeaveDetail />}
             />
-            <Route path="/students" element={<Students />} />
-            <Route path="/students/:studentId" element={<Student />} />
-            <Route
-              path="/students/:studentId/marks"
-              element={<StudentMark />}
-            />
-            <Route path="/students/:studentId/edit" element={<StudentEdit />} />
-            <Route path="students/add-student" element={<AddStudent />} />
-            <Route path="/teachers" element={<Teachers />} />
-            <Route path="/teachers/:teacherId" element={<Teacher />} />
-            <Route path="/teachers/:teacherId/edit" element={<TeacherEdit />} />
-            <Route path="/teachers/add-teacher" element={<AddTeacher />} />
+            <Route path="/financial" element={<Financial />} />
+
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
