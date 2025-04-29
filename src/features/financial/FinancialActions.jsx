@@ -17,15 +17,20 @@ function FinancialActions() {
             <Menus.List>
               <Modal.Open opens="salary-form">
                 <Menus.Button icon={<HiPlus />}>Pagar Salário</Menus.Button>
+              </Modal.Open>{" "}
+              <Modal.Open opens="fee-form">
+                <Menus.Button icon={<HiPlus />}>Pagar Propina</Menus.Button>
               </Modal.Open>
-              <Menus.Button icon={<HiPlus />}>Pagar Propina</Menus.Button>
               <Menus.Button icon={<HiPlus />}>Criar Depesas</Menus.Button>
             </Menus.List>
           </Menus.Menu>
         </Menus>
       </div>
       <Modal.Window name="salary-form" buttonClose={true}>
-        <SalaryFeePaymentForm />
+        <SalaryFeePaymentForm isEmployee={true} />
+      </Modal.Window>{" "}
+      <Modal.Window name="fee-form" buttonClose={true}>
+        <SalaryFeePaymentForm isStudent={true} />
       </Modal.Window>
     </Modal>
   );

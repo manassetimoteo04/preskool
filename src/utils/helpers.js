@@ -1,7 +1,7 @@
 import { differenceInDays } from "date-fns";
 
 export const formatCurrency = (value) =>
-  new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
+  new Intl.NumberFormat("en", { style: "currency", currency: "AOA" }).format(
     value
   );
 
@@ -21,8 +21,8 @@ export function calcAge(year) {
 export function normalizeText(string) {
   return string
     ?.normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+    ?.replace(/[\u0300-\u036f]/g, "")
+    ?.toLowerCase();
 }
 
 export function calcDaysDiference(date1, date2) {
