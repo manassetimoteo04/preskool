@@ -1,83 +1,78 @@
-import Heading from "../../ui/Heading";
+/* eslint-disable no-unused-vars */
+import styled from "styled-components";
+import { useStudent } from "./useStudent";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../ui/Spinner";
 import Modal from "../../ui/Modal";
 import Row from "../../ui/Row";
-import Tag from "../../ui/Tag";
-import Spinner from "../../ui/Spinner";
-import { useStudent } from "./useStudent";
-import styled from "styled-components";
-import Button from "../../ui/Button";
+import Heading from "../../ui/Heading";
 import {
-  HiOutlineDocument,
-  HiOutlineDocumentDuplicate,
+  HiCog6Tooth,
+  HiOutlineAcademicCap,
+  HiOutlineAtSymbol,
+  HiOutlineBuildingOffice,
+  HiOutlineClock,
+  HiOutlineFaceSmile,
+  HiOutlineIdentification,
+  HiOutlineMapPin,
   HiOutlinePencil,
-  HiOutlineTrash,
+  HiOutlinePhone,
+  HiOutlineUser,
+  HiOutlineWallet,
+  HiPlus,
 } from "react-icons/hi2";
-import { formatDate } from "../../utils/helpers";
-import SeeStudentDocument from "./SeeStudentDocument";
-import ConfirmDelete from "../../ui/ConfirmDelete";
-import { useNavigate } from "react-router-dom";
-import { useDeleteStudent } from "./useDeleteStudent";
+import Button from "../../ui/Button";
+import DetailBox from "../../ui/DetailBox";
 import ProfileImg from "../../ui/ProfileImg";
+import Tag from "../../ui/Tag";
+import DetailRow from "../../ui/DetailRow";
+import { calcAge } from "../../utils/helpers";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import EmployeeNav from "../humanResources/EmployeeNav";
+import StudentNav from "./StudentNav";
+import { useState } from "react";
+import StudentOthersInfo from "./StudentOthersInfo";
+import StudentMarksDetail from "./StudentMarksDetail";
 
-const StyledDetailBox = styled.div`
-  background-color: var(--color-grey-0);
-
-  & > h4 {
-    background-color: var(--color-brand-100);
-    padding: 2rem 3rem;
-  }
-`;
-const StyledDetail = styled.div`
-  padding: 2rem 3rem;
+const StyledDetailsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 40rem 1fr;
+  gap: 2rem;
 `;
 
 const FlexBox = styled.div`
   display: flex;
   gap: 2rem;
-
   align-items: center;
-  & > span {
-    display: flex;
-    align-items: center;
-    font-size: 1.4rem;
-    gap: 0.3rem;
-  }
-  & > span > strong > svg {
-    font-size: 1%.4;
-  }
-  & > div {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    & > h1 {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-    }
-  }
-`;
-
-const GridBox = styled.div`
-  display: grid;
-  grid-template-columns: ${(props) => props.columns};
-  gap: 2rem;
-  padding: 2rem 0;
   & > div {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
   }
 `;
-
-const ButtonsAction = styled.div`
+const Detail = styled.div`
+  padding: 2rem;
   display: flex;
-  align-items: center;
-  justify-content: end;
+  flex-direction: column;
   gap: 1rem;
 `;
+const StyledConfigButton = styled.button`
+  background: none;
+  border: none;
+  transition: all 0.5s ease;
+  & > svg {
+    font-size: 2.4rem;
+  }
+  &:hover {
+    transform: rotate(180deg);
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 function StudentDetail() {
-  const { data, isLoading } = useStudent();
-  const { deleteStudent, isLoading: isDeleting } = useDeleteStudent();
+  const { data: student, isLoading } = useStudent();
+  const [activeTab, setActiveTab] = useState("");
   const navigate = useNavigate();
   if (isLoading) return <Spinner />;
   const {
@@ -97,137 +92,160 @@ function StudentDetail() {
     parent,
     province,
     id,
-  } = data;
+  } = student;
   const { name, phone, email, occupation, type } = parent;
   return (
     <Modal>
       <Row type="horizontal">
-        <Heading as="h2">Estudante #{data?.internNumber}</Heading>
+        <Heading as="h2">Estudante #{student?.internNumber}</Heading>
         <Button onClick={() => navigate("edit")}>
-          <HiOutlinePencil /> Editar informações
+          <HiOutlinePencil /> Editar
         </Button>
       </Row>
-      <StyledDetailBox>
-        <Heading as="h4">Informações Pessoais</Heading>
-
-        <StyledDetail>
-          <FlexBox>
-            <ProfileImg src={biUpload} />
-            <div>
-              <Heading as="h1">
-                {fullName}
-
-                <Tag type={status}>{status}</Tag>
-              </Heading>
+      <StyledDetailsGrid>
+        <Row>
+          <DetailBox>
+            <header>
               <FlexBox>
-                <span>{course}</span>
-                &mdash;
-                <span>{grade}ª Classe</span>
-                &mdash;
-                <span>{schoolPeriod}</span>
+                <ProfileImg
+                  src="/default-user.jpg"
+                  type={status ? "active" : "inactive"}
+                />
+                <div>
+                  <Row type="horizontal">
+                    <Tag type={status ? "active" : "inactive"}>
+                      {status ? "Activo" : "Inactivo"}
+                    </Tag>
+                  </Row>
+                  <Heading as="h2">{fullName}</Heading>
+                  <small>Aderido aos 12 de Jan de 2024</small>
+                  <div>
+                    <Modal.Open opens="license">
+                      <Button size="small">
+                        <HiPlus /> Criar licença
+                      </Button>
+                    </Modal.Open>
+                  </div>
+                </div>
               </FlexBox>
-            </div>
-          </FlexBox>
-          <GridBox columns="repeat(4,1fr)">
-            <div>
-              <strong>Nome Completo</strong>
-              <span>{fullName}</span>
-            </div>
-
-            <div>
-              <strong>Data de nascimento</strong>
-              <span>{formatDate(birthDate)}</span>
-            </div>
-            <div>
-              <strong>Província</strong>
-              <span>{province}</span>
-            </div>
-
-            <div>
-              <strong>Número de identificação</strong>
-              <span>{idNumber}</span>
-            </div>
-
-            <div>
-              <strong>Data de emissão</strong>
-              <span>{formatDate(emissionDate)}</span>
-            </div>
-            <div>
-              <strong>Residência actual</strong>
-              <span>{residence}</span>
-            </div>
-            <div>
-              <strong>Telefone</strong>
-              <span>{studentPhone}</span>
-            </div>
-            <div>
-              <strong>Sexo</strong>
-              <span>{gender === "m" ? "Masculino" : "Femenino"}</span>
-            </div>
-          </GridBox>
-        </StyledDetail>
-
-        <StyledDetail>
-          <FlexBox>
-            <div>
-              <Heading as="h3">Informações do Parente & Guardião</Heading>
-              <FlexBox>
-                <span>Relação</span>
-                &mdash;
+            </header>
+            <Detail>
+              <Heading as="h3">Informações básica</Heading>
+              <DetailRow>
                 <span>
-                  {type === "father"
-                    ? "Pai"
-                    : type === "mother"
-                    ? "Mãe"
-                    : "Outro"}
+                  <HiOutlineUser />
                 </span>
-              </FlexBox>
-            </div>
-          </FlexBox>
-          <GridBox columns="repeat(4,1fr)">
-            <div>
-              <strong>Nome Completo</strong>
-              <span>{name}</span>
-            </div>
+                <div>
+                  <strong>Gênero</strong>
+                  <span>{gender === "m" ? "Masculino" : "Femenino"} </span>
+                </div>
+              </DetailRow>{" "}
+              <DetailRow>
+                <span>
+                  <HiOutlineFaceSmile />
+                </span>
+                <div>
+                  <strong>Idade</strong>
+                  <span>{calcAge(birthDate)} anos </span>
+                </div>
+              </DetailRow>{" "}
+              <DetailRow>
+                <span>
+                  <HiOutlineIdentification />
+                </span>
+                <div>
+                  <strong>Número de Identificação</strong>
+                  <span>{idNumber}</span>
+                </div>
+              </DetailRow>
+            </Detail>
+          </DetailBox>
+          <DetailBox>
+            <header>
+              <Heading as="h3">Informações acadêmicas</Heading>
+            </header>
+            <Detail>
+              <DetailRow>
+                <span>
+                  <HiOutlineWallet />
+                </span>
+                <div>
+                  <strong>Área de Formação</strong>
+                  <span>{course} </span>
+                </div>
+              </DetailRow>
+              <DetailRow>
+                <span>
+                  <HiOutlineBuildingOffice />
+                </span>
+                <div>
+                  <strong>Classe</strong>
+                  <span>{grade}ª Classe </span>
+                </div>
+              </DetailRow>
+              <DetailRow>
+                <span>
+                  <HiOutlineClock />
+                </span>
+                <div>
+                  <strong>Período</strong>
+                  <span>{schoolPeriod} </span>
+                </div>
+              </DetailRow>
+            </Detail>
+          </DetailBox>
+          <DetailBox>
+            <header>
+              <Heading as="h3">Contactos</Heading>
+            </header>
+            <Detail>
+              <DetailRow>
+                <span>
+                  <HiOutlineAtSymbol />
+                </span>
+                <div>
+                  <strong>Email</strong>
+                  <span> manassetimoteo4@gmail.com</span>
+                </div>
+              </DetailRow>
+              <DetailRow>
+                <span>
+                  <HiOutlinePhone />
+                </span>
+                <div>
+                  <strong>Telefone</strong>
+                  <span>{studentPhone} </span>
+                </div>
+              </DetailRow>{" "}
+            </Detail>
+          </DetailBox>{" "}
+        </Row>
+        <Row>
+          <Row type="horizontal">
+            <StudentNav active={activeTab} setActive={setActiveTab} />
 
-            <div>
-              <strong>Telefone</strong>
-              <span>{phone}</span>
-            </div>
-            <div>
-              <strong>Email</strong>
-              <span>{email}</span>
-            </div>
-
-            <div>
-              <strong>Ocupação</strong>
-              <span>{occupation}</span>
-            </div>
-          </GridBox>
-        </StyledDetail>
-        <StyledDetail>
-          <ButtonsAction>
-            <Modal.Open opens="documents">
-              <Button type="secondary">
-                <HiOutlineDocument /> Documentos
-              </Button>
-            </Modal.Open>
-            <Button onClick={() => navigate("marks")}>
-              <HiOutlineDocumentDuplicate /> Ver Notas
-            </Button>
-            <Modal.Open opens="confirmDelete">
-              <Button type="danger">
-                <HiOutlineTrash /> Excluir aluno
-              </Button>
-            </Modal.Open>
-          </ButtonsAction>
-        </StyledDetail>
-      </StyledDetailBox>
+            <StyledConfigButton>
+              <HiCog6Tooth />
+            </StyledConfigButton>
+            {/* <Modal.Window name="permissions" buttonClose={true}>
+                <UserPermissionsBox />
+              </Modal.Window> */}
+          </Row>
+          {activeTab === "informations" && (
+            <StudentOthersInfo student={student} />
+          )}{" "}
+          {activeTab === "marks" && <StudentMarksDetail />}
+          {/* {activeTab === "missings" && (
+            <EmployeeMissingsTab employee={employee} />
+          )}{" "}
+          {activeTab === "permissions" && <UserPermissionsBox />} */}
+        </Row>
+      </StyledDetailsGrid>
       <Modal.Window name="documents" buttonClose={true}>
-        <SeeStudentDocument images={[biUpload, docUpload]} />
+        {/* <SeeStudentDocument images={[biUpload, docUpload]} /> */}
       </Modal.Window>{" "}
       <Modal.Window name="confirmDelete">
-        <ConfirmDelete
+        {/* <ConfirmDelete
           onConfirm={() =>
             deleteStudent(id, {
               onSuccess: () => navigate("/students", { replace: true }),
@@ -236,7 +254,7 @@ function StudentDetail() {
           isLoading={isDeleting}
         >
           Tens certeza que deseja exluir esse estudante?
-        </ConfirmDelete>
+        </ConfirmDelete> */}
       </Modal.Window>
     </Modal>
   );

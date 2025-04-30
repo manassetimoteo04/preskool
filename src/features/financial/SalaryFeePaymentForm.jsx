@@ -213,23 +213,23 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
       employeeId: currentSelect.id,
       baseSalary: currentSelect.baseSalary,
       bonus: 0,
-      deductions: 0.0,
+      deductions: 3500.0,
       totalAmount: currentSelect.baseSalary,
       paymentDate: new Date().toDateString(),
-      period: "2025-04",
+      period: "2025-11",
       paymentMethod: paymentType,
-      status: "Paid", // or "Pending", "Late"
+      status: "Late", // or "Pending", "Late"
       notes,
     };
     const feePayment = {
       studentId: currentSelect.id,
       feePaymentBase: currentSelect.feePaymentBase,
-      fineDelayFee: 0.0,
+      fineDelayFee: 1000.0,
       totalAmount: currentSelect.feePaymentBase,
       paymentDate: new Date().toDateString(),
-      period: "2025-02",
+      period: "2024-12",
       paymentMethod: paymentType,
-      status: "Paid", // or "Pending", "Late"
+      status: "Late", // or "Pending", "Late"
       notes,
     };
     isEmployee

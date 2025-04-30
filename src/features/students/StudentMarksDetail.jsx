@@ -1,142 +1,120 @@
-import Heading from "../../ui/Heading";
-import Row from "../../ui/Row";
-import Tag from "../../ui/Tag";
-import Spinner from "../../ui/Spinner";
-import { useStudent } from "./useStudent";
 import styled from "styled-components";
-import Button from "../../ui/Button";
-import { HiArrowLeft } from "react-icons/hi2";
-
-import { useNavigate } from "react-router-dom";
-import StudentMarkTable from "./StudentMarkTable";
-const StyledDetailBox = styled.div`
-  background-color: var(--color-grey-0);
-
-  & > h4 {
-    background-color: var(--color-brand-100);
-    padding: 2rem 3rem;
-  }
-`;
-const StyledDetail = styled.div`
-  padding: 2rem 3rem;
-`;
-const Img = styled.img`
-  object-fit: cover;
-  width: 10rem;
-  height: 10rem;
-  border-radius: 50%;
-  border: 4px solid
-    var(--color-${(props) => (props.type === "active" ? "yellow" : "red")}-100);
-`;
-const FlexBox = styled.div`
+import StudentsMarksTable from "../../ui/StudentsMarksTable";
+import Heading from "../../ui/Heading";
+import Select from "../../ui/Select";
+import { useState } from "react";
+import { HiArrowDown, HiArrowUp } from "react-icons/hi2";
+const StyledHeader = styled.header`
+  padding: 2rem;
   display: flex;
-  gap: 2rem;
-  margin-bottom: 1rem;
-  align-items: center;
-  & > span {
-    display: flex;
-    align-items: center;
-    font-size: 1.4rem;
-    gap: 0.3rem;
-  }
-  & > span > strong > svg {
-    font-size: 1%.4;
-  }
-  & > div {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    & > h1 {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-    }
-  }
+  justify-content: space-between;
 `;
 
-const array = Array.from({ length: 9 }, (_, index) => index);
+const SpanIcon = styled.span`
+  color: var(--color-${(props) => (!props.isApprovad ? "brand" : "red")}-500);
+`;
+
+const studentGrades = [
+  {
+    subject: "Math",
+    terms: [
+      { term: "1st", mac: 12.0, mpp: 13.5, final: 12.8, approval: "35%" },
+      { term: "2nd", mac: 10.5, mpp: 11.0, final: 10.8, approval: "72%" },
+      { term: "3rd", mac: 14.0, mpp: 13.0, final: 13.5, approval: "90%" },
+    ],
+  },
+  {
+    subject: "Physics",
+    terms: [
+      { term: "1st", mac: 9.0, mpp: 8.5, final: 8.7, approval: "60%" },
+      { term: "2nd", mac: 11.0, mpp: 10.5, final: 10.7, approval: "70%" },
+      { term: "3rd", mac: 10.0, mpp: 9.5, final: 9.7, approval: "66%" },
+    ],
+  },
+  {
+    subject: "Chemistry",
+    terms: [
+      { term: "1st", mac: 8.5, mpp: 7.0, final: 7.5, approval: "55%" },
+      { term: "2nd", mac: 10.0, mpp: 9.0, final: 9.5, approval: "65%" },
+      { term: "3rd", mac: 11.0, mpp: 10.5, final: 10.7, approval: "72%" },
+    ],
+  },
+  {
+    subject: "Portuguese",
+    terms: [
+      { term: "1st", mac: 13.0, mpp: 14.0, final: 13.5, approval: "92%" },
+      { term: "2nd", mac: 12.0, mpp: 13.0, final: 12.5, approval: "85%" },
+      { term: "3rd", mac: 14.5, mpp: 15.0, final: 14.7, approval: "95%" },
+    ],
+  },
+  {
+    subject: "History",
+    terms: [
+      { term: "1st", mac: 11.0, mpp: 10.0, final: 10.5, approval: "70%" },
+      { term: "2nd", mac: 13.0, mpp: 13.5, final: 13.2, approval: "88%" },
+      { term: "3rd", mac: 12.0, mpp: 12.5, final: 12.3, approval: "80%" },
+    ],
+  },
+];
+
 function StudentMarksDetail() {
-  const { data, isLoading } = useStudent();
-  const navigate = useNavigate();
-  if (isLoading) return <Spinner />;
-  const {
-    biUpload,
-    fullName,
-    status,
-    schoolYear,
-    course,
-    grade,
-    schoolPeriod,
-  } = data;
-
+  const [currentTerm, setCurrentTerm] = useState(0);
   return (
-    <Row>
-      <Row type="horizontal">
-        <Heading as="h2">Notas do Estudante #{data?.internNumber}</Heading>
-        <Button onClick={() => navigate(-1)}>
-          <HiArrowLeft /> Voltar
-        </Button>
-      </Row>
-      <StyledDetailBox>
-        <Heading as="h4">Notas do aluno #{data?.internNumber}</Heading>
-
-        <StyledDetail>
-          <FlexBox>
-            <Img src={biUpload} />
-            <div>
-              <Heading as="h1">
-                {fullName}
-
-                <Tag type={status}>{status}</Tag>
-              </Heading>
-              <FlexBox>
-                <span>Taxa de aproveitamento</span>
-                &mdash;
-                <span>40%</span>
-              </FlexBox>
-            </div>
-          </FlexBox>
-        </StyledDetail>
-        <StyledDetail>
-          <FlexBox>
-            <div>
-              <Heading as="h3">Ano lectivo &mdash; {schoolYear}</Heading>
-              <FlexBox>
-                <span>{course}</span>
-                &mdash;
-                <span>{grade}ª Classe</span>
-                &mdash;
-                <span>{schoolPeriod}</span>
-              </FlexBox>
-            </div>
-          </FlexBox>
-          <StudentMarkTable>
-            <StudentMarkTable.Header />
-            <StudentMarkTable.Body
-              data={array}
-              render={() => (
-                <StudentMarkTable.Row>
-                  <span>Língua Portuguesa</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                  <span>10</span>
-                </StudentMarkTable.Row>
+    <StudentsMarksTable columns="3fr 2fr 2fr 2fr 1.5fr 2rem">
+      <StyledHeader>
+        <Heading as="h3">Notas do aluno</Heading>
+        <Select
+          value={currentTerm}
+          onChange={(e) => setCurrentTerm(+e.target.value)}
+        >
+          <option value="0">I Trimestre</option>
+          <option value="1">II Trimestre</option>
+          <option value="2">III Trimestre</option>
+        </Select>
+      </StyledHeader>
+      <StudentsMarksTable.Header>
+        <span>Disciplina</span>
+        <span>MAC</span>
+        <span>MPP</span>
+        <span>MF</span>
+        <span>Aprov.</span>
+        <span></span>
+      </StudentsMarksTable.Header>
+      <StudentsMarksTable.Body
+        data={studentGrades}
+        render={(grade) => (
+          <StudentsMarksTable.Row>
+            <span>{grade.subject}</span>
+            <SpanIcon isApprovad={grade.terms[currentTerm].mac <= 10}>
+              {grade.terms[currentTerm].mac}
+            </SpanIcon>{" "}
+            <SpanIcon isApprovad={grade.terms[currentTerm].mpp <= 10}>
+              {grade.terms[currentTerm].mpp}
+            </SpanIcon>{" "}
+            <SpanIcon
+              isApprovad={
+                +grade.terms[currentTerm].approval
+                  .split("")
+                  .slice(0, -1)
+                  .join("") <= 50
+              }
+            >
+              {grade.terms[currentTerm].approval}
+            </SpanIcon>{" "}
+            <SpanIcon isApprovad={grade.terms[currentTerm].mac <= 10}>
+              {grade.terms[currentTerm].mac}
+            </SpanIcon>{" "}
+            <SpanIcon isApprovad={grade.terms[currentTerm].final <= 10}>
+              {grade.terms[currentTerm].final <= 10 ? (
+                <HiArrowDown />
+              ) : (
+                <HiArrowUp />
               )}
-            />
-          </StudentMarkTable>
-        </StyledDetail>
-      </StyledDetailBox>
-    </Row>
+            </SpanIcon>
+          </StudentsMarksTable.Row>
+        )}
+      />
+    </StudentsMarksTable>
   );
 }
 

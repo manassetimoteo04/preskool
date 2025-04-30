@@ -23,7 +23,8 @@ export function useFeeSalaryLatePayments() {
         else return;
       })
       .map((s) => (s = { ...s, isTudent: true })) || [];
-  console.log(filteredEmployees);
+  console.log(recentPayments);
+  console.log(filteredStudents);
   return {
     latePayments: [...filteredEmployees, ...filteredStudents],
     isLoading: isLoadingEmployees || isLoadingPayments || isLoadingStudents,

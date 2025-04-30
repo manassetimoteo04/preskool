@@ -63,7 +63,6 @@ export async function getStudent(id) {
     const docSnap = await getDoc(docRef);
 
     if (docSnap?.exists()) {
-      console.log("studens", docSnap);
       return { ...docSnap.data(), id: docSnap.id };
     } else {
       throw new Error("Nenhum estudante encontrado");

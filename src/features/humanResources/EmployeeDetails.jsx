@@ -48,7 +48,7 @@ const FlexBox = styled.div`
     flex-direction: column;
     gap: 0.5rem;
   }
-}`;
+`;
 const Detail = styled.div`
   padding: 2rem;
   display: flex;

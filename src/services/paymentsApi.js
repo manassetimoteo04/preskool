@@ -36,7 +36,7 @@ export async function getEmployeePayments(id) {
   try {
     const q = query(
       collection(db, "salaryPayments"),
-      where("employeId", "==", id)
+      where("employeeId", "==", id)
     );
     const snapshot = await getDocs(q);
 
@@ -66,6 +66,8 @@ export async function getAllPayments() {
       id: doc.id,
       ...doc.data(),
     }));
+
+    console.log(data, data2);
     return [...data, ...data2];
   } catch (error) {
     console.error("Erro ao buscar pagamentos:", error.message);

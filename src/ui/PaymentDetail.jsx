@@ -7,6 +7,7 @@ import { HiOutlinePrinter } from "react-icons/hi2";
 import Button from "./Button";
 import { formatCurrency, formatDate } from "../utils/helpers";
 import { useEmployee } from "../features/humanResources/useEmployee";
+import Spinner from "./Spinner";
 
 const StyledPaymentDetail = styled.div`
   display: flex;
@@ -53,7 +54,8 @@ const DetailBox = styled.div`
 `;
 
 function PaymentDetail({ payment }) {
-  const { data } = useEmployee(payment.employeId);
+  const { data, isLoading } = useEmployee(payment.employeeId);
+  if (isLoading) return <Spinner />;
   return (
     <Row>
       <DetailBox>
