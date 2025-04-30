@@ -14,7 +14,7 @@ const StyledHeader = styled.header`
   grid-template-columns: ${(props) => props.columns};
   padding: 1rem 3rem;
   font-weight: 600;
-  column-gap: 1rem;
+  column-gap: 2rem;
 `;
 
 const StyledRow = styled.div`
@@ -22,7 +22,7 @@ const StyledRow = styled.div`
   align-items: center;
   grid-template-columns: ${(props) => props.columns};
   padding: 1rem 3rem;
-  column-gap: 1rem;
+  column-gap: 2rem;
   position: relative;
   border-bottom: 1px solid var(--color-grey-100);
 `;

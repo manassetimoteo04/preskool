@@ -25,7 +25,7 @@ const StyledIcon = styled.div`
 
   & > svg {
     font-size: 4rem;
-    color: var(--color-${(props) => props.color}-700);
+    color: var(--color-brand-0);
   }
 `;
 function SummaryBox({ icon, color, children }) {

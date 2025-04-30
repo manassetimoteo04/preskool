@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import Heading from "../../ui/Heading";
 import styled from "styled-components";
+import { useDarkMode } from "../../context/DarkModeContext";
 const fakeData = [
   { label: "Jan 09", earnings: 480, expenses: 20 },
   { label: "Jan 10", earnings: 580, expenses: 100 },
@@ -53,7 +54,7 @@ const StyledChart = styled.div`
   }
 `;
 function EarnExpensesChart() {
-  const isDarkMode = true;
+  const { isDarkMode } = useDarkMode();
   const colors = isDarkMode
     ? {
         earnings: { stroke: "#4f46e5", fill: "#4f46e5" },

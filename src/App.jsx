@@ -27,6 +27,8 @@ import Employee from "./pages/Employee";
 import EditEmployee from "./pages/EditEmployee";
 import EmployeeLeaves from "./pages/EmployeeLeaves";
 import EmployeeLeaveDetail from "./pages/EmployeeLeaveDetail";
+import { DarkModeContextProvider } from "./context/DarkModeContext";
+import FinancialLatePayments from "./pages/FinancialLatePayments";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -37,72 +39,84 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <GlobalStyles />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/students" element={<Students />} />
-            <Route path="/students/:studentId" element={<Student />} />
-            <Route
-              path="/students/:studentId/marks"
-              element={<StudentMark />}
-            />
-            <Route path="/students/:studentId/edit" element={<StudentEdit />} />
-            <Route path="students/add-student" element={<AddStudent />} />
-            <Route path="/classes" element={<Classes />} />
-            <Route path="/classes/:classId" element={<Class />} />
-            <Route path="/teachers" element={<Teachers />} />
-            <Route path="/teachers/:teacherId" element={<Teacher />} />
-            <Route path="/teachers/:teacherId/edit" element={<TeacherEdit />} />
-            <Route path="/teachers/add-teacher" element={<AddTeacher />} />
-            <Route path="/human-resources" element={<HumanResources />} />
-            <Route path="/human-resources/hire" element={<EmployeeHire />} />
-            <Route
-              path="/human-resources/employee/:employeeId"
-              element={<Employee />}
-            />
-            <Route
-              path="/human-resources/employee/:employeeId/edit"
-              element={<EditEmployee />}
-            />
-            <Route
-              path="/human-resources/leaves"
-              element={<EmployeeLeaves />}
-            />
-            <Route
-              path="/human-resources/leaves/:leaveId"
-              element={<EmployeeLeaveDetail />}
-            />
-            <Route path="/financial" element={<Financial />} />
+    <DarkModeContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <GlobalStyles />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/students" element={<Students />} />
+              <Route path="/students/:studentId" element={<Student />} />
+              <Route
+                path="/students/:studentId/marks"
+                element={<StudentMark />}
+              />
+              <Route
+                path="/students/:studentId/edit"
+                element={<StudentEdit />}
+              />
+              <Route path="students/add-student" element={<AddStudent />} />
+              <Route path="/classes" element={<Classes />} />
+              <Route path="/classes/:classId" element={<Class />} />
+              <Route path="/teachers" element={<Teachers />} />
+              <Route path="/teachers/:teacherId" element={<Teacher />} />
+              <Route
+                path="/teachers/:teacherId/edit"
+                element={<TeacherEdit />}
+              />
+              <Route path="/teachers/add-teacher" element={<AddTeacher />} />
+              <Route path="/human-resources" element={<HumanResources />} />
+              <Route path="/human-resources/hire" element={<EmployeeHire />} />
+              <Route
+                path="/human-resources/employee/:employeeId"
+                element={<Employee />}
+              />
+              <Route
+                path="/human-resources/employee/:employeeId/edit"
+                element={<EditEmployee />}
+              />
+              <Route
+                path="/human-resources/leaves"
+                element={<EmployeeLeaves />}
+              />
+              <Route
+                path="/human-resources/leaves/:leaveId"
+                element={<EmployeeLeaveDetail />}
+              />
+              <Route path="/financial" element={<Financial />} />
+              <Route
+                path="/financial/late-payments"
+                element={<FinancialLatePayments />}
+              />
 
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: "8px" }}
-        toastOptions={{
-          success: {
-            duration: 3000,
-          },
-          error: { duration: 5000 },
-          loading: { duration: 3000 },
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            backgroundColor: "var(--color-grey-0)",
-            color: "var(--color-grey-700)",
-          },
-        }}
-      />
-    </QueryClientProvider>
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: {
+              duration: 3000,
+            },
+            error: { duration: 5000 },
+            loading: { duration: 3000 },
+            style: {
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+              backgroundColor: "var(--color-grey-0)",
+              color: "var(--color-grey-700)",
+            },
+          }}
+        />
+      </QueryClientProvider>
+    </DarkModeContextProvider>
   );
 }
 

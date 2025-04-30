@@ -5,6 +5,8 @@ import Tag from "./Tag";
 import AlertMessage from "./AlertMessage";
 import { HiOutlinePrinter } from "react-icons/hi2";
 import Button from "./Button";
+import { formatCurrency, formatDate } from "../utils/helpers";
+import { useEmployee } from "../features/humanResources/useEmployee";
 
 const StyledPaymentDetail = styled.div`
   display: flex;
@@ -50,7 +52,8 @@ const DetailBox = styled.div`
   }
 `;
 
-function PaymentDetail() {
+function PaymentDetail({ payment }) {
+  const { data } = useEmployee(payment.employeId);
   return (
     <Row>
       <DetailBox>
@@ -62,43 +65,49 @@ function PaymentDetail() {
             <>
               <strong>Status</strong>
               <div>
-                <Tag type="pending">Pendente</Tag>
+                <Tag type="pending">{payment.status}</Tag>
               </div>
             </>{" "}
             <>
               <strong>ID Pagamento</strong>
               <div>
-                <span>IDSDSDGSDFG</span>
+                <span>{payment.id.toUpperCase()}</span>
               </div>
             </>{" "}
             <>
               <strong>Data</strong>
               <div>
-                <span>15:20 - 12 Jan 2023 </span>
+                <span>{formatDate(payment.paymentDate)} </span>
               </div>
             </>{" "}
             <>
               <strong>Montante</strong>
               <div>
-                <span>100.000,00 KZ</span>
+                <span>
+                  {formatCurrency(payment.totalAmount - payment.deductions)}
+                </span>
               </div>
             </>{" "}
             <>
               <strong>Referente ao mês</strong>
               <div>
-                <span>Abril</span>
+                <span>
+                  {new Intl.DateTimeFormat("pt", {
+                    month: "long",
+                  }).format(new Date(payment.paymentDate))}
+                </span>
               </div>
             </>{" "}
             <>
               <strong>Destinatário</strong>
               <div>
-                <span>Manasse Timóteo</span>
+                <span>{data.fullName}</span>
               </div>
             </>{" "}
             <>
               <strong>Número da conta</strong>
               <div>
-                <span>100.123.44.5.00</span>
+                <span>{data.bankAccNumber}</span>
               </div>
             </>{" "}
           </PaymentDetailBox>

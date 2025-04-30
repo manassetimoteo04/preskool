@@ -3,12 +3,14 @@ import ButtonIcon from "./ButtonIcon";
 import {
   HiOutlineBell,
   HiOutlineCog6Tooth,
+  HiOutlineMoon,
   HiOutlineSun,
   HiOutlineUser,
 } from "react-icons/hi2";
 import Menus from "./Menus";
 import { HiOutlineLogout } from "react-icons/hi";
 import UserBox from "./UserBox";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const StyledHeader = styled.header`
   padding: 1rem;
@@ -21,11 +23,12 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
+  const { toggleDarkMode, isDarkMode } = useDarkMode();
   return (
     <Menus>
       <StyledHeader>
-        <ButtonIcon>
-          <HiOutlineSun />
+        <ButtonIcon onClick={toggleDarkMode}>
+          {isDarkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
         </ButtonIcon>
         <ButtonIcon>
           <HiOutlineBell />

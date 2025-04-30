@@ -80,7 +80,7 @@ const StyledPopupList = styled.div`
   width: 100%;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-grey-100);
-  height: 20rem;
+  max-height: 20rem;
   overflow: auto;
   z-index: 9999999999;
   border-radius: var(--border-radius-sm);
@@ -117,6 +117,7 @@ const PayTypeButton = styled.button`
     props.active &&
     css`
       background-color: var(--color-brand-800);
+      color: var(--color-brand-0);
       &:hover {
         background-color: var(--color-brand-700);
         cursor: pointer;
@@ -189,8 +190,8 @@ const NoteInput = styled.input`
 //   },
 // ];
 
-function SalaryFeePaymentForm({ onCloseModal, isEmployee }) {
-  const [currentSelect, setcurrentSelect] = useState(null);
+function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
+  const [currentSelect, setcurrentSelect] = useState(current);
   const [paymentType, setPaymentType] = useState("Bank Transfer");
   const [query, setQuery] = useState("");
   const [notes, setNotes] = useState("");
@@ -202,14 +203,14 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee }) {
     ? employees?.filter((el) =>
         normalizeText(el.fullName)?.startsWith(normalizeText(query))
       )
-    : students.filter((el) =>
+    : students?.filter((el) =>
         normalizeText(el.fullName)?.startsWith(normalizeText(query))
       );
 
   function handlePayment() {
     if (!notes) return;
     const salaryPayment = {
-      employeId: currentSelect.id,
+      employeeId: currentSelect.id,
       baseSalary: currentSelect.baseSalary,
       bonus: 0,
       deductions: 0.0,
@@ -226,7 +227,7 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee }) {
       fineDelayFee: 0.0,
       totalAmount: currentSelect.feePaymentBase,
       paymentDate: new Date().toDateString(),
-      period: "2025-04",
+      period: "2025-02",
       paymentMethod: paymentType,
       status: "Paid", // or "Pending", "Late"
       notes,
@@ -260,8 +261,13 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee }) {
                     <div key={e.id} onClick={() => setcurrentSelect(e)}>
                       <SmallUserImg src={e.biDocument || "/default-user.jpg"} />
                       <StyledConcatedBox>
-                        <p>{e.fullName}</p>
-                        <span>{e.employeeFunction}</span>
+                        <p>{e["fullName"]}</p>
+                        <span>
+                          {e[isEmployee ? "employeeFunction" : "course"]}
+                          {!isEmployee
+                            ? ` - ${e.grade}ª Classe - ${e.schoolPeriod}`
+                            : ""}
+                        </span>
                       </StyledConcatedBox>
                     </div>
                   ))
@@ -291,7 +297,6 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee }) {
                 <strong>
                   <HiOutlineMail />{" "}
                   {currentSelect[isEmployee ? "emailAddress" : ""]}
-                  manassetimoteo4@gmail.com
                 </strong>
                 <strong>
                   <HiOutlinePhone />{" "}
