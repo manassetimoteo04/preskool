@@ -1,4 +1,11 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 export async function getSettings(settingName) {
@@ -14,9 +21,19 @@ export async function getSettings(settingName) {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(data);
     return data[0];
   } catch (error) {
     throw new Error(error.message);
+  }
+}
+
+export async function updateSettings({ settingId, data }) {
+  try {
+    const docRef = doc(db, "settings", settingId);
+    await updateDoc(docRef, data);
+  } catch (error) {
+    throw new Error(
+      "Ocorreu um erro ao actualizar configurações, tente novamente"
+    );
   }
 }
