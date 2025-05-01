@@ -21,9 +21,34 @@ export async function getSettings(settingName) {
       id: doc.id,
       ...doc.data(),
     }));
+    if (!data[0])
+      throw new Error(
+        "Erro ao buscar configurações, verifique a sua conexão de internet e tente novamente"
+      );
     return data[0];
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(
+      "  Erro ao buscar configurações, verifique a sua conexão de internet e tente novamente"
+    );
+  }
+}
+export async function getRolesSettings() {
+  try {
+    const snapshot = await getDocs(collection(db, "roles"));
+
+    const data = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    if (!data.length)
+      throw new Error(
+        "Erro ao buscar roles, verifique a sua conexão de internet e tente novamente"
+      );
+    return data;
+  } catch (error) {
+    throw new Error(
+      "  Erro ao buscar roles, verifique a sua conexão de internet e tente novamente"
+    );
   }
 }
 

@@ -14,6 +14,7 @@ const StyledNavLink = styled.a`
     props.active &&
     css`
       background-color: var(--color-brand-700);
+      color: var(--color-brand-0);
       &:hover {
         background-color: var(--color-brand-800);
       }

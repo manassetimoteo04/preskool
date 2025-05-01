@@ -32,7 +32,7 @@ export async function createNewEmployee(employeeData) {
       AddStudent: true,
       manageClassSubject: false,
     };
-    await addDoc(collection(db, "permissions"), permissions);
+    await addDoc(collection(db, "singlePermissions"), permissions);
     return data;
   } catch (error) {
     console.error("Erro ao cadastrar professores:", error.message);
@@ -200,4 +200,3 @@ export async function updateEmployeeLeave({ editId, data }) {
     throw new Error("Ocorreu um erro ao editar licença, tente novamente");
   }
 }
-

@@ -25,7 +25,7 @@ function SettingMenu() {
       <ul>
         <li>
           <MenuNavLink href="#general">
-            <HiOutlineFolder /> Configurações Geris
+            <HiOutlineFolder /> Configurações Gerais
           </MenuNavLink>
         </li>
         <li>

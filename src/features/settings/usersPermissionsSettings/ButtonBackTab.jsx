@@ -1,0 +1,28 @@
+import { HiArrowLeft } from "react-icons/hi";
+import styled from "styled-components";
+import { useCurrentTab } from "./TabContext";
+
+const StyledButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 2rem;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-sm);
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+`;
+function ButtonBackTab() {
+  const { setCurrentTab } = useCurrentTab();
+  return (
+    <StyledButton onClick={() => setCurrentTab("")}>
+      <HiArrowLeft />
+    </StyledButton>
+  );
+}
+
+export default ButtonBackTab;

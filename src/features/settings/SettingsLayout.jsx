@@ -2,6 +2,8 @@ import styled from "styled-components";
 import SettingMenu from "./SettingMenu";
 import { useEffect, useState } from "react";
 import GeneralSettingTab from "./GeneralSettingTab";
+import UsersPermissionsSettingTab from "./usersPermissionsSettings/UsersPermissionsSettingTab";
+import { TabContextProvider } from "./usersPermissionsSettings/TabContext";
 
 const StyledSettingLayout = styled.div`
   background-color: var(--color-grey-0);
@@ -23,10 +25,15 @@ function SettingsLayout() {
     });
   }, [hash, setHash]);
   return (
-    <StyledSettingLayout>
-      <SettingMenu />
-      <MainSetting>{hash === "#general" && <GeneralSettingTab />}</MainSetting>
-    </StyledSettingLayout>
+    <TabContextProvider>
+      <StyledSettingLayout>
+        <SettingMenu />
+        <MainSetting>
+          {hash === "#general" && <GeneralSettingTab />}
+          {hash === "#permissions" && <UsersPermissionsSettingTab />}
+        </MainSetting>
+      </StyledSettingLayout>
+    </TabContextProvider>
   );
 }
 
