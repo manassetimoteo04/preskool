@@ -91,6 +91,9 @@ function StudentMarksDetail() {
             <SpanIcon isApprovad={grade.terms[currentTerm].mpp <= 10}>
               {grade.terms[currentTerm].mpp}
             </SpanIcon>{" "}
+            <SpanIcon isApprovad={grade.terms[currentTerm].final <= 10}>
+              {grade.terms[currentTerm].final}
+            </SpanIcon>{" "}
             <SpanIcon
               isApprovad={
                 +grade.terms[currentTerm].approval
@@ -100,9 +103,6 @@ function StudentMarksDetail() {
               }
             >
               {grade.terms[currentTerm].approval}
-            </SpanIcon>{" "}
-            <SpanIcon isApprovad={grade.terms[currentTerm].mac <= 10}>
-              {grade.terms[currentTerm].mac}
             </SpanIcon>{" "}
             <SpanIcon isApprovad={grade.terms[currentTerm].final <= 10}>
               {grade.terms[currentTerm].final <= 10 ? (

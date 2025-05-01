@@ -224,9 +224,6 @@ function StudentDetail() {
           <Row type="horizontal">
             <StudentNav active={activeTab} setActive={setActiveTab} />
 
-            <StyledConfigButton>
-              <HiCog6Tooth />
-            </StyledConfigButton>
             {/* <Modal.Window name="permissions" buttonClose={true}>
                 <UserPermissionsBox />
               </Modal.Window> */}

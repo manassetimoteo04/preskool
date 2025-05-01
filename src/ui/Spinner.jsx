@@ -1,45 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-// const turn = keyframes`
-// from{
-//   transform: rotate(0deg);
-//   animation-duration:0.5s;
-// }
-// to{
-//   transform: rotate(360deg);
-//   animation-duration:2s;
-
-// }
-// `;
-
-// const StyledSpinnerContainer = styled.div`
-//   width: 100%;
-//   grid-row: 2/ -1;
-//   display: flex;
-//   padding: 5rem;
-//   align-items: center;
-//   justify-content: center;
-// `;
-// const StyledSpinner = styled.div`
-//   width: 5.5rem;
-//   height: 5.5rem;
-//   border-radius: 50%;
-//   border: 3px solid var(--color-brand-600);
-//   border-bottom-color: transparent;
-//   border-top-color: transparent;
-//   animation: ${turn} 1s ease infinite;
-//   z-index: 1;
-// `;
-
-// function Spinner() {
-//   return (
-//     <StyledSpinnerContainer>
-//       <StyledSpinner />
-//     </StyledSpinnerContainer>
-//   );
-// }
-/* HTML: <div class="loader"></div> */
-
 const l201 = keyframes`
 0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
    12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}

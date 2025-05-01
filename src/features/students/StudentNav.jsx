@@ -1,6 +1,6 @@
 import {
-  HiOutlineArchiveBoxArrowDown,
   HiOutlineBookmark,
+  HiOutlineCog6Tooth,
   HiOutlineExclamationCircle,
 } from "react-icons/hi2";
 import DetailsNav from "../../ui/DetailsNav";
@@ -29,13 +29,13 @@ function StudentNav({ active, setActive }) {
       </li>{" "}
       <li>
         <DetailNavButton
-          activetab={(active === "missings").toString()}
-          onClick={() => setActive("missings")}
+          activetab={(active === "configurations").toString()}
+          onClick={() => setActive("configurations")}
         >
-          <HiOutlineArchiveBoxArrowDown />
-          Faltas
+          <HiOutlineCog6Tooth />
+          Configurações
         </DetailNavButton>
-      </li>
+      </li>{" "}
     </DetailsNav>
   );
 }
