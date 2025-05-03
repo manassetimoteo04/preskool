@@ -36,7 +36,10 @@ function EditSettingsForm({ onCloseModal, label, value, name, settingId }) {
   } = useForm({ defaultValues: value });
   const { updateSettings, isLoading } = useUpdateSettings();
   function onSubmit(data) {
-    updateSettings({ settingId, data }, { onSuccess: onCloseModal });
+    updateSettings(
+      { settingId, data, collectionName: "settings" },
+      { onSuccess: onCloseModal }
+    );
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

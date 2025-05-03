@@ -30,8 +30,8 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100dvh;
-  overflow-y: scroll;
+  height: 100vh; /* Garantir que o Overlay ocupe toda a altura da tela */
+  overflow-y: auto; /* Permitir rolagem no Overlay */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,6 +39,7 @@ const Overlay = styled.div`
 
   animation: ${OpacityAnimation} 0.5s ease;
 `;
+
 const StyledWindow = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-200);
@@ -47,11 +48,14 @@ const StyledWindow = styled.div`
   flex-direction: column;
   border-radius: var(--border-radius-sm);
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 `;
+
 const StyledButtonClose = styled.button`
   background: none;
   border: none;
-  align-self: self-end;
+  align-self: flex-end;
   position: absolute;
   right: 2rem;
   top: 2rem;

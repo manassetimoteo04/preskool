@@ -1,6 +1,4 @@
-import { useState } from "react";
 import styled, { css } from "styled-components";
-import { useUpdatePermissions } from "../features/humanResources/useUpdatePermissions";
 
 const StyledToggle = styled.button`
   background-color: var(--color-grey-300);
@@ -34,13 +32,7 @@ const StyledToggle = styled.button`
     z-index: 2;
   }
 `;
-function ToggleButton({ defaultValue, updateField, updateId }) {
-  const { updatePermission, isLoading } = useUpdatePermissions();
-  const [active, setActive] = useState(defaultValue);
-  function handleClick() {
-    updatePermission({ field: updateField, value: !active, updateId });
-    setActive((a) => !a);
-  }
+function ToggleButton({ isLoading, active, handleClick }) {
   return (
     <StyledToggle
       disabled={isLoading}

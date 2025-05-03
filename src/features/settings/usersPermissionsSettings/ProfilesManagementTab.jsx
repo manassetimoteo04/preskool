@@ -40,6 +40,7 @@ function ProfilesManagementTab() {
           {sorted.map((role) => {
             return (
               <RoleRow
+                id={role.id}
                 key={role.id}
                 role={role.name}
                 label={role.description}

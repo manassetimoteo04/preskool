@@ -3,6 +3,7 @@ import {
   doc,
   getDocs,
   query,
+  addDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -52,13 +53,50 @@ export async function getRolesSettings() {
   }
 }
 
-export async function updateSettings({ settingId, data }) {
+export async function updateSettings({ settingId, collectionName, data }) {
   try {
-    const docRef = doc(db, "settings", settingId);
+    console.log(data, settingId, collectionName);
+    const docRef = doc(db, collectionName, settingId);
     await updateDoc(docRef, data);
   } catch (error) {
     throw new Error(
       "Ocorreu um erro ao actualizar configurações, tente novamente"
+    );
+  }
+}
+
+export async function createPermissions(data) {
+  try {
+    const ref = await addDoc(collection(db, "permissions"), data);
+    return ref;
+  } catch (error) {
+    throw new Error(
+      "Ocorreu um erro ao actualizar configurações, tente novamente"
+    );
+  }
+}
+
+export async function getRolePermissions(roleId) {
+  try {
+    const q = query(
+      collection(db, "permissions"),
+      where("roleId", "==", roleId)
+    );
+
+    const snapshot = await getDocs(q);
+
+    const data = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    if (!data[0])
+      throw new Error(
+        "Erro ao buscar configurações, verifique a sua conexão de internet e tente novamente"
+      );
+    return data[0];
+  } catch (error) {
+    throw new Error(
+      "  Erro ao buscar configurações, verifique a sua conexão de internet e tente novamente"
     );
   }
 }

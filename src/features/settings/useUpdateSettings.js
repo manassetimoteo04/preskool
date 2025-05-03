@@ -8,7 +8,9 @@ export function useUpdateSettings() {
     mutationFn: updateSettingsApi,
     onSuccess() {
       toast.success("Informações actualizadas com sucesso");
-      queryClient.invalidateQueries({ queryKey: ["settings"] });
+      queryClient.invalidateQueries({
+        queryKey: ["settings", "roles", "roles-permissions"],
+      });
     },
     onError(err) {
       toast.error(err.message);

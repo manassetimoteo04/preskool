@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Heading from "./Heading";
-import ToggleButton from "./ToggleButton";
 import Button from "./Button";
 import DangerArea from "./DangerArea";
 import ConfirmDelete from "./ConfirmDelete";
@@ -10,6 +9,7 @@ import Modal from "./Modal";
 import { usePermissions } from "../features/humanResources/usePermissions";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
+import UpdateSingleUserPermissions from "../features/humanResources/UpdateSingleUserPermissions";
 const StyledPermissionBox = styled.div`
   & > header {
     padding: 0 2rem;
@@ -62,7 +62,7 @@ function UserPermissionsBox() {
       <div>
         <PermissionsBox>
           <span>Status</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={status}
             updateField="status"
@@ -70,7 +70,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Acessar o sistema</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={systemsAccess}
             updateField="systemsAccess"
@@ -78,7 +78,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Atualizar informações do próprio perfil</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={updateProfile}
             updateField="updateProfile"
@@ -86,7 +86,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Cadastrar/editar/remover alunos</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={AddStudent}
             updateField="AddStudent"
@@ -94,7 +94,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Cadastrar/editar/remover professores</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={addTeacher}
             updateField="addTeacher"
@@ -102,7 +102,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Gerenciar turmas e disciplinas</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={manageClassSubject}
             updateField="manageClassSubject"
@@ -110,7 +110,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Gerenciar mensalidades e faturas</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={manageMonthlyPayments}
             updateField="manageMonthlyPayments"
@@ -118,7 +118,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Gerar boletos e cobranças</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={generateBillsCharges}
             updateField="generateBillsCharges"
@@ -126,7 +126,7 @@ function UserPermissionsBox() {
         </PermissionsBox>
         <PermissionsBox>
           <span>Lançar notas e avaliações</span>
-          <ToggleButton
+          <UpdateSingleUserPermissions
             updateId={id}
             defaultValue={postGrades}
             updateField="postGrades"

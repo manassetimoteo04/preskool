@@ -30,7 +30,7 @@ const Role = styled.span`
   padding: 0.06rem 0.5rem;
   border-radius: var(--border-radius-sm);
 `;
-function RoleRow({ role, label }) {
+function RoleRow({ role, label, id }) {
   return (
     <StyledRoleRow>
       <div>
@@ -42,7 +42,7 @@ function RoleRow({ role, label }) {
         </ButtonIcon>
       </Modal.Open>
       <Modal.Window buttonClose={true} name={role + label}>
-        <UpdateRolesContainer label={label} role={role} />
+        <UpdateRolesContainer label={label} role={role} id={id} />
       </Modal.Window>
     </StyledRoleRow>
   );
