@@ -75,7 +75,8 @@ function TeachersTable() {
       return a[field].localeCompare(b[field]) * modifier;
   });
   const { data: teachersList, totalPages } = usePagination(sortedData);
-  if (isLoading) return <Spinner />;
+
+  if (isLoading === true) return <Spinner />;
 
   return (
     <StyledTeacherTable>

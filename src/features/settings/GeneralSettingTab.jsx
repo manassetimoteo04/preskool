@@ -18,7 +18,6 @@ function GeneralSettingTab() {
   const { schoolName, currentQuarter, currentSchoolYear, description, id } =
     settings;
 
-  console.log(error);
   return (
     <Modal>
       <StyledGeneralSetting>

@@ -26,9 +26,11 @@ const StyledNavLink = styled.a`
 function MenuNavLink({ children, href }) {
   const [hash, setHash] = useState("#general");
   useEffect(() => {
-    window.addEventListener("hashchange", () => {
-      setHash(window.location.hash);
-    });
+    ["hashchange", "load"].forEach((event) =>
+      window.addEventListener(event, () => {
+        setHash(window.location.hash);
+      })
+    );
   }, [hash, setHash]);
   return (
     <StyledNavLink active={hash === href} href={href}>

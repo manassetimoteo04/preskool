@@ -30,13 +30,13 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* Garantir que o Overlay ocupe toda a altura da tela */
-  overflow-y: auto; /* Permitir rolagem no Overlay */
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--backdrop-color);
-
+  z-index: 9999999999999999999999;
   animation: ${OpacityAnimation} 0.5s ease;
 `;
 

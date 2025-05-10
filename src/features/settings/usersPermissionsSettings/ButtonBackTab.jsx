@@ -16,10 +16,13 @@ const StyledButton = styled.button`
     background-color: var(--color-grey-100);
   }
 `;
-function ButtonBackTab() {
-  const { setCurrentTab } = useCurrentTab();
+function ButtonBackTab({ onClick }) {
+  const { setCurrentTab, userReportsTab } = useCurrentTab();
+  function handleClick() {
+    setCurrentTab("");
+  }
   return (
-    <StyledButton onClick={() => setCurrentTab("")}>
+    <StyledButton onClick={userReportsTab ? onClick : handleClick}>
       <HiArrowLeft />
     </StyledButton>
   );

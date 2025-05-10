@@ -3,8 +3,19 @@ import { createContext, useContext, useState } from "react";
 const TabContext = createContext();
 export function TabContextProvider({ children }) {
   const [currentTab, setCurrentTab] = useState("");
+  const [tableEditTab, setTableEditTab] = useState("");
+  const [userReportsTab, setUserReportsTab] = useState("");
   return (
-    <TabContext.Provider value={{ currentTab, setCurrentTab }}>
+    <TabContext.Provider
+      value={{
+        currentTab,
+        setCurrentTab,
+        tableEditTab,
+        setTableEditTab,
+        userReportsTab,
+        setUserReportsTab,
+      }}
+    >
       {children}
     </TabContext.Provider>
   );

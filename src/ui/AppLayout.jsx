@@ -1,7 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styled, { keyframes } from "styled-components";
+import { useEffect, useRef } from "react";
 const animation = keyframes`
   from{
     transform: translateY(-10rem);
@@ -37,11 +38,21 @@ const Container = styled.div`
   animation: ${animation} 5s linear ease;
 `;
 function AppLayout() {
+  const ref = useRef();
+  const location = useLocation();
+  useEffect(() => {
+    ref.current.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [location]);
+
   return (
     <StyledAppLayout>
       <Sidebar />
       <Header />
-      <Main>
+      <Main ref={ref}>
         <Container>
           <Outlet />
         </Container>

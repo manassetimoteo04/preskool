@@ -8,7 +8,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { HiEllipsisVertical } from "react-icons/hi2";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const reveal = keyframes`
@@ -63,7 +63,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledButton = styled.button`
-  padding: 1rem;
+  padding: 0.7rem 1rem;
   border-radius: var(--border-radius-sm);
   background-color: var(--color-grey-0);
   border: none;
@@ -71,13 +71,32 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+  ${(props) =>
+    props.active &&
+    css`
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-700);
+      &:hover {
+        background-color: var(--color-grey-200);
+      }
+    `} ${(props) =>
+    props.disabled &&
+    css`
+      background: none;
+      color: var(--color-grey-600);
+
+      &:hover {
+        background-color: var(--color-grey-0);
+        cursor: initial;
+      }
+    `}
   &:focus {
     outline: none;
   }
   gap: 1rem;
-  &:hover {
-    background-color: var(--color-grey-100);
-  }
 `;
 const MenusContext = createContext();
 function Menus({ children }) {
@@ -113,6 +132,8 @@ function Toggle({ menuId, showIcon = true, children }) {
     if (openId === menuId)
       document.querySelector("main").style.overflowY = "hidden";
     else document.querySelector("main").style.overflowY = "scroll";
+
+    console.log(menuId, openId);
   }, [openId, menuId]);
 
   function handleClick(e) {
@@ -143,18 +164,23 @@ function Toggle({ menuId, showIcon = true, children }) {
 function List({ children }) {
   return <StyledList>{children}</StyledList>;
 }
-function Button({ children, icon, onClick }) {
+function Button({ children, icon, onClick, active, disabled = false }) {
   const { close } = useContext(MenusContext);
   function handleClick() {
+    if (disabled) return;
     onClick?.();
     close();
     document.querySelector("main").style.overflowY = "scroll";
   }
   return (
     <li>
-      <StyledButton onClick={handleClick}>
-        {icon} <span>{children}</span>
-      </StyledButton>
+      {disabled ? (
+        children
+      ) : (
+        <StyledButton disabled={disabled} onClick={handleClick} active={active}>
+          {icon} <span>{children}</span>
+        </StyledButton>
+      )}
     </li>
   );
 }

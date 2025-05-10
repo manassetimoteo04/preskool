@@ -29,10 +29,8 @@ function UsersPermissionsSettingTab() {
             <SettingNavButton tab="create-edit-users">
               Criação e Edição de Usuários
             </SettingNavButton>
-            <SettingNavButton tab="control-permissions">
-              Controle de Permissões
-            </SettingNavButton>
-            <SettingNavButton tab="users-relate">
+
+            <SettingNavButton tab="users-reports">
               Relatórios de Usuários
             </SettingNavButton>
           </StyledUsersPermissionsSetting>

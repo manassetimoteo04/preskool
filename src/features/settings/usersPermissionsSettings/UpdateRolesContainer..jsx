@@ -38,7 +38,6 @@ function UpdateRolesContainer({ role, id }) {
     })
     ?.sort((a, b) => a[0].localeCompare(b[0]));
 
-  console.log(data);
 
   return (
     <StyledRolesContainer>
