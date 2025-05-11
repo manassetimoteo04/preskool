@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import GeneralSettingTab from "./GeneralSettingTab";
 import UsersPermissionsSettingTab from "./usersPermissionsSettings/UsersPermissionsSettingTab";
 import { TabContextProvider } from "./usersPermissionsSettings/TabContext";
+import SubjectCurriculumContainer from "./subjectsCurriculums/SubjectCurriculumContainer";
+import { SubjectTabContextProvider } from "./subjectsCurriculums/SubjectTabContext";
 
 const StyledSettingLayout = styled.div`
   background-color: var(--color-grey-0);
@@ -11,12 +13,13 @@ const StyledSettingLayout = styled.div`
   border-radius: var(--border-radius-sm);
   display: grid;
   grid-template-columns: 30rem 1fr;
-  padding: 2rem;
+  padding: 2rem 1rem;
 `;
 const MainSetting = styled.main`
   border-left: 1px solid var(--color-grey-200);
-  padding: 0 2rem;
+  padding: 0 1rem 0 2rem;
 `;
+
 function SettingsLayout() {
   const [hash, setHash] = useState("#general");
   useEffect(() => {
@@ -27,15 +30,18 @@ function SettingsLayout() {
     );
   }, [hash, setHash]);
   return (
-    <TabContextProvider>
-      <StyledSettingLayout>
-        <SettingMenu />
-        <MainSetting>
-          {hash === "#general" && <GeneralSettingTab />}
-          {hash === "#permissions" && <UsersPermissionsSettingTab />}
-        </MainSetting>
-      </StyledSettingLayout>
-    </TabContextProvider>
+    <SubjectTabContextProvider>
+      <TabContextProvider>
+        <StyledSettingLayout>
+          <SettingMenu />
+          <MainSetting>
+            {hash === "#general" && <GeneralSettingTab />}
+            {hash === "#permissions" && <UsersPermissionsSettingTab />}
+            {hash === "#subjects" && <SubjectCurriculumContainer />}
+          </MainSetting>
+        </StyledSettingLayout>
+      </TabContextProvider>
+    </SubjectTabContextProvider>
   );
 }
 

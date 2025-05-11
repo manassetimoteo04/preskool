@@ -1,6 +1,5 @@
 import { HiChevronRight } from "react-icons/hi";
 import styled from "styled-components";
-import { useCurrentTab } from "./usersPermissionsSettings/TabContext";
 
 const StyledSettingNavButton = styled.button`
   background: none;
@@ -14,10 +13,9 @@ const StyledSettingNavButton = styled.button`
     background: var(--color-grey-100);
   }
 `;
-function SettingNavButton({ children, tab }) {
-  const { setCurrentTab } = useCurrentTab();
+function SettingNavButton({ children, setTab }) {
   return (
-    <StyledSettingNavButton onClick={() => setCurrentTab(tab)}>
+    <StyledSettingNavButton onClick={setTab}>
       <span>{children}</span>
       <span>
         <HiChevronRight />

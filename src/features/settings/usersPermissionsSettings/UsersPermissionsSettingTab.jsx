@@ -23,14 +23,14 @@ function UsersPermissionsSettingTab() {
         <>
           <Heading as="h2">Usuários e Permissões</Heading>
           <StyledUsersPermissionsSetting>
-            <SettingNavButton tab="profile-roles">
+            <SettingNavButton setTab={() => setCurrentTab("profile-roles")}>
               Gestão de Perfis (Roles)
             </SettingNavButton>
-            <SettingNavButton tab="create-edit-users">
+            <SettingNavButton setTab={() => setCurrentTab("create-edit-users")}>
               Criação e Edição de Usuários
             </SettingNavButton>
 
-            <SettingNavButton tab="users-reports">
+            <SettingNavButton setTab={() => setCurrentTab("users-reports")}>
               Relatórios de Usuários
             </SettingNavButton>
           </StyledUsersPermissionsSetting>
