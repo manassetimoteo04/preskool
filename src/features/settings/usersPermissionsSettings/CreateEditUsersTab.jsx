@@ -140,7 +140,7 @@ function CreateEditUsersTab() {
   const { tableEditTab } = useCurrentTab();
   const [activeFilter, setActiveFilter] = useState("roles");
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("active");
 
   const filteredData = filter
     ? users.filter((user) => {

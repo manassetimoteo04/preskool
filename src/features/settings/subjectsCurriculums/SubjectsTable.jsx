@@ -1,16 +1,20 @@
 import styled, { css } from "styled-components";
-import { HiOutlineEye, HiOutlineFilter, HiPlus } from "react-icons/hi";
+import { HiOutlineFilter, HiPlus } from "react-icons/hi";
 import Table from "../../../ui/Table";
-import Tag from "../../../ui/Tag";
+
 import Menus from "../../../ui/Menus";
+import Empty from "../../../ui/Empty";
+import Spinner from "../../../ui/Spinner";
 import SearchForm from "../../../ui/SearchForm";
 import { useState } from "react";
 import ButtonIcon from "../../../ui/ButtonIcon";
 import Button from "../../../ui/Button";
 import Row from "../../../ui/Row";
 import Heading from "../../../ui/Heading";
-import { useSubjectsTab } from "./SubjectTabContext";
 
+import { useSubject } from "../../classes/useSubject";
+
+import SubjectRow from "./SubjectRow";
 const StyledHeader = styled.header`
   margin-bottom: 2rem;
 `;
@@ -40,9 +44,14 @@ const ActiveFilterButton = styled.button`
     `}
 `;
 function SubjectsTable() {
-  const { setSubjectDetail } = useSubjectsTab();
+  const { data, isLoading, error } = useSubject({});
+
+  console.log(data, isLoading, error);
   const [activeFilter, setActiveFilter] = useState("roles");
   const [filter, setFilter] = useState("");
+
+  if (error) return <Empty>{error.message}</Empty>;
+  if (error) return <Spinner />;
   return (
     <Table columns="1.5fr 1fr 1fr 1fr 4rem">
       <StyledHeader>
@@ -182,26 +191,8 @@ function SubjectsTable() {
       </Table.Header>
       <Menus>
         <Table.Body
-          data={[1, 2, 3, 4, 5]}
-          render={(i) => (
-            <Table.Row>
-              <span>Matemática</span>
-              <span>MAT001</span>
-              <Tag type="pending">Vinculado</Tag>
-              <span>10INFOA</span>
-              <Menus.Toggle menuId={i} />
-              <Menus.Menu menuId={i}>
-                <Menus.List>
-                  <Menus.Button
-                    onClick={() => setSubjectDetail("detail")}
-                    icon={<HiOutlineEye />}
-                  >
-                    Ver Detalhes
-                  </Menus.Button>
-                </Menus.List>
-              </Menus.Menu>
-            </Table.Row>
-          )}
+          data={data}
+          render={(subject) => <SubjectRow subject={subject} />}
         />
       </Menus>
     </Table>

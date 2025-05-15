@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import { HiX } from "react-icons/hi";
 import styled, { keyframes } from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-// eslint-disable-next-line no-unused-vars
 const ScaleAnimation = keyframes`
     from{
         transform: scale(50%);
@@ -36,7 +35,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--backdrop-color);
-  z-index: 9999999999999999999999;
+  z-index: 9;
   animation: ${OpacityAnimation} 0.5s ease;
 `;
 

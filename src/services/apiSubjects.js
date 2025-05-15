@@ -32,9 +32,16 @@ export async function getSubject({ id, filterId, filterField }) {
         ...doc.data(),
       }));
       return data;
-    } else {
-      throw new Error("You must provide either an id or a courseId");
     }
+
+    const ref = collection(db, "subjects");
+    const querySnapshot = await getDocs(ref);
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -43,20 +50,23 @@ export async function getSubject({ id, filterId, filterField }) {
 export async function createSubject(data) {
   try {
     const refData = addDoc(collection(db, "subjects"), data);
-    const docRef = doc(db, "classes", data.classId);
+    const docRef = doc(db, "classes", data.class.id);
     await updateDoc(docRef, { subjects: arrayUnion(docRef.id) });
     return refData;
   } catch (error) {
+    console.error(error);
+
     throw new Error("Ocorreu um erro ao adicionar disciplina, tente novamente");
   }
 }
 
 export async function updateSubject(id, updateData) {
   try {
+    console.log(id, updateData);
     const docRef = doc(db, "subjects", id);
     await updateDoc(docRef, updateData);
-
   } catch (error) {
+    console.error(error);
     throw new Error(
       "Ocorreu um erro ao actualizar disciplina, tente novamente"
     );

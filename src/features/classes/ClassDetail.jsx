@@ -60,15 +60,14 @@ function ClassDetail() {
     subjects,
     students: numStudents,
   } = classe;
-  const { data: { courseName } = {}, isLoading: isLoading2 } =
-    useCourse(course);
+  const { data, isLoading: isLoading2 } = useCourse(course);
   if (isLoading || isLoading2) return <Spinner />;
 
   return (
     <Modal>
       <Row type="horizontal">
         <Heading as="h2">
-          {courseName} &mdash; {grade}ª Classe &mdash; {period}
+          {data?.courseName} &mdash; {grade}ª Classe &mdash; {period}
         </Heading>
         <Modal.Open opens="subject-form">
           <Button>
@@ -140,7 +139,7 @@ function ClassDetail() {
         </Row>
       </StyledClassDetailGrid>
       <Modal.Window name="subject-form" buttonClose={true}>
-        <CreateEditSubjectForm />
+        <CreateEditSubjectForm classe={classe} course={data} />
       </Modal.Window>
     </Modal>
   );

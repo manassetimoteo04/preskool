@@ -42,7 +42,7 @@ const Details = styled.div`
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
+    border-bottom: 1px solid var(--color-grey-200);
   }
 `;
 const ButtonsGroup = styled.div`
@@ -83,7 +83,7 @@ function SubjectDetails() {
       </div>
       <ButtonsGroup>
         <Button>
-          <HiOutlinePencil /> Editar Vínculo
+          <HiOutlinePencil /> Actualizar Vínculo
         </Button>
       </ButtonsGroup>
     </Row>

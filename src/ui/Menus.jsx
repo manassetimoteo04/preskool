@@ -132,8 +132,6 @@ function Toggle({ menuId, showIcon = true, children }) {
     if (openId === menuId)
       document.querySelector("main").style.overflowY = "hidden";
     else document.querySelector("main").style.overflowY = "scroll";
-
-    console.log(menuId, openId);
   }, [openId, menuId]);
 
   function handleClick(e) {

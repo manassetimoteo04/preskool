@@ -67,7 +67,7 @@ export async function getEmployees(idList = []) {
     }
   } catch (error) {
     console.error("Erro ao buscar funcionários:", error.message);
-    return []; // retorna array vazio em caso de erro
+    throw new Error("Ocorreu um erro ao buscar funcionários, tente novamente");
   }
 }
 

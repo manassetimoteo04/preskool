@@ -9,10 +9,8 @@ import styled from "styled-components";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
-import CreateEditSubjectForm from "./CreateEditSubjectForm";
-import { HiEye, HiPencil, HiTrash } from "react-icons/hi2";
-import { useDeleteSubject } from "./useDeleteSubject";
+
+import SubjectRow from "./SubjectRow";
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,10 +25,10 @@ const TableContainer = styled.div`
 `;
 function ClassSubjectsTable({ classId }) {
   const { data: subjects, isLoading } = useSubject({
-    filterField: "classId",
+    filterField: "class.id",
     filterId: classId,
   });
-  const { deleteSubject, isLoading: isDeleting } = useDeleteSubject();
+
   const [query, setQuery] = useState("");
   if (isLoading) return <Spinner />;
   return (
@@ -41,61 +39,19 @@ function ClassSubjectsTable({ classId }) {
           <SearchForm query={query} setQuery={setQuery} label="disciplinas" />
         </Row>
       </header>
-      <Table columns=" 2.5fr 2.5fr 1fr 1.6fr  4rem">
+      <Table columns=" 2.5fr 1fr 1fr 2fr  4rem">
         <Table.Header>
           <span>Disciplina</span>
+          <span>Code</span>
+          <span>Vinculado</span>
           <span>Professor</span>
-          <span>Tipo</span>
-          <span>Telefone</span>
           <span></span>
         </Table.Header>
         <Menus>
           {subjects?.length > 0 ? (
             <Modal>
               <Table.Body
-                render={(subject) => (
-                  <Table.Row>
-                    <span>{subject.subjectName}</span>
-                    <span>{subject.teacherName}</span>
-                    <span>{subject.subjectType}</span>
-                    <span>{subject.name}</span>
-                    <Menus.Toggle menuId={subject.id} />
-                    <Menus.Menu menuId={subject.id}>
-                      <Menus.List>
-                        <Menus.Button icon={<HiEye />}>Professor</Menus.Button>
-                        <Modal.Open opens={subject.id}>
-                          <Menus.Button icon={<HiPencil />}>
-                            Editar
-                          </Menus.Button>
-                        </Modal.Open>
-                        <Modal.Open opens={subject.id + "-delete"}>
-                          <Menus.Button icon={<HiTrash />}>
-                            Deletar
-                          </Menus.Button>
-                        </Modal.Open>
-                      </Menus.List>
-                    </Menus.Menu>
-                    <Modal.Window name={subject.id} buttonClose={true}>
-                      <CreateEditSubjectForm
-                        subjectId={subject.id}
-                        subject={subject}
-                      />
-                    </Modal.Window>{" "}
-                    <Modal.Window
-                      name={subject.id + "-delete"}
-                      buttonClose={true}
-                    >
-                      <ConfirmDelete
-                        onConfirm={() => deleteSubject(subject.id)}
-                        isLoading={isDeleting}
-                      >
-                        <span>
-                          Tens a certeza que deseja exluir essa disciplina?
-                        </span>
-                      </ConfirmDelete>
-                    </Modal.Window>
-                  </Table.Row>
-                )}
+                render={(subject) => <SubjectRow subject={subject} />}
                 data={subjects}
               />
             </Modal>

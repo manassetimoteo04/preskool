@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import { useParams } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 import { HiCheck } from "react-icons/hi2";
 import { useForm } from "react-hook-form";
@@ -17,6 +16,10 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { useCreateSubject } from "./useCreateSubject";
 import { useUpdateSubject } from "./useUpdateSubject";
 import { useTeachers } from "../teachers/useTeachers";
+import { generateSubjectCode } from "../../utils/helpers";
+import { useClasse } from "./useClasse";
+import { useCourse } from "./useCourse";
+import { useParams } from "react-router-dom";
 
 const FlexBox = styled.div`
   display: flex;
@@ -30,12 +33,17 @@ const StyledSubjectForm = styled.div`
 `;
 
 function CreateSubjectForm({ onCloseModal, subjectId, subject = {} }) {
+  const { classId: id } = useParams();
+
+  const { classe } = useClasse({ id });
+  const { course: courseId } = classe;
+  const { data: course } = useCourse(courseId);
   const editSubject = {
-    ...subject,
-    subjectTeacherId: subject?.teacherName + "-" + subject?.teacherId,
+    subjectName: subject?.name,
+    subjectType: subject?.type,
+    subjectTeacherId: subject?.teacher?.name + "-" + subject?.teacher?.id,
   };
   const isEditSession = Boolean(subjectId);
-  const { classId } = useParams();
   const {
     handleSubmit,
     register,
@@ -48,17 +56,31 @@ function CreateSubjectForm({ onCloseModal, subjectId, subject = {} }) {
     const teacher = data.subjectTeacherId || "";
     const [teacherName, teacherId] = teacher.split("-");
 
-    const subjectData = { ...data, classId, teacherId, teacherName };
-    const finalObject = Object.fromEntries(
-      Object.entries(subjectData).filter(([key]) => key !== "subjectTeacherId")
-    );
+    const finalData = {
+      name: data.subjectName,
+      type: data.subjectType,
+      code: generateSubjectCode(data.subjectName),
+      get linked() {
+        return !!(this.class.id && this.teacher.id);
+      },
+      class: {
+        course: course?.courseName,
+        grade: classe?.grade,
+        period: classe?.period,
+        id: classe?.id,
+      },
+      teacher: {
+        name: teacherName,
+        id: teacherId,
+      },
+    };
 
     isEditSession
       ? updateSubject(
-          { data: finalObject, id: subjectId },
+          { data: finalData, id: subjectId },
           { onSuccess: onCloseModal }
         )
-      : createSubject(finalObject, { onSuccess: onCloseModal });
+      : createSubject(finalData, { onSuccess: onCloseModal });
   }
 
   return (
