@@ -33,7 +33,6 @@ function EmployeePaymentTab() {
   const [query, setQuery] = useState("");
   const { data, isLoading } = useEmployeePayments(employeeId);
   const { data: employee } = useEmployee(employeeId);
-  console.log(data, employeeId);
   const totalPaid = data?.reduce((acc, el) => el.totalAmount + acc, 0);
   const totalDiscount = data?.reduce((acc, el) => el.deductions + acc, 0);
 

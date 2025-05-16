@@ -3,6 +3,11 @@ import Row from "../../../ui/Row";
 import Tag from "../../../ui/Tag";
 import { HiArrowRight, HiOutlinePencil } from "react-icons/hi";
 import Button from "../../../ui/Button";
+import Modal from "../../../ui/Modal";
+import { useSubjectsTab } from "./SubjectTabContext";
+import { useSubject } from "../../classes/useSubject";
+import Spinner from "../../../ui/Spinner";
+import UpdateSubjectLinkForm from "./UpdateSubjectLinkForm";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -51,42 +56,65 @@ const ButtonsGroup = styled.div`
   gap: 1rem;
 `;
 function SubjectDetails() {
-  return (
-    <Row>
-      <StyledHeader>
-        <p>Matemática - MAT001</p>
-        <Tag type="pending">Vinculado</Tag>
-      </StyledHeader>
-      <DetailBox>
-        <p>Matemática - MAT001</p>
-        <HiArrowRight />
-        <p>Informática - 12ª Classe</p>
-        <HiArrowRight />
-        <p>Geraldo Pindi</p>
-      </DetailBox>
-      <div>
-        <Details>
-          <strong>Disciplina Selecionada</strong>
-          <span>Matemática - MAT001</span>
-          <Tag type="pending">Vinculado</Tag>
-        </Details>{" "}
-        <Details>
-          <strong>Vínculo actual</strong>
+  const { subjectDetail: id } = useSubjectsTab();
+  const { data, isLoading } = useSubject({ id });
 
+  const { name, code, class: classe, teacher } = data || {};
+  if (isLoading) return <Spinner />;
+  const isLinked = classe.id && teacher.id;
+  return (
+    <Modal>
+      <Row>
+        <StyledHeader>
           <p>
-            <span>Turma:</span> Informática &mdash; 12ª Classe &mdash; Tarde
+            {name} &mdash; {code}
           </p>
+          <Tag type={isLinked ? "pending" : "inactive"}>
+            {isLinked ? "Vinculado" : "Desvinculado"}
+          </Tag>
+        </StyledHeader>
+        <DetailBox>
           <p>
-            <span>Professor:</span> Geraldo Pindi
+            {name} &mdash; {code}
           </p>
-        </Details>{" "}
-      </div>
-      <ButtonsGroup>
-        <Button>
-          <HiOutlinePencil /> Actualizar Vínculo
-        </Button>
-      </ButtonsGroup>
-    </Row>
+          <HiArrowRight />
+          <p>
+            {classe.course} &mdash; {classe.grade}ª &mdash; {classe.period}
+          </p>
+          <HiArrowRight />
+          <p>{teacher.name || "desconhecido"}</p>
+        </DetailBox>
+        <div>
+          <Details>
+            <strong>Disciplina Selecionada</strong>
+            <span>
+              {name} &mdash; {code}
+            </span>
+          </Details>{" "}
+          <Details>
+            <strong>Vínculo actual</strong>
+
+            <p>
+              <span>Turma:</span> {classe.course} &mdash; {classe.grade}ª Classe
+              &mdash; {classe.period}
+            </p>
+            <p>
+              <span>Professor:</span> {teacher.name || "desconhecido"}
+            </p>
+          </Details>{" "}
+        </div>
+        <ButtonsGroup>
+          <Modal.Open opens="edit-link">
+            <Button>
+              <HiOutlinePencil /> Actualizar Vínculo
+            </Button>
+          </Modal.Open>
+        </ButtonsGroup>
+      </Row>
+      <Modal.Window name="edit-link" buttonClose={true}>
+        <UpdateSubjectLinkForm subject={data} />
+      </Modal.Window>
+    </Modal>
   );
 }
 

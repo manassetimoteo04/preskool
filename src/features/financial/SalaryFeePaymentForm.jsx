@@ -15,6 +15,7 @@ import { useGetEmployees } from "../humanResources/useGetEmployees";
 import { usePayEmployee } from "./usePayEmployee";
 import { useStudents } from "../students/useStudents";
 import { useStudentFeePay } from "./useStudentFeePay";
+import PopupList from "../../ui/PopupList";
 const StyledBox = styled.div`
   padding: 2rem;
   min-width: 35rem;
@@ -58,46 +59,7 @@ const StyledConcatedBox = styled.div`
     font-size: 1.2rem;
   }
 `;
-// const StyledPaymentHistoryTable = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
-// const StyledPaymentRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 0.5fr 1fr 2.5rem;
-//   gap: 1rem;
-//   padding: 0.5rem;
-//   align-items: center;
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
 
-const StyledPopupList = styled.div`
-  position: absolute;
-  background-color: var(--color-grey-0);
-  padding: 1rem;
-  width: 100%;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--color-grey-100);
-  max-height: 20rem;
-  overflow: auto;
-  z-index: 9999999999;
-  border-radius: var(--border-radius-sm);
-  & > div {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    padding: 0.5rem;
-    &:not(:last-child) {
-      border-bottom: 1px solid var(--color-grey-200);
-    }
-    &:hover {
-      background-color: var(--color-grey-100);
-      cursor: pointer;
-    }
-  }
-`;
 const StyledForm = styled.form`
   position: relative;
 `;
@@ -133,62 +95,6 @@ const NoteInput = styled.input`
     border: none;
   }
 `;
-// const fakeData = [
-//   {
-//     id: 2842,
-//     nome: "Morgan Larson",
-//     email: "brightdwayne@yahoo.com",
-//     data: "1967-11-02",
-//     telefone: "+1-469-989-4281",
-//     sector: "TI",
-//     cargo: "Analista",
-//   },
-//   {
-//     id: 1059,
-//     nome: "Lorraine Watson",
-//     email: "kevinmorales@gill.com",
-//     data: "2003-06-20",
-//     telefone: "291-263-9585",
-//     sector: "Marketing",
-//     cargo: "Analista",
-//   },
-//   {
-//     id: 7646,
-//     nome: "Thomas James",
-//     email: "owenjohn@gmail.com",
-//     data: "1963-03-08",
-//     telefone: "3825311349",
-//     sector: "Financeiro",
-//     cargo: "Assistente",
-//   },
-//   {
-//     id: 5350,
-//     nome: "Jasmine Drake",
-//     email: "snyderjerry@rich.org",
-//     data: "1995-07-29",
-//     telefone: "001-786-270-5401x169",
-//     sector: "Vendas",
-//     cargo: "Assistente",
-//   },
-//   {
-//     id: 7358,
-//     nome: "Nicholas Washington",
-//     email: "glowery@yahoo.com",
-//     data: "1998-02-09",
-//     telefone: "301-328-1504x571",
-//     sector: "RH",
-//     cargo: "Gerente",
-//   },
-//   {
-//     id: 7358,
-//     nome: "Nicholas Washington",
-//     email: "glowery@yahoo.com",
-//     data: "1998-02-09",
-//     telefone: "301-328-1504x571",
-//     sector: "RH",
-//     cargo: "Gerente",
-//   },
-// ];
 
 function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
   const [currentSelect, setcurrentSelect] = useState(current);
@@ -218,7 +124,7 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
       paymentDate: new Date().toDateString(),
       period: "2025-11",
       paymentMethod: paymentType,
-      status: "Late", // or "Pending", "Late"
+      status: "Late",
       notes,
     };
     const feePayment = {
@@ -229,7 +135,7 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
       paymentDate: new Date().toDateString(),
       period: "2024-12",
       paymentMethod: paymentType,
-      status: "Late", // or "Pending", "Late"
+      status: "Late",
       notes,
     };
     isEmployee
@@ -253,7 +159,7 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
               <Input value={query} onChange={(e) => setQuery(e.target.value)} />
             </InputRow>
             {query && (
-              <StyledPopupList>
+              <PopupList>
                 {isLoading ? (
                   <Empty>Carregando...</Empty>
                 ) : filteredData.length ? (
@@ -274,7 +180,7 @@ function SalaryFeePaymentForm({ onCloseModal, isEmployee, current = null }) {
                 ) : (
                   <Empty>Nenhum resultado para {query}</Empty>
                 )}
-              </StyledPopupList>
+              </PopupList>
             )}
           </StyledForm>
         )}
