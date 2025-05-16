@@ -42,8 +42,6 @@ function AppLayout() {
   const location = useLocation();
   useEffect(() => {
     ref.current.scrollTo({
-      top: 0,
-      left: 0,
       behavior: "smooth",
     });
   }, [location]);

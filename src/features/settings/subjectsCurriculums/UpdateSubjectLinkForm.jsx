@@ -4,7 +4,7 @@ import Button from "../../../ui/Button";
 import Tag from "../../../ui/Tag";
 import SpinnerMini from "../../../ui/SpinnerMini";
 import { useState } from "react";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineTrash, HiPlus } from "react-icons/hi";
 import SearchLinkForm from "./SearchLinkForm";
 import { useUpdateSubject } from "../../classes/useUpdateSubject";
 const StyledLinkForm = styled.div`
@@ -91,8 +91,19 @@ function UpdateSubjectLinkForm({ subject, onCloseModal }) {
                 <strong>Professor</strong>
                 <span>{teacher.name || "desconhecido"}</span>
               </div>
-              <Button size="small" variation="danger" onClick={handleDelete}>
-                <HiOutlineTrash />
+              <Button
+                size="small"
+                variation={!teacher.id ? "primary" : "danger"}
+                onClick={handleDelete}
+              >
+                {teacher.id ? (
+                  <HiOutlineTrash />
+                ) : (
+                  <>
+                    Selecionar
+                    <HiPlus />
+                  </>
+                )}
               </Button>
             </>
           ) : (

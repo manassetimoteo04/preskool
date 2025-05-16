@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { HiOutlineFilter, HiPlus } from "react-icons/hi";
 import Table from "../../../ui/Table";
-
+import { usePagination } from "../../../hooks/usePagination";
 import Menus from "../../../ui/Menus";
 import Empty from "../../../ui/Empty";
 import Spinner from "../../../ui/Spinner";
@@ -13,8 +13,11 @@ import Row from "../../../ui/Row";
 import Heading from "../../../ui/Heading";
 
 import { useSubject } from "../../classes/useSubject";
+import { useCourses } from "../../classes/useCourses";
 
 import SubjectRow from "./SubjectRow";
+import Pagination from "../../../ui/Pagination";
+import { generateClasseCode, normalizeText } from "../../../utils/helpers";
 const StyledHeader = styled.header`
   margin-bottom: 2rem;
 `;
@@ -44,14 +47,52 @@ const ActiveFilterButton = styled.button`
     `}
 `;
 function SubjectsTable() {
-  const { data, isLoading, error } = useSubject({});
+  const { data, isLoading, error } = useSubject({ all: "" });
+  const [activeFilter, setActiveFilter] = useState("courses");
+  const [filter, setFilter] = useState({});
+  const [query, setQuery] = useState("");
+  const { courses } = useCourses();
 
-  console.log(data, isLoading, error);
-  const [activeFilter, setActiveFilter] = useState("roles");
-  const [filter, setFilter] = useState("");
+  let filteredData = filter?.course
+    ? data?.filter(
+        (subject) =>
+          normalizeText(subject.class.course) === normalizeText(filter.course)
+      )
+    : data;
 
+  filteredData = filter?.grade
+    ? filteredData?.filter(
+        (subject) =>
+          normalizeText(subject.class.grade) === normalizeText(filter.grade)
+      )
+    : filteredData;
+
+  filteredData = filter?.period
+    ? filteredData?.filter((subject) =>
+        normalizeText(subject.class.period).startsWith(
+          normalizeText(filter.period)
+        )
+      )
+    : filteredData;
+
+  const searchedData = query
+    ? filteredData?.filter(
+        (subject) =>
+          normalizeText(subject.name).startsWith(normalizeText(query)) ||
+          normalizeText(subject.code).startsWith(normalizeText(query)) ||
+          normalizeText(
+            generateClasseCode(
+              subject.class.grade,
+              subject.class.course,
+              subject.class.period
+            )
+          ).startsWith(normalizeText(query))
+      )
+    : filteredData;
+  const { totalPages, data: subjects } = usePagination(searchedData);
+
+  if (isLoading) return <Spinner />;
   if (error) return <Empty>{error.message}</Empty>;
-  if (error) return <Spinner />;
   return (
     <Table columns="1.5fr 1fr 1fr 1fr 4rem">
       <StyledHeader>
@@ -65,7 +106,7 @@ function SubjectsTable() {
       </StyledHeader>
       <StyledHeader>
         <Row type="horizontal">
-          <SearchForm label="Disciplina" />
+          <SearchForm label="Disciplina" query={query} setQuery={setQuery} />
           <Menus>
             <Menus.Toggle menuId="filter" showIcon={false}>
               <ButtonIcon>
@@ -100,23 +141,26 @@ function SubjectsTable() {
                   <>
                     <Menus.Button
                       icon={<HiOutlineFilter />}
-                      active={filter === ""}
-                      onClick={() => setFilter("")}
+                      active={filter.all === ""}
+                      onClick={() => setFilter({ ...filter, all: "" })}
                     >
                       Todos
                     </Menus.Button>
-                    <Menus.Button
-                      active={filter === "admin"}
-                      onClick={() => setFilter("admin")}
-                    >
-                      Informática
-                    </Menus.Button>
-                    <Menus.Button
-                      active={filter === "admin"}
-                      onClick={() => setFilter("admin")}
-                    >
-                      Efermagem
-                    </Menus.Button>
+                    {courses?.map((course) => (
+                      <Menus.Button
+                        key={course.id}
+                        active={filter.course === course.courseName}
+                        onClick={() =>
+                          setFilter({
+                            ...filter,
+                            course: course.courseName,
+                            all: "",
+                          })
+                        }
+                      >
+                        {course.courseName}
+                      </Menus.Button>
+                    ))}
                   </>
                 )}
                 {activeFilter === "grades" && (
@@ -129,20 +173,26 @@ function SubjectsTable() {
                       Todos
                     </Menus.Button>{" "}
                     <Menus.Button
-                      active={filter === "active"}
-                      onClick={() => setFilter("active")}
+                      active={filter.grade === "10"}
+                      onClick={() =>
+                        setFilter({ ...filter, grade: "10", all: null })
+                      }
                     >
                       10ª Classe
-                    </Menus.Button>
-                    <Menus.Button
-                      active={filter === "inactive"}
-                      onClick={() => setFilter("inactive")}
-                    >
-                      11ª Classe
                     </Menus.Button>{" "}
                     <Menus.Button
-                      active={filter === "inactive"}
-                      onClick={() => setFilter("inactive")}
+                      active={filter.grade === "11"}
+                      onClick={() =>
+                        setFilter({ ...filter, grade: "11", all: null })
+                      }
+                    >
+                      11ª Classe
+                    </Menus.Button>
+                    <Menus.Button
+                      active={filter.grade === "12"}
+                      onClick={() =>
+                        setFilter({ ...filter, grade: "12", all: null })
+                      }
                     >
                       12ª Classe
                     </Menus.Button>
@@ -158,20 +208,26 @@ function SubjectsTable() {
                       Todos
                     </Menus.Button>{" "}
                     <Menus.Button
-                      active={filter === "active"}
-                      onClick={() => setFilter("active")}
+                      active={filter.period === "m"}
+                      onClick={() =>
+                        setFilter({ ...filter, period: "m", all: null })
+                      }
                     >
                       Manhã
                     </Menus.Button>
                     <Menus.Button
-                      active={filter === "inactive"}
-                      onClick={() => setFilter("inactive")}
+                      active={filter.period === "t"}
+                      onClick={() =>
+                        setFilter({ ...filter, period: "t", all: null })
+                      }
                     >
                       Tarde
                     </Menus.Button>{" "}
                     <Menus.Button
-                      active={filter === "inactive"}
-                      onClick={() => setFilter("inactive")}
+                      active={filter.period === "n"}
+                      onClick={() =>
+                        setFilter({ ...filter, period: "n", all: null })
+                      }
                     >
                       Noite
                     </Menus.Button>
@@ -191,10 +247,15 @@ function SubjectsTable() {
       </Table.Header>
       <Menus>
         <Table.Body
-          data={data}
+          data={subjects}
           render={(subject) => <SubjectRow subject={subject} />}
         />
       </Menus>
+      {totalPages > 1 && (
+        <Table.Footer>
+          <Pagination totalPages={totalPages} count={data.length} />
+        </Table.Footer>
+      )}
     </Table>
   );
 }
