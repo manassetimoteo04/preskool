@@ -8,6 +8,7 @@ const StyledEmpty = styled.p`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   align-items: center;
   gap: 1rem;
   & > svg {

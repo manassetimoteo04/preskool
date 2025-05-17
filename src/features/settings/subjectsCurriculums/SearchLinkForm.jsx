@@ -18,7 +18,7 @@ const StyledConcatedBox = styled.div`
   }
 `;
 
-const StyledForm = styled.form`
+const StyledForm = styled.div`
   position: relative;
 `;
 

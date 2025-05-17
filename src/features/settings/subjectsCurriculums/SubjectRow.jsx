@@ -2,9 +2,11 @@ import { HiOutlineEye } from "react-icons/hi";
 import Menus from "../../../ui/Menus";
 import Table from "../../../ui/Table";
 import Tag from "../../../ui/Tag";
+import Modal from "../../../ui/Modal";
 import { generateClasseCode } from "../../../utils/helpers";
 import { useSubjectsTab } from "./SubjectTabContext";
 import { HiOutlinePencil } from "react-icons/hi2";
+import UpdateSubjectLinkForm from "./UpdateSubjectLinkForm";
 function SubjectRow({ subject }) {
   const { setSubjectDetail } = useSubjectsTab();
   const isLinked = subject.class.id && subject.teacher.id;
@@ -32,14 +34,16 @@ function SubjectRow({ subject }) {
           >
             Ver Detalhes
           </Menus.Button>{" "}
-          <Menus.Button
-            onClick={() => setSubjectDetail(subject.id)}
-            icon={<HiOutlinePencil />}
-          >
-            Editar vínculo
-          </Menus.Button>
+          <Modal.Open opens={"edit-subject-" + subject.id}>
+            <Menus.Button icon={<HiOutlinePencil />}>
+              Editar vínculo
+            </Menus.Button>
+          </Modal.Open>
         </Menus.List>
       </Menus.Menu>
+      <Modal.Window name={"edit-subject-" + subject.id} buttonClose={true}>
+        <UpdateSubjectLinkForm subject={subject} />
+      </Modal.Window>
     </Table.Row>
   );
 }

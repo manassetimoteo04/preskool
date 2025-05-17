@@ -8,6 +8,8 @@ import { HiOutlineTrash, HiPlus } from "react-icons/hi";
 import SearchLinkForm from "./SearchLinkForm";
 import { useUpdateSubject } from "../../classes/useUpdateSubject";
 const StyledLinkForm = styled.div`
+  max-width: 45rem;
+
   & > header {
     padding: 2rem;
     border-bottom: 1px solid var(--color-grey-200);

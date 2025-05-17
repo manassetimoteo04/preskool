@@ -6,6 +6,8 @@ import UsersPermissionsSettingTab from "./usersPermissionsSettings/UsersPermissi
 import { TabContextProvider } from "./usersPermissionsSettings/TabContext";
 import SubjectCurriculumContainer from "./subjectsCurriculums/SubjectCurriculumContainer";
 import { SubjectTabContextProvider } from "./subjectsCurriculums/SubjectTabContext";
+import ClasseAndGradesSettingTab from "./classesAndGrades/ClasseAndGradesSettingTab";
+import ClasseContextProvider from "./classesAndGrades/ClasseContext";
 
 const StyledSettingLayout = styled.div`
   background-color: var(--color-grey-0);
@@ -30,18 +32,21 @@ function SettingsLayout() {
     );
   }, [hash, setHash]);
   return (
-    <SubjectTabContextProvider>
-      <TabContextProvider>
-        <StyledSettingLayout>
-          <SettingMenu />
-          <MainSetting>
-            {hash === "#general" && <GeneralSettingTab />}
-            {hash === "#permissions" && <UsersPermissionsSettingTab />}
-            {hash === "#subjects" && <SubjectCurriculumContainer />}
-          </MainSetting>
-        </StyledSettingLayout>
-      </TabContextProvider>
-    </SubjectTabContextProvider>
+    <ClasseContextProvider>
+      <SubjectTabContextProvider>
+        <TabContextProvider>
+          <StyledSettingLayout>
+            <SettingMenu />
+            <MainSetting>
+              {hash === "#general" && <GeneralSettingTab />}
+              {hash === "#permissions" && <UsersPermissionsSettingTab />}
+              {hash === "#subjects" && <SubjectCurriculumContainer />}
+              {hash === "#classes" && <ClasseAndGradesSettingTab />}
+            </MainSetting>
+          </StyledSettingLayout>
+        </TabContextProvider>
+      </SubjectTabContextProvider>
+    </ClasseContextProvider>
   );
 }
 

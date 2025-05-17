@@ -3,9 +3,13 @@ import styled, { css } from "styled-components";
 
 const Error = styled.span`
   color: var(--color-red-700);
-  font-size: 1.2rem;
-  position: absolute;
-  bottom: -1.5rem;
+  ${(props) =>
+    !props.isGrid &&
+    css`
+      font-size: 1.2rem;
+      position: absolute;
+      bottom: -1.5rem;
+    `}
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -21,6 +25,15 @@ const StyledInputRow = styled.div`
     css`
       grid-column: 1/-1;
     `}
+
+  ${(props) =>
+    props.isGrid &&
+    css`
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 15rem 1fr 1fr;
+      align-items: center;
+    `}
   ${(props) =>
     props.error &&
     css`
@@ -32,15 +45,15 @@ const StyledInputRow = styled.div`
       }
     `}
 `;
-function InputRow({ label, error, children, spread }) {
+function InputRow({ label, error, children, spread, isGrid = false }) {
   return (
-    <StyledInputRow spread={spread} error={error}>
+    <StyledInputRow spread={spread} error={error} isGrid={isGrid}>
       <label htmlFor={children?.props?.id}>{label}</label>
       {children}
 
       {error && (
-        <Error>
-          <HiOutlineExclamationCircle />
+        <Error isGrid={isGrid}>
+          {!isGrid && <HiOutlineExclamationCircle />}
           {error}
         </Error>
       )}

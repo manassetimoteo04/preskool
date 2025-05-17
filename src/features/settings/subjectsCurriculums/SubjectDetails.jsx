@@ -74,9 +74,7 @@ function SubjectDetails() {
           </Tag>
         </StyledHeader>
         <DetailBox>
-          <p>
-            {name} &mdash; {code}
-          </p>
+          <p>{name}</p>
           <HiArrowRight />
           <p>
             {classe.course} &mdash; {classe.grade}ª &mdash; {classe.period}
