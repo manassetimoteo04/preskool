@@ -64,6 +64,18 @@ function ClassesGridLayout() {
             </ClassesTable>
           );
         })}
+
+        <ClassesTable>
+          <ClassesTable.Header>
+            <Heading as="h3">
+              <span>
+                <HiMiniHashtag /> Ensino Fundamental
+              </span>
+              <Menus.Toggle />
+            </Heading>
+          </ClassesTable.Header>
+          <GridTableBody />
+        </ClassesTable>
       </Menus>
     </Row>
   );

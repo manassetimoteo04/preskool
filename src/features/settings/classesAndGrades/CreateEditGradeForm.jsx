@@ -51,7 +51,15 @@ function CreateEditGradeForm() {
     .at(0)?.courseName;
 
   function onSubmit(data) {
-    createGrade({ ...data, courseName }, { onSuccess: () => setCurrentTab() });
+    if (data.gradeType === "highSchool")
+      createGrade(
+        { ...data, courseName },
+        { onSuccess: () => setCurrentTab() }
+      );
+    if (data.gradeType === "fundamentalSchool") {
+      createGrade({ ...data }, { onSuccess: () => setCurrentTab() });
+    }
+    console.log(data.gradeType);
   }
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -83,7 +91,7 @@ function CreateEditGradeForm() {
               required: "Esté campo é Obrigatório",
             })}
           >
-            <option value="primarySchool">Ensino Fundamental</option>
+            <option value="fundamentalSchool">Ensino Fundamental</option>
             <option value="highSchool">Ensino Médio</option>
           </Select>
         </InputRow>

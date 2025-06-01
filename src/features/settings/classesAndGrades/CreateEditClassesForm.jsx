@@ -42,9 +42,22 @@ function CreateEditClassesForm() {
   const { createClass, isLoading } = useCreateClass();
   const { data: grades, isLoading: isLoadingGrades } = useGrades();
   function onSubmit(data) {
-    console.log(data);
     createClass(data, { onSuccess: () => setCurrentTab() });
   }
+  let isLooped = {};
+  const allGrades = grades
+    .map((grade) => {
+      if (isLooped[grade.courseName]) return;
+      isLooped[grade.courseName] = true;
+      const list = grades
+        .filter((g) => g.courseName === grade.courseName)
+        .sort((a, b) => a.gradeYear.localeCompare(b.gradeYear));
+      return {
+        title: grade.courseName ? grade.courseName : "Ensino Fundamental",
+        list,
+      };
+    })
+    .filter((value) => value !== undefined);
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <header>
@@ -62,11 +75,17 @@ function CreateEditClassesForm() {
               required: "Esté campo é Obrigatório",
             })}
           >
-            {grades?.map((grade) => (
-              <option key={grade.id} value={grade.id}>
-                {grade.gradeYear}- {grade.courseName}
-              </option>
-            ))}
+            {allGrades.map((all) => {
+              return (
+                <optgroup label={all.title} key={all.title}>
+                  {all.list?.map((grade) => (
+                    <option key={grade.id} value={grade.id}>
+                      {grade.gradeYear}
+                    </option>
+                  ))}
+                </optgroup>
+              );
+            })}
           </Select>
         </InputRow>
       </FormRow>{" "}

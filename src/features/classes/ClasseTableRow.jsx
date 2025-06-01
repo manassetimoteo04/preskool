@@ -30,7 +30,7 @@ function ClasseTableRow({ classe }) {
           ) : (
             <>
               <p>
-                {data?.courseName} &mdash; {data?.gradeYear}
+                {data?.courseName || "Fundamental"} &mdash; {data?.gradeYear}
               </p>
               <span>
                 {data?.gradeType === "highSchool"
@@ -38,7 +38,7 @@ function ClasseTableRow({ classe }) {
                   : "Ensino Fundamental"}{" "}
                 &mdash;{" "}
                 {generateClasseCode(
-                  classe.variation,
+                  classe?.variation,
                   data?.gradeYear,
                   data?.courseName,
                   classe.period

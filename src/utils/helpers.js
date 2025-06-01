@@ -45,10 +45,12 @@ export function generateSubjectCode(name) {
   return `${prefix}${random}`;
 }
 export function generateClasseCode(variation, grade, course, period) {
-  return (
-    variation +
-    grade.match(/\d+/g) +
-    course.trim().substring(0, 3).toUpperCase() +
-    period.at(0).toUpperCase()
-  );
+  if (course)
+    return (
+      variation +
+      grade.match(/\d+/g) +
+      course?.trim().substring(0, 3).toUpperCase() +
+      period.at(0).toUpperCase()
+    );
+  return variation + grade.match(/\d+/g) + period.at(0).toUpperCase() + "FUN";
 }
