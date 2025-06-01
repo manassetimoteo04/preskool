@@ -2,9 +2,15 @@ export async function createUserAuth(user) {
   try {
     const response = await fetch("/api/createUser", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        ...user,
+        username: user.username,
+        password: user.password,
+        publicMetadata: {
+          role: "admin",
+        },
       }),
     });
 
@@ -16,7 +22,6 @@ export async function createUserAuth(user) {
       return;
     }
 
-    console.log("Usuário criado:", data.user);
     console.log("Usuário criado:", data.user);
     return data;
   } catch (error) {

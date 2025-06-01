@@ -1,41 +1,39 @@
-// api/createUser.js
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Only POST allowed" });
+    return res.status(405).json({ message: "Método não permitido" });
   }
 
-  const { username, password, publicMetadata, privateMetadata } = req.body;
+  const { username, password, publicMetadata } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: "Missing username or password" });
+    return res.status(400).json({ message: "Faltando username ou senha" });
   }
 
   try {
-    const response = await fetch("https://api.clerk.dev/v1/users", {
+    const response = await fetch("https://api.clerk.com/v1/users", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.CLERK_API_KEY}`,
+        Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username,
         password,
         public_metadata: publicMetadata || {},
-        private_metadata: privateMetadata || {},
       }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
+      console.error("Erro do Clerk:", data);
       return res
         .status(response.status)
-        .json({ message: errorData.message || "Erro ao criar usuário" });
+        .json({ message: data.message || "Erro ao criar usuário" });
     }
 
-    const data = await response.json();
     return res.status(201).json({ user: data });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
 }
