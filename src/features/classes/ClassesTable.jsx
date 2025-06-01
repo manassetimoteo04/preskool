@@ -3,11 +3,13 @@ import Heading from "../../ui/Heading";
 import {
   HiOutlineBookOpen,
   HiOutlineClock,
+  HiOutlineCube,
+  HiOutlineDocumentCurrencyRupee,
+  HiOutlineHomeModern,
   HiOutlineUsers,
 } from "react-icons/hi2";
 import Button from "../../ui/Button";
-import Spinner from "../../ui/Spinner";
-import { useClasse } from "./useClasse";
+
 import { useNavigate } from "react-router-dom";
 const StyledClassTable = styled.div`
   display: flex;
@@ -67,11 +69,13 @@ function ClassesTable({ children }) {
 
 function Box({ classe }) {
   const navigate = useNavigate();
-  const { grade, period, students, subjects, id } = classe;
+  const { id, variation, capacity, subjects, grade, students, period, room } =
+    classe;
+
   return (
     <TableBox>
       <Heading as="h3">
-        {grade}ª Classe &mdash; {period}
+        {grade} &mdash; {period}
       </Heading>
       <div>
         <span>
@@ -82,6 +86,15 @@ function Box({ classe }) {
         </span>
         <span>
           <HiOutlineClock /> {period}
+        </span>{" "}
+        <span>
+          <HiOutlineHomeModern /> Sala {room}
+        </span>{" "}
+        <span>
+          <HiOutlineCube /> Capacidade {capacity}
+        </span>{" "}
+        <span>
+          <HiOutlineDocumentCurrencyRupee /> Variação {variation}
         </span>
         <Button onClick={() => navigate(`/classes/${id}`)}>Ver detalhes</Button>
       </div>
@@ -91,10 +104,7 @@ function Box({ classe }) {
 function Header({ children }) {
   return <StyledHeader>{children}</StyledHeader>;
 }
-function Body({ render, courseId }) {
-  const { classe: data, isLoading } = useClasse({ courseId: courseId?.id });
-  if (isLoading) return <Spinner />;
-
+function Body({ render, data }) {
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 

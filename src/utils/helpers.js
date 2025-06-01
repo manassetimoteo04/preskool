@@ -44,11 +44,11 @@ export function generateSubjectCode(name) {
   const random = Math.floor(1000 + Math.random() * 9000);
   return `${prefix}${random}`;
 }
-export function generateClasseCode(grade, course, period) {
-  let prefix =
-    grade +
+export function generateClasseCode(variation, grade, course, period) {
+  return (
+    variation +
+    grade.match(/\d+/g) +
     course.trim().substring(0, 3).toUpperCase() +
-    period.at(0).toUpperCase();
-
-  return prefix;
+    period.at(0).toUpperCase()
+  );
 }

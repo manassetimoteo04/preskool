@@ -3,6 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styled, { keyframes } from "styled-components";
 import { useEffect, useRef } from "react";
+import ClassesTableContext from "../features/classes/ClassesTableContext";
 const animation = keyframes`
   from{
     transform: translateY(-10rem);
@@ -50,11 +51,13 @@ function AppLayout() {
     <StyledAppLayout>
       <Sidebar />
       <Header />
-      <Main ref={ref}>
-        <Container>
-          <Outlet />
-        </Container>
-      </Main>
+      <ClassesTableContext>
+        <Main ref={ref}>
+          <Container>
+            <Outlet />
+          </Container>
+        </Main>
+      </ClassesTableContext>
     </StyledAppLayout>
   );
 }

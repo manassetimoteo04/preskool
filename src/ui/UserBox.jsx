@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import SmallUserImg from "./SmallUserImg";
 import { HiChevronDown } from "react-icons/hi2";
-import { useDarkMode } from "../context/DarkModeContext";
 const StyledUserBox = styled.button`
   background: none;
   border: none;
@@ -50,13 +49,12 @@ const StyledUserBox = styled.button`
 `;
 
 function UserBox({ isOpen, onClick }) {
-  const { isDarkMode } = useDarkMode();
   return (
     <StyledUserBox onClick={onClick} isOpen={isOpen}>
       <SmallUserImg
         draggable="false"
         oncontextmenu="false"
-        src={`/default-user-${isDarkMode ? "dark" : "ligth"}.png`}
+        src={`/default-user.jpg`}
       />
       <span>
         <p>Manasse Timóteo</p>

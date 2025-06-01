@@ -10,18 +10,23 @@ import CreateClassForm from "./CreateClassForm";
 import CreateEditCourseForm from "./CreateEditCourseForm";
 import { useCourses } from "./useCourses";
 import { useDeleteCourse } from "./useDeleteCourse";
-function ClassesLayout() {
+import GridTableBody from "./GridTableBody";
+function ClassesGridLayout() {
   const { courses, isLoading } = useCourses();
   const { deleteCourse, isLoading: isDeleting } = useDeleteCourse();
+
   if (isLoading) return <Spinner />;
+
   return (
     <Row>
       <Modal.Window name="class-form" buttonClose={true}>
         <CreateClassForm />
       </Modal.Window>
+
       <Modal.Window name="course-form" buttonClose={true}>
         <CreateEditCourseForm />
-      </Modal.Window>{" "}
+      </Modal.Window>
+
       <Menus>
         {courses.map((course, i) => {
           return (
@@ -45,16 +50,7 @@ function ClassesLayout() {
                   <Menus.Toggle menuId={course?.id} />
                 </Heading>
               </ClassesTable.Header>
-              <ClassesTable.Body
-                courseId={course}
-                index={i}
-                render={(classe) => (
-                  <ClassesTable.Box
-                    classe={classe}
-                    key={classe.id}
-                  ></ClassesTable.Box>
-                )}
-              />
+              <GridTableBody course={course} i={i} />
               <Menus.Menu menuId={course?.id}>
                 <Menus.List>
                   <Modal.Open opens={course.id}>
@@ -73,4 +69,4 @@ function ClassesLayout() {
   );
 }
 
-export default ClassesLayout;
+export default ClassesGridLayout;

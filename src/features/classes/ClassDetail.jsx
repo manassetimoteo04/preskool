@@ -4,7 +4,6 @@ import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 import Spinner from "../../ui/Spinner";
 import Tag from "../../ui/Tag";
-import { useCourse } from "./useCourse";
 import styled from "styled-components";
 import Button from "../../ui/Button";
 import { HiOutlineBookOpen, HiOutlineUserGroup, HiPlus } from "react-icons/hi2";
@@ -14,6 +13,8 @@ import Modal from "../../ui/Modal";
 import CreateEditSubjectForm from "./CreateEditSubjectForm";
 import ClassStudentsTable from "./ClassStudentsTable";
 import ClassSubjectsTable from "./ClassSubjectsTable";
+import { useGrades } from "../settings/classesAndGrades/useGrades";
+import { generateClasseCode } from "../../utils/helpers";
 const StyledClassDetailGrid = styled.div`
   display: grid;
   grid-template-columns: 30rem 1fr;
@@ -34,6 +35,7 @@ const StyledDetailFlex = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 1rem 2rem;
+    align-items: center;
     border-bottom: 1px solid var(--color-grey-200);
   }
 `;
@@ -53,21 +55,23 @@ function ClassDetail() {
   const { classId: id } = useParams();
   const { classe = {}, isLoading } = useClasse({ id });
   const {
-    grade,
+    students,
+    variation,
+    gradeId,
+    capacity,
+    description,
     period,
-    course,
-    roomNumber,
     subjects,
-    students: numStudents,
+    room,
   } = classe;
-  const { data, isLoading: isLoading2 } = useCourse(course);
+  const { data, isLoading: isLoading2 } = useGrades(gradeId);
   if (isLoading || isLoading2) return <Spinner />;
 
   return (
     <Modal>
       <Row type="horizontal">
         <Heading as="h2">
-          {data?.courseName} &mdash; {grade}ª Classe &mdash; {period}
+          {data?.courseName} &mdash; {data.gradeYear} &mdash; {period}
         </Heading>
         <Modal.Open opens="subject-form">
           <Button>
@@ -83,20 +87,43 @@ function ClassDetail() {
               <Tag type="active">activo</Tag>
             </header>
             <div>
+              <strong>Turma </strong>
+              <span>
+                {generateClasseCode(
+                  variation,
+                  data.gradeYear,
+                  data.courseName,
+                  classe.period
+                )}
+              </span>
+            </div>{" "}
+            <div>
               <strong>Sala </strong>
-              <span type="active">{roomNumber}</span>
+              <span>{room}</span>
+            </div>{" "}
+            <div>
+              <strong>Capacidade </strong>
+              <span>{capacity}</span>
+            </div>{" "}
+            <div>
+              <strong>Sala </strong>
+              <span>{room}</span>
+            </div>{" "}
+            <div>
+              <strong>Série </strong>
+              <span>{data.gradeYear}</span>
             </div>
             <div>
               <strong>Total alunos </strong>
-              <span type="active">{numStudents?.length}</span>
+              <span>{students?.length}</span>
             </div>
             <div>
               <strong>Total professores </strong>
-              <span type="active">5</span>
+              <span>5</span>
             </div>
             <div>
               <strong>Total disciplinas </strong>
-              <span type="active">{subjects?.length}</span>
+              <span>{subjects?.length}</span>
             </div>
           </StyledDetailFlex>
           <StyledDetailFlex>
@@ -104,10 +131,7 @@ function ClassDetail() {
               <Heading as="h2">Breve descrição</Heading>
             </header>
             <div>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptate harum porro numquam sit.
-              </p>
+              <p>{description}</p>
             </div>
           </StyledDetailFlex>
         </Row>

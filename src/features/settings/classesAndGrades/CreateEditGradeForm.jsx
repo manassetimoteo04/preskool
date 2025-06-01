@@ -43,10 +43,15 @@ function CreateEditGradeForm() {
   const { createGrade, isLoading } = useCreateGrades();
 
   const gradeType = watch("gradeType");
-  console.log(gradeType);
+
+  const selectedCourse = watch("courseId");
   const { courses, isLoading: isLoadingCourses } = useCourses();
+  const courseName = courses
+    ?.filter((course) => course.id === selectedCourse)
+    .at(0)?.courseName;
+
   function onSubmit(data) {
-    createGrade(data, { onSuccess: () => setCurrentTab() });
+    createGrade({ ...data, courseName }, { onSuccess: () => setCurrentTab() });
   }
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -84,27 +89,29 @@ function CreateEditGradeForm() {
         </InputRow>
       </FormRow>{" "}
       {gradeType === "highSchool" && (
-        <FormRow>
-          <InputRow
-            isGrid={true}
-            label="Selecionar Curso"
-            error={errors?.courseId?.message}
-          >
-            <Select
-              disabled={isLoading || isLoadingCourses}
-              {...register("courseId", {
-                required: "Esté campo é Obrigatório",
-              })}
+        <>
+          <FormRow>
+            <InputRow
+              isGrid={true}
+              label="Selecionar Curso"
+              error={errors?.courseId?.message}
             >
-              <option value="">Nenhum Selecionado</option>
-              {courses?.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.courseName}
-                </option>
-              ))}
-            </Select>
-          </InputRow>
-        </FormRow>
+              <Select
+                disabled={isLoading || isLoadingCourses}
+                {...register("courseId", {
+                  required: "Esté campo é Obrigatório",
+                })}
+              >
+                <option value="">Nenhum Selecionado</option>
+                {courses?.map((course) => (
+                  <option key={course.id} value={course.id}>
+                    {course.courseName}
+                  </option>
+                ))}
+              </Select>
+            </InputRow>
+          </FormRow>
+        </>
       )}
       <FormRow>
         <InputRow

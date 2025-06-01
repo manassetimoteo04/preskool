@@ -4,7 +4,7 @@ import {
   getDoc,
   doc,
   addDoc,
-  arrayUnion,
+  // arrayUnion,
   updateDoc,
   query,
   where,
@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 
 import { db } from "./firebase.js";
-export async function getClasse({ id, courseId }) {
+export async function getClasse({ id, gradeId, gradesIds }) {
   try {
     if (id) {
       const docRef = doc(db, "classes", id);
@@ -23,18 +23,34 @@ export async function getClasse({ id, courseId }) {
         throw new Error("Document not found");
       }
     }
-    if (courseId) {
+    if (gradeId) {
       const ref = collection(db, "classes");
-      const q = query(ref, where("course", "==", courseId));
+      const q = query(ref, where("gradeId", "==", gradeId));
       const querySnapshot = await getDocs(q);
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       return data;
-    } else {
-      throw new Error("You must provide either an id or a courseId");
     }
+    if (gradesIds?.length) {
+      const ref = collection(db, "classes");
+      const q = query(ref, where("gradeId", "in", gradesIds));
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return data;
+    }
+
+    const ref = collection(db, "classes");
+    const querySnapshot = await getDocs(ref);
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -63,8 +79,8 @@ export async function createNewClass(newClassData) {
     };
 
     const data = await addDoc(collection(db, "classes"), finalData);
-    const docRef = doc(db, "courses", finalData.course);
-    await updateDoc(docRef, { classes: arrayUnion(finalData.course) });
+    // const docRef = doc(db, "courses", finalData.course);
+    // await updateDoc(docRef, { classes: arrayUnion(finalData.course) });
     return data;
   } catch (error) {
     console.error(error.message);

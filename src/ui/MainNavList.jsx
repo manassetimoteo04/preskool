@@ -52,7 +52,7 @@ function MainNavList() {
       <li>
         <StyledLink to="/classes">
           <HiOutlineHomeModern />
-          Turmas
+          Turmas e Séries
         </StyledLink>
       </li>{" "}
       <li>

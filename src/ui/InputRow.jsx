@@ -31,7 +31,7 @@ const StyledInputRow = styled.div`
     css`
       display: grid;
       gap: 2rem;
-      grid-template-columns: 15rem 1fr 1fr;
+      grid-template-columns: 20rem 1fr 1fr;
       align-items: center;
     `}
   ${(props) =>
