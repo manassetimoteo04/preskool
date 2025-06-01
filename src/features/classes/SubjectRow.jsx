@@ -6,10 +6,14 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import { useDeleteSubject } from "./useDeleteSubject";
+import { useGetTeacher } from "../teachers/useGetTeacher";
+import { useNavigate } from "react-router-dom";
 
 function SubjectRow({ subject }) {
+  const navigate = useNavigate();
   const { deleteSubject, isLoading: isDeleting } = useDeleteSubject();
-  const linked = subject.teacher.id && subject.class.id;
+  const linked = subject.teacherId && subject.classId;
+  const { data, isLoading } = useGetTeacher(subject.teacherId);
   return (
     <Table.Row>
       <span>{subject.name}</span>
@@ -17,11 +21,16 @@ function SubjectRow({ subject }) {
       <Tag type={linked ? "active" : "pending"}>
         {linked ? "vinculado" : "pendente"}
       </Tag>
-      <span>{subject.teacher.name}</span>
+      <span>{isLoading ? "Carregando..." : data.fullName}</span>
       <Menus.Toggle menuId={subject.id} />
       <Menus.Menu menuId={subject.id}>
         <Menus.List>
-          <Menus.Button icon={<HiEye />}>Professor</Menus.Button>
+          <Menus.Button
+            onClick={() => navigate(`/teachers/${data.id}`)}
+            icon={<HiEye />}
+          >
+            Professor
+          </Menus.Button>
           <Modal.Open opens={subject.id}>
             <Menus.Button icon={<HiPencil />}>Editar</Menus.Button>
           </Modal.Open>

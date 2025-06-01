@@ -8,6 +8,10 @@ import { useSubjectsTab } from "./SubjectTabContext";
 import { useSubject } from "../../classes/useSubject";
 import Spinner from "../../../ui/Spinner";
 import UpdateSubjectLinkForm from "./UpdateSubjectLinkForm";
+import { useClasse } from "../../classes/useClasse";
+import { useGetTeacher } from "../../teachers/useGetTeacher";
+import { useGrades } from "../classesAndGrades/useGrades";
+import { useCourse } from "../../classes/useCourse";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -20,7 +24,7 @@ const StyledHeader = styled.header`
 
 const DetailBox = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4rem 1fr 4rem 1fr;
+  grid-template-columns: 1fr 4rem 1.5fr 4rem 1fr;
   justify-content: center;
   align-items: center;
   background-color: var(--color-grey-100);
@@ -58,10 +62,18 @@ const ButtonsGroup = styled.div`
 function SubjectDetails() {
   const { subjectDetail: id } = useSubjectsTab();
   const { data, isLoading } = useSubject({ id });
+  const { classe, isLoading: isLoading1 } = useClasse({ id: data?.classId });
+  const { data: grade, isLoading: isLoading2 } = useGrades(classe?.gradeId);
+  const { data: course, isLoading: isLoading3 } = useCourse(grade?.courseId);
+  const { data: teacher, isLoading: isLoading4 } = useGetTeacher(
+    data?.teacherId
+  );
+  const { name, code, classId, teacherId } = data || {};
 
-  const { name, code, class: classe, teacher } = data || {};
-  if (isLoading) return <Spinner />;
-  const isLinked = classe.id && teacher.id;
+  if (isLoading || isLoading1 || isLoading2 || isLoading3 || isLoading4)
+    return <Spinner />;
+  const isLinked = classId && teacherId;
+
   return (
     <Modal>
       <Row>
@@ -77,10 +89,11 @@ function SubjectDetails() {
           <p>{name}</p>
           <HiArrowRight />
           <p>
-            {classe.course} &mdash; {classe.grade}ª &mdash; {classe.period}
+            {course.courseName || "Ensino Fundamental"} &mdash;{" "}
+            {grade?.gradeYear} &mdash; {classe.period}
           </p>
           <HiArrowRight />
-          <p>{teacher.name || "desconhecido"}</p>
+          <p>{teacher?.fullName || "desconhecido"}</p>
         </DetailBox>
         <div>
           <Details>
@@ -93,11 +106,11 @@ function SubjectDetails() {
             <strong>Vínculo actual</strong>
 
             <p>
-              <span>Turma:</span> {classe.course} &mdash; {classe.grade}ª Classe
+              <span>Turma:</span> {classe.variation} &mdash; {grade.gradeYear}{" "}
               &mdash; {classe.period}
             </p>
             <p>
-              <span>Professor:</span> {teacher.name || "desconhecido"}
+              <span>Professor:</span> {teacher?.fullName || "desconhecido"}
             </p>
           </Details>{" "}
         </div>

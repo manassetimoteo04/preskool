@@ -8,8 +8,7 @@ export function useCreateStudent() {
   const navigate = useNavigate();
   const { mutate: createStudent, isLoading } = useMutation({
     mutationFn: createNewStudent,
-    onSuccess: (data) => {
-      console.log("new ", data);
+    onSuccess: () => {
       toast.success("Estudante registrado com successo");
       queryClient.invalidateQueries({ queryKey: ["students"] });
       navigate("/students");

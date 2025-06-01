@@ -7,6 +7,11 @@ import { useState } from "react";
 import { HiOutlineTrash, HiPlus } from "react-icons/hi";
 import SearchLinkForm from "./SearchLinkForm";
 import { useUpdateSubject } from "../../classes/useUpdateSubject";
+import { useGrades } from "../classesAndGrades/useGrades";
+import { useCourse } from "../../classes/useCourse";
+import { useGetTeacher } from "../../teachers/useGetTeacher";
+import Spinner from "../../../ui/Spinner";
+import { useClasse } from "../../classes/useClasse";
 const StyledLinkForm = styled.div`
   max-width: 45rem;
 
@@ -48,8 +53,14 @@ const SelectBox = styled.div`
   }
 `;
 function UpdateSubjectLinkForm({ subject, onCloseModal }) {
-  const [teacher, setTeacher] = useState(subject.teacher);
-  const isLinked = subject.class.id && subject.teacher.id;
+  const { classe, isLoading: isLoading1 } = useClasse({ id: subject?.classId });
+
+  const { data: grade, isLoading: isLoading2 } = useGrades(classe?.gradeId);
+  const { data: course, isLoading: isLoading3 } = useCourse(grade?.courseId);
+  const { data, isLoading: isLoading4 } = useGetTeacher(subject?.teacherId);
+
+  const [teacher, setTeacher] = useState({ name: data.fullName, id: data.id });
+  const isLinked = subject.classId && subject.teacherId;
   const { updateSubject, isLoading } = useUpdateSubject();
   function handleDelete() {
     setTeacher("");
@@ -60,11 +71,12 @@ function UpdateSubjectLinkForm({ subject, onCloseModal }) {
 
     const updateData = {
       ...rest,
-      teacher: { id: teacher.id || null, name: teacher.name || null },
+      teacherId: teacher.id,
     };
     updateSubject({ id, data: updateData }, { onSuccess: onCloseModal });
   }
-  const disabled = subject.teacher.id === teacher.id;
+  const disabled = subject.teacheId === teacher;
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4) return <Spinner />;
   return (
     <StyledLinkForm>
       <header>
@@ -82,12 +94,12 @@ function UpdateSubjectLinkForm({ subject, onCloseModal }) {
         <div>
           <strong>Turma</strong>
           <span>
-            {subject.class.course} &mdash; {subject.class.grade}ª &mdash;{" "}
-            {subject.class.period}
+            {course?.courseName} &mdash; {grade?.gradeYear} &mdash;{" "}
+            {classe.period}
           </span>
         </div>
         <SelectBox>
-          {teacher ? (
+          {teacher.id ? (
             <>
               <div>
                 <strong>Professor</strong>
@@ -95,10 +107,10 @@ function UpdateSubjectLinkForm({ subject, onCloseModal }) {
               </div>
               <Button
                 size="small"
-                variation={!teacher.id ? "primary" : "danger"}
+                variation={!teacher ? "primary" : "danger"}
                 onClick={handleDelete}
               >
-                {teacher.id ? (
+                {teacher ? (
                   <HiOutlineTrash />
                 ) : (
                   <>

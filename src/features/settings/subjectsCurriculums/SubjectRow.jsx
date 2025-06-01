@@ -7,10 +7,16 @@ import { generateClasseCode } from "../../../utils/helpers";
 import { useSubjectsTab } from "./SubjectTabContext";
 import { HiOutlinePencil } from "react-icons/hi2";
 import UpdateSubjectLinkForm from "./UpdateSubjectLinkForm";
+import { useClasse } from "../../classes/useClasse";
+import { useCourse } from "../../classes/useCourse";
+import { useGrades } from "../classesAndGrades/useGrades";
 function SubjectRow({ subject }) {
   const { setSubjectDetail } = useSubjectsTab();
-  const isLinked = subject.class.id && subject.teacher.id;
+  const isLinked = subject.classId && subject.teacherId;
 
+  const { classe, isLoading } = useClasse({ id: subject.classId });
+  const { data: grade, isLoading: isLoading2 } = useGrades(classe?.gradeId);
+  const { data: course, isLoading: isLoading3 } = useCourse(grade?.courseId);
   return (
     <Table.Row>
       <span>{subject.name}</span>
@@ -19,11 +25,14 @@ function SubjectRow({ subject }) {
         {isLinked ? "Vinculado" : "Desvinculado"}
       </Tag>
       <span>
-        {generateClasseCode(
-          subject.class.grade,
-          subject.class.course,
-          subject.class.period
-        )}
+        {isLoading || isLoading2 || isLoading3
+          ? "Carregando..."
+          : generateClasseCode(
+              classe.variation,
+              grade.gradeYear,
+              course.courseName,
+              classe.period
+            )}
       </span>
       <Menus.Toggle menuId={subject.id} />
       <Menus.Menu menuId={subject.id}>

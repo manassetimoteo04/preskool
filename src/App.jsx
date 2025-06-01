@@ -29,6 +29,8 @@ import EmployeeLeaves from "./pages/EmployeeLeaves";
 import EmployeeLeaveDetail from "./pages/EmployeeLeaveDetail";
 import { DarkModeContextProvider } from "./context/DarkModeContext";
 import FinancialLatePayments from "./pages/FinancialLatePayments";
+import Login from "./pages/Login";
+import ProtectedRoute from "./ui/ProtectedRoute";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -45,7 +47,14 @@ function App() {
         <GlobalStyles />
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route path="/" element={<Dashboard />} />
               <Route path="/students" element={<Students />} />
               <Route path="/students/:studentId" element={<Student />} />
@@ -97,7 +106,7 @@ function App() {
           </Routes>
         </BrowserRouter>
         <Toaster
-          position="top-center"
+          position="top-rigth"
           gutter={12}
           containerStyle={{ margin: "8px" }}
           toastOptions={{

@@ -25,10 +25,10 @@ const TableContainer = styled.div`
 `;
 function ClassSubjectsTable({ classId }) {
   const { data: subjects, isLoading } = useSubject({
-    filterField: "class.id",
+    filterField: "classId",
     filterId: classId,
   });
-
+  console.log(subjects);
   const [query, setQuery] = useState("");
   if (isLoading) return <Spinner />;
   return (

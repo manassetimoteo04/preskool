@@ -33,6 +33,8 @@ import StudentNav from "./StudentNav";
 import { useState } from "react";
 import StudentOthersInfo from "./StudentOthersInfo";
 import StudentMarksDetail from "./StudentMarksDetail";
+import { useGrades } from "../settings/classesAndGrades/useGrades";
+import { useClasse } from "../classes/useClasse";
 
 const StyledDetailsGrid = styled.div`
   display: grid;
@@ -72,9 +74,9 @@ const StyledConfigButton = styled.button`
 `;
 function StudentDetail() {
   const { data: student, isLoading } = useStudent();
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState("informations");
+
   const navigate = useNavigate();
-  if (isLoading) return <Spinner />;
   const {
     biUpload,
     docUpload,
@@ -92,8 +94,17 @@ function StudentDetail() {
     parent,
     province,
     id,
-  } = student;
-  const { name, phone, email, occupation, type } = parent;
+    avatar,
+  } = student || {};
+  const { name, phone, email, occupation, type } = parent || {};
+  const { classe, isLoading: isLoadingClasse } = useClasse({
+    id: grade,
+  });
+  const { data: gradeData, isLoading: isLoadingGrade } = useGrades(
+    classe?.gradeId
+  );
+  if (isLoading) return <Spinner />;
+  console.log(gradeData);
   return (
     <Modal>
       <Row type="horizontal">
@@ -108,7 +119,7 @@ function StudentDetail() {
             <header>
               <FlexBox>
                 <ProfileImg
-                  src="/default-user.jpg"
+                  src={avatar || "/default-user.jpg"}
                   type={status ? "active" : "inactive"}
                 />
                 <div>
@@ -171,7 +182,7 @@ function StudentDetail() {
                 </span>
                 <div>
                   <strong>Área de Formação</strong>
-                  <span>{course} </span>
+                  <span>{gradeData?.courseName || "Ensino Fundamental"} </span>
                 </div>
               </DetailRow>
               <DetailRow>
@@ -180,7 +191,7 @@ function StudentDetail() {
                 </span>
                 <div>
                   <strong>Classe</strong>
-                  <span>{grade}ª Classe </span>
+                  <span>{gradeData?.gradeYear} </span>
                 </div>
               </DetailRow>
               <DetailRow>
@@ -189,7 +200,7 @@ function StudentDetail() {
                 </span>
                 <div>
                   <strong>Período</strong>
-                  <span>{schoolPeriod} </span>
+                  <span>{classe?.period} </span>
                 </div>
               </DetailRow>
             </Detail>

@@ -49,8 +49,9 @@ export async function getSubject({ id, filterId, filterField }) {
 
 export async function createSubject(data) {
   try {
+    console.log(data);
     const refData = addDoc(collection(db, "subjects"), data);
-    const docRef = doc(db, "classes", data.class.id);
+    const docRef = doc(db, "classes", data.classId);
     await updateDoc(docRef, { subjects: arrayUnion(docRef.id) });
     return refData;
   } catch (error) {

@@ -1,15 +1,31 @@
 import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
-import Input from "../../ui/Input";
 import InputRow from "../../ui/InputRow";
 import Select from "../../ui/Select";
 import { useCourses } from "../classes/useCourses";
 import { useClasse } from "../classes/useClasse";
+import { useGrades } from "../settings/classesAndGrades/useGrades";
 
 function FormSchoolInfor({ register, errors, isEditSession, watch }) {
   const { courses, isLoading } = useCourses();
   const [name, courseId] = (watch("course") || "").split("-");
-  const { classe, isLoading: isLoadingClasses } = useClasse({ courseId });
+
+  const { data: grades, isLoading: isLoadingGrades } = useGrades(
+    null,
+    courseId
+  );
+  const finalGrades =
+    name === "fundamental"
+      ? grades?.filter((g) => g.gradeType === "fundamentalSchool")
+      : grades;
+  const gradesList = finalGrades?.sort((a, b) =>
+    a.gradeYear.localeCompare(b.gradeYear)
+  );
+
+  const schoolYear = watch("schoolYear");
+  const { classe, isLoading: isLoadingClasses } = useClasse({
+    gradeId: schoolYear,
+  });
   return (
     <Form.Row>
       {!isEditSession && (
@@ -37,15 +53,7 @@ function FormSchoolInfor({ register, errors, isEditSession, watch }) {
           </InputRow>
         </>
       )}
-      <InputRow label="Ano lectivo" error={errors?.schoolYear?.message}>
-        <Input
-          type="text"
-          id="schoolYear"
-          name="schoolYear"
-          {...register("schoolYear", { required: "Este campo é obrigatório" })}
-        />
-      </InputRow>
-      <InputRow label="Selecionar Curso" error={errors?.course?.message}>
+      <InputRow label="Selecionar Curso/Ensino" error={errors?.course?.message}>
         <Select
           id="course"
           name="course"
@@ -55,6 +63,7 @@ function FormSchoolInfor({ register, errors, isEditSession, watch }) {
           <option value="">
             {isLoading ? "Carregando cursos" : "Nenhum selecionado"}
           </option>
+          <option value="fundamental">Ensino Fundamental</option>
           {courses?.map((course) => (
             <option value={course.courseName + "-" + course.id} key={course.id}>
               {course.courseName}
@@ -62,9 +71,30 @@ function FormSchoolInfor({ register, errors, isEditSession, watch }) {
           ))}
         </Select>
       </InputRow>
-      <InputRow label="Classe" error={errors?.grade?.message}>
+      <InputRow label="Selecionar Ano" error={errors?.schoolYear?.message}>
         <Select
-          disabled={isLoadingClasses || isLoading || !name}
+          disabled={isLoadingGrades || !name}
+          type="number"
+          id="schoolYear"
+          name="schoolYear"
+          {...register("schoolYear", { required: "Este campo é obrigatório" })}
+        >
+          <option value="">
+            {isLoadingClasses || isLoading
+              ? "Carregando - " + name
+              : "Nenhum selecionado"}
+          </option>
+          {gradesList?.map((c) => (
+            <option value={c.id} key={c.id}>
+              {c.gradeYear}
+            </option>
+          ))}
+        </Select>
+      </InputRow>
+
+      <InputRow label="Selecionar Turma" error={errors?.grade?.message}>
+        <Select
+          disabled={isLoadingClasses || isLoading || !schoolYear}
           type="number"
           id="grade"
           name="grade"
@@ -76,26 +106,10 @@ function FormSchoolInfor({ register, errors, isEditSession, watch }) {
               : "Nenhum selecionado"}
           </option>
           {classe?.map((c) => (
-            <option value={c.grade + "-" + c.id} key={c.id}>
-              {c.grade}ª Classe
+            <option value={c.id} key={c.id}>
+              {c.period} - {c.variation}
             </option>
           ))}
-        </Select>
-      </InputRow>
-
-      <InputRow label="Selecionar Turno" error={errors?.schoolPeriod?.message}>
-        <Select
-          id="schoolPeriod"
-          name="schoolPeriod"
-          {...register("schoolPeriod", {
-            required: "Este campo é obrigatório",
-          })}
-        >
-          <option value="">
-            {isLoading ? "Carregando" : "Nenhum selecionado"}
-          </option>{" "}
-          <option value="Manhã">Manhã </option>{" "}
-          <option value="Tarde">Tarde</option>
         </Select>
       </InputRow>
     </Form.Row>

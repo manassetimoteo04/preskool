@@ -14,7 +14,6 @@ function GridTableBody({ course = null }) {
 
   if (isLoading || isLoading2) return <Spinner />;
 
-  console.log(finalData);
   const classesList = classe
     .map((cl) => {
       const grade = finalData?.find((d) => d.id === cl.gradeId)?.gradeYear;

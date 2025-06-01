@@ -18,7 +18,6 @@ import { useUpdateSubject } from "./useUpdateSubject";
 import { useTeachers } from "../teachers/useTeachers";
 import { generateSubjectCode } from "../../utils/helpers";
 import { useClasse } from "./useClasse";
-import { useCourse } from "./useCourse";
 import { useParams } from "react-router-dom";
 
 const FlexBox = styled.div`
@@ -36,12 +35,10 @@ function CreateSubjectForm({ onCloseModal, subjectId, subject = {} }) {
   const { classId: id } = useParams();
 
   const { classe } = useClasse({ id });
-  const { course: courseId } = classe;
-  const { data: course } = useCourse(courseId);
   const editSubject = {
     subjectName: subject?.name,
     subjectType: subject?.type,
-    subjectTeacherId: subject?.teacher?.name + "-" + subject?.teacher?.id,
+    subjectTeacherId: subject?.teacherId,
   };
   const isEditSession = Boolean(subjectId);
   const {
@@ -53,26 +50,12 @@ function CreateSubjectForm({ onCloseModal, subjectId, subject = {} }) {
   const { updateSubject, isLoading1 } = useUpdateSubject();
   const { teachers, isLoading: isLoadingTeachers } = useTeachers();
   function onSubmit(data) {
-    const teacher = data.subjectTeacherId || "";
-    const [teacherName, teacherId] = teacher.split("-");
-
     const finalData = {
       name: data.subjectName,
       type: data.subjectType,
       code: generateSubjectCode(data.subjectName),
-      get linked() {
-        return !!(this.class.id && this.teacher.id);
-      },
-      class: {
-        course: course?.courseName,
-        grade: classe?.grade,
-        period: classe?.period,
-        id: classe?.id,
-      },
-      teacher: {
-        name: teacherName,
-        id: teacherId,
-      },
+      classId: classe?.id,
+      teacherId: data.subjectTeacherId,
     };
 
     isEditSession
@@ -124,10 +107,7 @@ function CreateSubjectForm({ onCloseModal, subjectId, subject = {} }) {
                 >
                   <option value="">Nenhum selecionado</option>
                   {teachers?.map((teacher) => (
-                    <option
-                      value={teacher.fullName + "-" + teacher.id}
-                      key={teacher.id}
-                    >
+                    <option value={teacher.id} key={teacher.id}>
                       {teacher.fullName}
                     </option>
                   ))}

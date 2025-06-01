@@ -41,7 +41,7 @@ export function generateSubjectCode(name) {
       })
       .join("")
       .toUpperCase();
-  const random = Math.floor(1000 + Math.random() * 9000);
+  const random = Math.floor(10000 + Math.random() * 99999);
   return `${prefix}${random}`;
 }
 export function generateClasseCode(variation, grade, course, period) {
@@ -50,7 +50,7 @@ export function generateClasseCode(variation, grade, course, period) {
       variation +
       grade.match(/\d+/g) +
       course?.trim().substring(0, 3).toUpperCase() +
-      period.at(0).toUpperCase()
+      period?.at(0).toUpperCase()
     );
   return variation + grade.match(/\d+/g) + period.at(0).toUpperCase() + "FUN";
 }

@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import Button from "../../ui/Button";
-import Modal, { useModal } from "../../ui/Modal";
-import ConfirmInformation from "./ConfirmInformation";
-import { useState } from "react";
+
 import { useCreateStudent } from "./useCreateStudent";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +20,6 @@ function FormButtons({
   internNumber: oldInterNumber,
 }) {
   const navigate = useNavigate();
-  const [data, setData] = useState({});
-  const { open, close } = useModal();
   const { createStudent, isLoading } = useCreateStudent();
   const { updateStudent, isLoading: isUpdating } = useUpdateStudent();
   function onClick(data) {
@@ -43,10 +39,7 @@ function FormButtons({
       biUpload,
       docUpload,
       province,
-      schoolYear,
       grade,
-      course,
-      schoolPeriod,
     } = data;
     const studentData = {
       fullName,
@@ -57,10 +50,8 @@ function FormButtons({
       studentPhone,
       biUpload,
       docUpload,
-      schoolYear,
+      avatar: "",
       grade,
-      course,
-      schoolPeriod,
       province,
       parent: {
         type: parent,
@@ -73,19 +64,15 @@ function FormButtons({
       internNumber: internNumber,
     };
 
-    !isEditSession && open("confirmInfo");
-    if (isEditSession) {
-      updateStudent(studentData);
-    }
-    setData(studentData);
+    isEditSession
+      ? updateStudent(studentData)
+      : createStudent(studentData, {
+          onSuccess: () => {
+            navigate("/students");
+          },
+        });
   }
-  function onConfirm() {
-    createStudent(data, {
-      onSuccess: () => {
-        close();
-      },
-    });
-  }
+
   return (
     <>
       <StyledFormButtons>
@@ -97,20 +84,14 @@ function FormButtons({
           Cancelar
         </Button>
 
-        <Button onClick={handleSubmit(onClick)} disabled={isUpdating}>
-          {isUpdating && <SpinnerMini />}
+        <Button
+          onClick={handleSubmit(onClick)}
+          disabled={isUpdating || isLoading}
+        >
+          {isUpdating || (isLoading && <SpinnerMini />)}
           {isEditSession ? "Editar estudante " : "Finalizar inscrição"}
         </Button>
       </StyledFormButtons>
-      {!isEditSession && (
-        <Modal.Window name="confirmInfo" buttonClose={true}>
-          <ConfirmInformation
-            data={data}
-            onConfirm={onConfirm}
-            isLoading={isLoading}
-          />
-        </Modal.Window>
-      )}
     </>
   );
 }
