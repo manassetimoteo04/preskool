@@ -11,7 +11,7 @@ import Menus from "./Menus";
 import { HiOutlineLogout } from "react-icons/hi";
 import UserBox from "./UserBox";
 import { useDarkMode } from "../context/DarkModeContext";
-import { useSignOut } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
 
 const StyledHeader = styled.header`
   padding: 1rem;
@@ -24,8 +24,7 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
-  const { signOut } = useSignOut();
-
+  const { signOut } = useAuth();
   const { toggleDarkMode, isDarkMode } = useDarkMode();
   return (
     <Menus>
