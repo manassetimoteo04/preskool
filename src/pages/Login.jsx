@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import LoginLayout from "../features/authentication/LoginLayout";
+import CreateUserForm from "../features/authentication/CreateUserForm";
 
 const StyledLogin = styled.div`
   background-color: var(--color-grey-50);
@@ -14,6 +15,7 @@ function Login() {
   return (
     <StyledLogin>
       <LoginLayout />
+      <CreateUserForm />
     </StyledLogin>
   );
 }

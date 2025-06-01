@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Only POST allowed" });
   }
 
-  const { username, password } = req.body;
+  const { username, password, publicMetadata, privateMetadata } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({ message: "Missing username or password" });
@@ -19,9 +19,10 @@ export default async function handler(req, res) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username, // manda o username aqui
-        password, // manda a senha aqui
-        // se quiser, pode adicionar email_address: [] também
+        username,
+        password,
+        public_metadata: publicMetadata || {},
+        private_metadata: privateMetadata || {},
       }),
     });
 
