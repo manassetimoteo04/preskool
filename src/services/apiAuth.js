@@ -1,13 +1,10 @@
-export async function createUserAuth({ username, password, fullName, role }) {
+export async function createUserAuth(data) {
   try {
     const response = await fetch("/api/createUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username,
-        password,
-        publicMetadata: { fullName, role },
-        privateMetadata: {},
+        data,
       }),
     });
 
@@ -15,9 +12,11 @@ export async function createUserAuth({ username, password, fullName, role }) {
 
     if (!response.ok) {
       console.error("Erro:", data.message);
+
       return;
     }
 
+    console.log("Usuário criado:", data.user);
     console.log("Usuário criado:", data.user);
     return data;
   } catch (error) {

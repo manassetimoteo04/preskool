@@ -39,7 +39,13 @@ function CreateUserForm() {
   const { createUser } = useCreateUser();
   function handleSubmit(e) {
     e.preventDefault();
-    if (username && password) createUser({ username, password });
+    if (username && password)
+      createUser({
+        username,
+        password,
+        publicMetadata: { role: "admin" },
+        privateMetadata: {},
+      });
   }
   return (
     <div>
