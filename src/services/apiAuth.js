@@ -1,10 +1,10 @@
-export async function createUserAuth(data) {
+export async function createUserAuth(user) {
   try {
     const response = await fetch("/api/createUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        data,
+        ...user,
       }),
     });
 
