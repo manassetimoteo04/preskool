@@ -1,5 +1,7 @@
+import StudentProfile from "../features/areas/student/StudentProfile";
+
 function AreaStudentProfile() {
-  return <div>Logado com estudante</div>;
+  return <StudentProfile />;
 }
 
 export default AreaStudentProfile;

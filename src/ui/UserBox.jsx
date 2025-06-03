@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import SmallUserImg from "./SmallUserImg";
 import { HiChevronDown } from "react-icons/hi2";
+import { useUser } from "@clerk/clerk-react";
 const StyledUserBox = styled.button`
   background: none;
   border: none;
@@ -49,16 +50,23 @@ const StyledUserBox = styled.button`
 `;
 
 function UserBox({ isOpen, onClick }) {
+  const { isLoaded, user } = useUser();
   return (
     <StyledUserBox onClick={onClick} isOpen={isOpen}>
       <SmallUserImg
         draggable="false"
         oncontextmenu="false"
-        src={`/default-user.jpg`}
+        src={user?.imageUrl || `/default-user.jpg`}
       />
       <span>
-        <p>Manasse Timóteo</p>
-        <span>manassetimoteo4@gmail.com</span>
+        <p>{isLoaded ? "Manasse Timóteo" : "Carregando..."}</p>
+        <span>
+          {user?.publicMetadata?.role === "student"
+            ? "Estudante"
+            : user?.publicMetadata?.role === "teacher"
+            ? "Professor"
+            : "Admin"}
+        </span>
       </span>
       <HiChevronDown />
     </StyledUserBox>
