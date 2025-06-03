@@ -1,4 +1,4 @@
-import { HiOutlineViewGrid } from "react-icons/hi";
+import { HiOutlineUser } from "react-icons/hi";
 import {
   HiOutlineHomeModern,
   HiOutlineTableCells,
@@ -36,7 +36,7 @@ function StudentNavList() {
     <StyledMainNavList>
       <li>
         <StyledLink to="/area/student/home">
-          <HiOutlineViewGrid />
+          <HiOutlineUser />
           Perfil
         </StyledLink>
       </li>{" "}

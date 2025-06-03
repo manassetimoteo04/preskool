@@ -18,8 +18,14 @@ import {
   HiOutlineHomeModern,
 } from "react-icons/hi2";
 import { useStudent } from "../../students/useStudent";
-import Spinner from "../../../ui/Spinner";
+import { useClasse } from "../../classes/useClasse";
+import { useCourse } from "../../classes/useCourse";
 import { useGrades } from "../../settings/classesAndGrades/useGrades";
+import Spinner from "../../../ui/Spinner";
+import PersonalInfo from "./PersonalInfo";
+import StudentTabNav from "./StudentTabNav";
+import { useState } from "react";
+import PaymentsInfo from "./PaymentsInfo";
 const StyledDetailsGrid = styled.div`
   display: grid;
   grid-template-columns: 40rem 1fr;
@@ -44,12 +50,16 @@ const Detail = styled.div`
 
 function ProfileDetails() {
   const { user } = useUser();
-
+  const [active, setActive] = useState("informations");
   const { data: student, isLoading } = useStudent(user?.id);
 
-  const { data: grade, isLoading: isLoadingGrade } = useGrades(student?.grade);
-  console.log(grade);
-  if (isLoading || isLoadingGrade) return <Spinner />;
+  const { classe, isLoading: classeLoading } = useClasse({
+    id: student?.grade,
+  });
+  const { data: grade, isLoading: gradeLoading } = useGrades(classe?.gradeId);
+  const { data: course, isLoading: courseLoading } = useCourse(grade?.courseId);
+  if (isLoading || classeLoading || gradeLoading || courseLoading)
+    return <Spinner />;
   return (
     <StyledDetailsGrid>
       <DetailBox>
@@ -107,7 +117,7 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Curso/Ensino</strong>
-              <span> Informática</span>
+              <span> {course?.courseName}</span>
             </div>
           </DetailRow>{" "}
           <DetailRow>
@@ -116,7 +126,7 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Ano Corrente</strong>
-              <span> 3º Ano</span>
+              <span> {grade?.gradeYear}</span>
             </div>
           </DetailRow>{" "}
           <DetailRow>
@@ -125,7 +135,7 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Turma</strong>
-              <span> Turma - A</span>
+              <span> Turma - {classe?.variation}</span>
             </div>
           </DetailRow>
           <DetailRow>
@@ -134,13 +144,18 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Período</strong>
-              <span> Tarde</span>
+              <span> {classe?.period}</span>
             </div>
           </DetailRow>
         </Detail>
       </DetailBox>
-
-      <DetailBox></DetailBox>
+      <Row>
+        <StudentTabNav active={active} setActive={setActive} />
+        <DetailBox>
+          {active === "informations" && <PersonalInfo />}
+          {active === "payments" && <PaymentsInfo />}
+        </DetailBox>
+      </Row>
     </StyledDetailsGrid>
   );
 }
