@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import GlobalStyles from "./styles/GlobalStyles";
 import { Toaster } from "react-hot-toast";
@@ -31,8 +31,13 @@ import { DarkModeContextProvider } from "./context/DarkModeContext";
 import FinancialLatePayments from "./pages/FinancialLatePayments";
 import Login from "./pages/Login";
 import AreaTeacher from "./pages/AreaTeacher";
-import AreaStudent from "./pages/AreaStudent";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import MainAppLayout from "./ui/MainAppLayout";
+import StudentAppLayout from "./features/areas/student/StudentAppLayout";
+import AreaStudentProfile from "./pages/AreaStudentProfile";
+import AreaStudentMates from "./pages/AreaStudentMates";
+import AreaStudentSchedules from "./pages/AreaStudentSchedules";
+import AreaStudentsMarks from "./pages/AreaStudentsMarks";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -51,60 +56,100 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route
+              path="/"
               element={
                 <ProtectedRoute>
                   <AppLayout />
                 </ProtectedRoute>
               }
             >
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/students" element={<Students />} />
-              <Route path="/students/:studentId" element={<Student />} />
-              <Route
-                path="/students/:studentId/marks"
-                element={<StudentMark />}
-              />
-              <Route
-                path="/students/:studentId/edit"
-                element={<StudentEdit />}
-              />
-              <Route path="students/add-student" element={<AddStudent />} />
-              <Route path="/classes" element={<Classes />} />
-              <Route path="/classes/:classId" element={<Class />} />
-              <Route path="/teachers" element={<Teachers />} />
-              <Route path="/teachers/:teacherId" element={<Teacher />} />
-              <Route
-                path="/teachers/:teacherId/edit"
-                element={<TeacherEdit />}
-              />
-              <Route path="/teachers/add-teacher" element={<AddTeacher />} />
-              <Route path="/human-resources" element={<HumanResources />} />
-              <Route path="/human-resources/hire" element={<EmployeeHire />} />
-              <Route
-                path="/human-resources/employee/:employeeId"
-                element={<Employee />}
-              />
-              <Route
-                path="/human-resources/employee/:employeeId/edit"
-                element={<EditEmployee />}
-              />
-              <Route
-                path="/human-resources/leaves"
-                element={<EmployeeLeaves />}
-              />
-              <Route
-                path="/human-resources/leaves/:leaveId"
-                element={<EmployeeLeaveDetail />}
-              />
-              <Route path="/financial" element={<Financial />} />
-              <Route
-                path="/financial/late-payments"
-                element={<FinancialLatePayments />}
-              />
+              <Route path="/area/admin" element={<MainAppLayout />}>
+                <Route path="/area/admin/dashboard" element={<Dashboard />} />
+                <Route path="/area/admin/students" element={<Students />} />
+                <Route path="students/:studentId" element={<Student />} />
+                <Route
+                  path="/area/admin/students/:studentId/marks"
+                  element={<StudentMark />}
+                />
+                <Route
+                  path="/area/admin/students/:studentId/edit"
+                  element={<StudentEdit />}
+                />
+                <Route
+                  path="/area/admin/students/add-student"
+                  element={<AddStudent />}
+                />
+                <Route path="/area/admin/classes" element={<Classes />} />
+                <Route
+                  path="/area/admin/classes/:classId"
+                  element={<Class />}
+                />
+                <Route path="/area/admin/teachers" element={<Teachers />} />
+                <Route
+                  path="/area/admin/teachers/:teacherId"
+                  element={<Teacher />}
+                />
+                <Route
+                  path="teachers/:teacherId/edit"
+                  element={<TeacherEdit />}
+                />
+                <Route
+                  path="/area/admin/teachers/add-teacher"
+                  element={<AddTeacher />}
+                />
+                <Route
+                  path="/area/admin/human-resources"
+                  element={<HumanResources />}
+                />
+                <Route
+                  path="/area/admin/human-resources/hire"
+                  element={<EmployeeHire />}
+                />
+                <Route
+                  path="/area/admin/human-resources/employee/:employeeId"
+                  element={<Employee />}
+                />
+                <Route
+                  path="/area/admin/human-resources/employee/:employeeId/edit"
+                  element={<EditEmployee />}
+                />
+                <Route
+                  path="/area/admin/human-resources/leaves"
+                  element={<EmployeeLeaves />}
+                />
+                <Route
+                  path="/area/admin/human-resources/leaves/:leaveId"
+                  element={<EmployeeLeaveDetail />}
+                />
+                <Route path="/area/admin/financial" element={<Financial />} />
+                <Route
+                  path="/area/admin/financial/late-payments"
+                  element={<FinancialLatePayments />}
+                />
 
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/area/student" element={<AreaStudent />} />
+                <Route path="/area/admin/settings" element={<Settings />} />
+                <Route path="/area/admin/profile" element={<Profile />} />
+              </Route>
+
+              <Route path="/area/student" element={<StudentAppLayout />}>
+                <Route index element={<Navigate to="home" replace />} />
+                <Route
+                  path="/area/student/home"
+                  element={<AreaStudentProfile />}
+                />
+                <Route
+                  path="/area/student/mates"
+                  element={<AreaStudentMates />}
+                />
+                <Route
+                  path="/area/student/schedules"
+                  element={<AreaStudentSchedules />}
+                />
+                <Route
+                  path="/area/student/grades"
+                  element={<AreaStudentsMarks />}
+                />
+              </Route>
               <Route path="/area/teacher" element={<AreaTeacher />} />
             </Route>
           </Routes>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 import { useUser } from "@clerk/clerk-react";
-import StudentNavList from "../features/areas/components/StudentNavList";
+import StudentNavList from "../features/areas/student/StudentNavList";
 
 const StyledSidebar = styled.aside`
   border-right: 1px solid var(--color-grey-100);

@@ -1,8 +1,8 @@
 import { HiOutlineViewGrid } from "react-icons/hi";
 import {
   HiOutlineHomeModern,
+  HiOutlineTableCells,
   HiOutlineUserGroup,
-  HiOutlineUsers,
 } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -35,26 +35,26 @@ function StudentNavList() {
   return (
     <StyledMainNavList>
       <li>
-        <StyledLink to="/">
+        <StyledLink to="/area/student/home">
           <HiOutlineViewGrid />
           Perfil
         </StyledLink>
       </li>{" "}
       <li>
-        <StyledLink to="/mates">
+        <StyledLink to="/area/student/mates">
           <HiOutlineUserGroup />
           Colegas
         </StyledLink>
       </li>{" "}
       <li>
-        <StyledLink to="/schedules">
+        <StyledLink to="/area/student/schedules">
           <HiOutlineHomeModern />
           Horário da Turma
         </StyledLink>
       </li>{" "}
       <li>
-        <StyledLink to="/grades">
-          <HiOutlineUsers />
+        <StyledLink to="/area/student/grades">
+          <HiOutlineTableCells />
           Pautas Publicadas
         </StyledLink>
       </li>{" "}

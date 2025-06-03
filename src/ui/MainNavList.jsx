@@ -38,43 +38,43 @@ function MainNavList() {
   return (
     <StyledMainNavList>
       <li>
-        <StyledLink to="/">
+        <StyledLink to="/area/admin/dashboard">
           <HiOutlineViewGrid />
           Dashboard
         </StyledLink>
       </li>{" "}
       <li>
-        <StyledLink to="/students">
+        <StyledLink to="/area/admin/students">
           <HiOutlineUserGroup />
           Estudantes
         </StyledLink>
       </li>{" "}
       <li>
-        <StyledLink to="/classes">
+        <StyledLink to="/area/admin/classes">
           <HiOutlineHomeModern />
           Turmas e Séries
         </StyledLink>
       </li>{" "}
       <li>
-        <StyledLink to="/teachers">
+        <StyledLink to="/area/admin/teachers">
           <HiOutlineUsers />
           Professores
         </StyledLink>
       </li>
       <li>
-        <StyledLink to="/human-resources">
+        <StyledLink to="/area/admin/human-resources">
           <HiOutlineBriefcase />
           Recursos humanos
         </StyledLink>
       </li>
       <li>
-        <StyledLink to="/financial">
+        <StyledLink to="/area/admin/financial">
           <HiOutlineBanknotes />
           Financeiro
         </StyledLink>
       </li>
       <li>
-        <StyledLink to="/settings">
+        <StyledLink to="/area/admin/settings">
           <HiOutlineCog6Tooth />
           Configurações
         </StyledLink>
