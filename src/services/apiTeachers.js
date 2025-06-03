@@ -1,10 +1,10 @@
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
@@ -39,14 +39,15 @@ export async function getTeacher(id) {
   }
 }
 
-export async function createNewTeacher(newData) {
+export async function createNewTeacher(newData, id) {
   try {
     const biDocument = await uploadFile(newData.biDocument[0]);
     const cvDocument = await uploadFile(newData.cvDocument[0]);
 
     const finalData = { ...newData, biDocument, cvDocument };
-    const data = addDoc(collection(db, "teachers"), finalData);
-    return data;
+    const teacherRef = doc(db, "teachers", id);
+    await setDoc(teacherRef, finalData);
+    return teacherRef;
   } catch (error) {
     console.error("Erro ao cadastrar professores:", error.message);
     throw new Error("Ocorreu um erro ao cadastrar, tente novamente");

@@ -30,6 +30,8 @@ import EmployeeLeaveDetail from "./pages/EmployeeLeaveDetail";
 import { DarkModeContextProvider } from "./context/DarkModeContext";
 import FinancialLatePayments from "./pages/FinancialLatePayments";
 import Login from "./pages/Login";
+import AreaTeacher from "./pages/AreaTeacher";
+import AreaStudent from "./pages/AreaStudent";
 import ProtectedRoute from "./ui/ProtectedRoute";
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -102,6 +104,8 @@ function App() {
 
               <Route path="/settings" element={<Settings />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/area/student" element={<AreaStudent />} />
+              <Route path="/area/teacher" element={<AreaTeacher />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -18,6 +18,8 @@ import { useCreateTeacher } from "./useCreateTeacher";
 import TeacherBankAccInfor from "./TeacherBankAccInfor";
 import { useUpdateTeacher } from "./useUpdateTeacher";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { generateUniqueCode } from "../../utils/helpers";
+
 const StyledFormPad = styled.div`
   padding: 2rem 2rem;
   background-color: var(--color-grey-0);
@@ -40,7 +42,11 @@ function CreateEditTeacherForm({ editId, editTeacher }) {
   const { updateTeacher, isLoading: isUpdating } = useUpdateTeacher();
 
   function onSubmit(data) {
-    isEditSession ? updateTeacher({ editId, data }) : createTeacher(data);
+    const internNumber = generateUniqueCode();
+
+    isEditSession
+      ? updateTeacher({ editId, data })
+      : createTeacher({ ...data, internNumber });
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

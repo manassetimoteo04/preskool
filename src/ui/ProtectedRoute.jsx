@@ -4,11 +4,14 @@ import { useEffect } from "react";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { isLoaded, isSignedIn } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
 
+  const role = user?.publicMetadata?.role;
   useEffect(() => {
     if (isLoaded && !isSignedIn) navigate("/login", { replace: true });
-  }, [isLoaded, isSignedIn, navigate]);
+    if (role === "student") navigate("/area/student", { replace: true });
+    if (role === "teacher") navigate("/area/teacher", { replace: true });
+  }, [isLoaded, isSignedIn, navigate, role]);
   if (isSignedIn) return children;
 }
 

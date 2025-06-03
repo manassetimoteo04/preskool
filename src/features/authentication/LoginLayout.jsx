@@ -36,11 +36,11 @@ const LoginForm = styled.form`
 `;
 function LoginLayout() {
   const [username, setUsername] = useState("manasse4");
-  const [password, setPassword] = useState("manassetimoteo4");
+  const [password, setPassword] = useState("PS0000000");
   const { login, isLoading } = useLogin();
   function handleSubmit(e) {
     e.preventDefault();
-    if (username && password) login(username, password);
+    if (username && password) login(username.toLocaleLowerCase(), password);
   }
   return (
     <div>

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import { useUser } from "@clerk/clerk-react";
+import StudentNavList from "../features/areas/components/StudentNavList";
 
 const StyledSidebar = styled.aside`
   border-right: 1px solid var(--color-grey-100);
@@ -13,10 +15,14 @@ const StyledSidebar = styled.aside`
 `;
 
 function Sidebar() {
+  const { user } = useUser();
+  const role = user?.publicMetadata?.role;
+  console.log(role);
   return (
     <StyledSidebar>
       <Logo />
-      <MainNav />
+      {role === "admin" && <MainNav />}
+      {role === "student" && <StudentNavList />}
     </StyledSidebar>
   );
 }
