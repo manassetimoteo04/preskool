@@ -2,10 +2,11 @@ import styled from "styled-components";
 import Button from "../../ui/Button";
 
 import { useCreateStudent } from "./useCreateStudent";
-import { nanoid } from "nanoid";
+
 import { useNavigate } from "react-router-dom";
 import { useUpdateStudent } from "./useUpdateStudent";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { generateUniqueCode } from "../../utils/helpers";
 
 const StyledFormButtons = styled.div`
   display: flex;
@@ -23,12 +24,7 @@ function FormButtons({
   const { createStudent, isLoading } = useCreateStudent();
   const { updateStudent, isLoading: isUpdating } = useUpdateStudent();
   function onClick(data) {
-    const uniqueId = nanoid(10);
-    const internNumber = isEditSession
-      ? oldInterNumber
-      : `PS-${data.fullName.split(" ").at(0)[0]}${
-          data.fullName.split(" ").at(-1)[0]
-        }-${uniqueId}`.replaceAll("_", "");
+    const internNumber = isEditSession ? oldInterNumber : generateUniqueCode();
     const {
       fullName,
       idNumber,

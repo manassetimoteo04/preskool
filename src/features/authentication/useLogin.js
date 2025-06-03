@@ -11,16 +11,18 @@ export function useLogin() {
   async function login(username, password) {
     try {
       setIsLoading(true);
-      const result = await signIn.create({
+      const result = await signIn?.create({
         identifier: username,
         password: password,
       });
-      if (result.status === "complete") {
+      if (result?.status === "complete") {
         await setActive({ session: result.createdSessionId });
         navigate("/", { replace: true });
       }
     } catch (err) {
-      toast.error(err.errors?.[0]?.message);
+      toast.error(
+        err.errors?.[0]?.message || "Erro de conexão, tente novamente"
+      );
       console.error(err);
     } finally {
       setIsLoading(false);

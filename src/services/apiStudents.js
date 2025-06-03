@@ -1,12 +1,12 @@
 import {
   getDocs,
   collection,
-  addDoc,
   doc,
   getDoc,
   updateDoc,
   deleteDoc,
   arrayUnion,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
@@ -25,7 +25,7 @@ export async function getStudents() {
   }
 }
 
-export async function createNewStudent(newStudentData = {}) {
+export async function createNewStudent(newStudentData = {}, id) {
   try {
     const hasFile = newStudentData.biUpload[0] || newStudentData.docUpload[0];
 
@@ -40,10 +40,13 @@ export async function createNewStudent(newStudentData = {}) {
         status: "active",
       };
 
-      const data = await addDoc(collection(db, "students"), finalData);
-      const docRef = doc(db, "classes", newStudentData.grade);
-      await updateDoc(docRef, { students: arrayUnion(data.id) });
-      return data;
+      const studentRef = doc(db, "students", id);
+      await setDoc(studentRef, finalData);
+
+      const classRef = doc(db, "classes", newStudentData.grade);
+      await updateDoc(classRef, { students: arrayUnion(id) });
+
+      return studentRef;
     }
   } catch (error) {
     console.error(error);

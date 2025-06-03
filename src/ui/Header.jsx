@@ -11,7 +11,8 @@ import Menus from "./Menus";
 import { HiOutlineLogout } from "react-icons/hi";
 import UserBox from "./UserBox";
 import { useDarkMode } from "../context/DarkModeContext";
-import { useAuth } from "@clerk/clerk-react";
+
+import useLogout from "../features/authentication/useLogout";
 
 const StyledHeader = styled.header`
   padding: 1rem;
@@ -24,8 +25,9 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
-  const { signOut } = useAuth();
+  const { logout } = useLogout();
   const { toggleDarkMode, isDarkMode } = useDarkMode();
+
   return (
     <Menus>
       <StyledHeader>
@@ -46,10 +48,7 @@ function Header() {
             <Menus.Button icon={<HiOutlineCog6Tooth />}>
               Configurações
             </Menus.Button>
-            <Menus.Button
-              onClick={() => signOut({ redirectUrl: "/login" })}
-              icon={<HiOutlineLogout />}
-            >
+            <Menus.Button onClick={logout} icon={<HiOutlineLogout />}>
               Terminal Sessão
             </Menus.Button>
           </Menus.List>

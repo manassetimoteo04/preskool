@@ -54,3 +54,8 @@ export function generateClasseCode(variation, grade, course, period) {
     );
   return variation + grade.match(/\d+/g) + period.at(0).toUpperCase() + "FUN";
 }
+export function generateUniqueCode(prefix = "PRES") {
+  const timestamp = Date.now().toString().slice(-6);
+  const random = Math.floor(1000 + Math.random() * 900000);
+  return `${random}${prefix}${timestamp}`;
+}

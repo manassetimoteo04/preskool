@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import LoginLayout from "../features/authentication/LoginLayout";
-import CreateUserForm from "../features/authentication/CreateUserForm";
+import { useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 const StyledLogin = styled.div`
   background-color: var(--color-grey-50);
@@ -12,10 +14,15 @@ const StyledLogin = styled.div`
 `;
 
 function Login() {
+  const { isLoaded, isSignedIn } = useUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) navigate("/login", { replace: true });
+  }, [isLoaded, isSignedIn, navigate]);
+
   return (
     <StyledLogin>
       <LoginLayout />
-      <CreateUserForm />
     </StyledLogin>
   );
 }
