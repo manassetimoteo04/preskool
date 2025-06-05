@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import LoginLayout from "../features/authentication/LoginLayout";
+import FullPageSpinner from "../ui/FullPageSpinner";
 import { useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
@@ -18,13 +19,15 @@ function Login() {
   const navigate = useNavigate();
   useEffect(() => {
     if (isLoaded && !isSignedIn) navigate("/login", { replace: true });
+    if (isLoaded && isSignedIn) navigate("/", { replace: true });
   }, [isLoaded, isSignedIn, navigate]);
-
-  return (
-    <StyledLogin>
-      <LoginLayout />
-    </StyledLogin>
-  );
+  if (!isLoaded) return <FullPageSpinner />;
+  if (!isSignedIn && isLoaded)
+    return (
+      <StyledLogin>
+        <LoginLayout />
+      </StyledLogin>
+    );
 }
 
 export default Login;

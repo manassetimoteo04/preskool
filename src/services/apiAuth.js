@@ -3,6 +3,7 @@ import { db } from "./firebase";
 
 export async function createUserAuth(user, token) {
   try {
+    console.log(token);
     const response = await fetch(
       `${import.meta.env.VITE_BASE_URL}/api/createUser`,
       {
