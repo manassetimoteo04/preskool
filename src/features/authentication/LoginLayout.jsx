@@ -12,9 +12,7 @@ const LoginBox = styled.div`
   gap: 2rem;
   max-width: 40rem;
   padding: 2rem;
-  border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-sm);
-  box-shadow: var(--shadow-sm);
   & > header {
     display: flex;
     flex-direction: column;
@@ -35,7 +33,7 @@ const LoginForm = styled.form`
   }
 `;
 function LoginLayout() {
-  const [username, setUsername] = useState("833332PRES028467");
+  const [username, setUsername] = useState("554043PRES353940");
   const [password, setPassword] = useState("PS0000000");
   const { login, isLoading } = useLogin();
   function handleSubmit(e) {

@@ -54,12 +54,11 @@ function ProfileDetails() {
   const { data: student, isLoading } = useStudent(user?.id);
 
   const { classe, isLoading: classeLoading } = useClasse({
-    id: student?.grade,
+    id: student?.classId,
   });
   const { data: grade, isLoading: gradeLoading } = useGrades(classe?.gradeId);
   const { data: course, isLoading: courseLoading } = useCourse(grade?.courseId);
-  if (isLoading || classeLoading || gradeLoading || courseLoading)
-    return <Spinner />;
+  if (isLoading) return <Spinner />;
   return (
     <StyledDetailsGrid>
       <DetailBox>
@@ -117,7 +116,7 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Curso/Ensino</strong>
-              <span> {course?.courseName}</span>
+              <span> {courseLoading ? "Carregando" : course?.courseName}</span>
             </div>
           </DetailRow>{" "}
           <DetailRow>
@@ -126,7 +125,7 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Ano Corrente</strong>
-              <span> {grade?.gradeYear}</span>
+              <span> {gradeLoading ? "Carregando" : grade?.gradeYear}</span>
             </div>
           </DetailRow>{" "}
           <DetailRow>
@@ -135,7 +134,10 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Turma</strong>
-              <span> Turma - {classe?.variation}</span>
+              <span>
+                {" "}
+                {`Turma - ${classeLoading ? "Carregando" : classe?.variation}`}
+              </span>
             </div>
           </DetailRow>
           <DetailRow>
@@ -144,7 +146,7 @@ function ProfileDetails() {
             </span>
             <div>
               <strong>Período</strong>
-              <span> {classe?.period}</span>
+              <span> {`${classeLoading ? "Carregando" : classe?.period}`}</span>
             </div>
           </DetailRow>
         </Detail>

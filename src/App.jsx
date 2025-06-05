@@ -38,6 +38,7 @@ import AreaStudentProfile from "./pages/AreaStudentProfile";
 import AreaStudentMates from "./pages/AreaStudentMates";
 import AreaStudentSchedules from "./pages/AreaStudentSchedules";
 import AreaStudentsMarks from "./pages/AreaStudentsMarks";
+import { AuthContextProvider } from "./context/AuthContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -48,133 +49,135 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <DarkModeContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
-        <GlobalStyles />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/area/admin" element={<MainAppLayout />}>
-                <Route path="/area/admin/dashboard" element={<Dashboard />} />
-                <Route path="/area/admin/students" element={<Students />} />
-                <Route path="students/:studentId" element={<Student />} />
-                <Route
-                  path="/area/admin/students/:studentId/marks"
-                  element={<StudentMark />}
-                />
-                <Route
-                  path="/area/admin/students/:studentId/edit"
-                  element={<StudentEdit />}
-                />
-                <Route
-                  path="/area/admin/students/add-student"
-                  element={<AddStudent />}
-                />
-                <Route path="/area/admin/classes" element={<Classes />} />
-                <Route
-                  path="/area/admin/classes/:classId"
-                  element={<Class />}
-                />
-                <Route path="/area/admin/teachers" element={<Teachers />} />
-                <Route
-                  path="/area/admin/teachers/:teacherId"
-                  element={<Teacher />}
-                />
-                <Route
-                  path="teachers/:teacherId/edit"
-                  element={<TeacherEdit />}
-                />
-                <Route
-                  path="/area/admin/teachers/add-teacher"
-                  element={<AddTeacher />}
-                />
-                <Route
-                  path="/area/admin/human-resources"
-                  element={<HumanResources />}
-                />
-                <Route
-                  path="/area/admin/human-resources/hire"
-                  element={<EmployeeHire />}
-                />
-                <Route
-                  path="/area/admin/human-resources/employee/:employeeId"
-                  element={<Employee />}
-                />
-                <Route
-                  path="/area/admin/human-resources/employee/:employeeId/edit"
-                  element={<EditEmployee />}
-                />
-                <Route
-                  path="/area/admin/human-resources/leaves"
-                  element={<EmployeeLeaves />}
-                />
-                <Route
-                  path="/area/admin/human-resources/leaves/:leaveId"
-                  element={<EmployeeLeaveDetail />}
-                />
-                <Route path="/area/admin/financial" element={<Financial />} />
-                <Route
-                  path="/area/admin/financial/late-payments"
-                  element={<FinancialLatePayments />}
-                />
+    <AuthContextProvider>
+      <DarkModeContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools />
+          <GlobalStyles />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/area/admin" element={<MainAppLayout />}>
+                  <Route path="/area/admin/dashboard" element={<Dashboard />} />
+                  <Route path="/area/admin/students" element={<Students />} />
+                  <Route path="students/:studentId" element={<Student />} />
+                  <Route
+                    path="/area/admin/students/:studentId/marks"
+                    element={<StudentMark />}
+                  />
+                  <Route
+                    path="/area/admin/students/:studentId/edit"
+                    element={<StudentEdit />}
+                  />
+                  <Route
+                    path="/area/admin/students/add-student"
+                    element={<AddStudent />}
+                  />
+                  <Route path="/area/admin/classes" element={<Classes />} />
+                  <Route
+                    path="/area/admin/classes/:classId"
+                    element={<Class />}
+                  />
+                  <Route path="/area/admin/teachers" element={<Teachers />} />
+                  <Route
+                    path="/area/admin/teachers/:teacherId"
+                    element={<Teacher />}
+                  />
+                  <Route
+                    path="teachers/:teacherId/edit"
+                    element={<TeacherEdit />}
+                  />
+                  <Route
+                    path="/area/admin/teachers/add-teacher"
+                    element={<AddTeacher />}
+                  />
+                  <Route
+                    path="/area/admin/human-resources"
+                    element={<HumanResources />}
+                  />
+                  <Route
+                    path="/area/admin/human-resources/hire"
+                    element={<EmployeeHire />}
+                  />
+                  <Route
+                    path="/area/admin/human-resources/employee/:employeeId"
+                    element={<Employee />}
+                  />
+                  <Route
+                    path="/area/admin/human-resources/employee/:employeeId/edit"
+                    element={<EditEmployee />}
+                  />
+                  <Route
+                    path="/area/admin/human-resources/leaves"
+                    element={<EmployeeLeaves />}
+                  />
+                  <Route
+                    path="/area/admin/human-resources/leaves/:leaveId"
+                    element={<EmployeeLeaveDetail />}
+                  />
+                  <Route path="/area/admin/financial" element={<Financial />} />
+                  <Route
+                    path="/area/admin/financial/late-payments"
+                    element={<FinancialLatePayments />}
+                  />
 
-                <Route path="/area/admin/settings" element={<Settings />} />
-                <Route path="/area/admin/profile" element={<Profile />} />
-              </Route>
+                  <Route path="/area/admin/settings" element={<Settings />} />
+                  <Route path="/area/admin/profile" element={<Profile />} />
+                </Route>
 
-              <Route path="/area/student" element={<StudentAppLayout />}>
-                <Route index element={<Navigate to="home" replace />} />
-                <Route
-                  path="/area/student/home"
-                  element={<AreaStudentProfile />}
-                />
-                <Route
-                  path="/area/student/mates"
-                  element={<AreaStudentMates />}
-                />
-                <Route
-                  path="/area/student/schedules"
-                  element={<AreaStudentSchedules />}
-                />
-                <Route
-                  path="/area/student/grades"
-                  element={<AreaStudentsMarks />}
-                />
+                <Route path="/area/student" element={<StudentAppLayout />}>
+                  <Route index element={<Navigate to="home" replace />} />
+                  <Route
+                    path="/area/student/home"
+                    element={<AreaStudentProfile />}
+                  />
+                  <Route
+                    path="/area/student/mates"
+                    element={<AreaStudentMates />}
+                  />
+                  <Route
+                    path="/area/student/schedules"
+                    element={<AreaStudentSchedules />}
+                  />
+                  <Route
+                    path="/area/student/grades"
+                    element={<AreaStudentsMarks />}
+                  />
+                </Route>
+                <Route path="/area/teacher" element={<AreaTeacher />} />
               </Route>
-              <Route path="/area/teacher" element={<AreaTeacher />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-        <Toaster
-          position="top-rigth"
-          gutter={12}
-          containerStyle={{ margin: "8px" }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: { duration: 5000 },
-            loading: { duration: 3000 },
-            style: {
-              fontSize: "16px",
-              maxWidth: "500px",
-              padding: "16px 24px",
-              backgroundColor: "var(--color-grey-0)",
-              color: "var(--color-grey-700)",
-            },
-          }}
-        />
-      </QueryClientProvider>
-    </DarkModeContextProvider>
+            </Routes>
+          </BrowserRouter>
+          <Toaster
+            position="top-rigth"
+            gutter={12}
+            containerStyle={{ margin: "8px" }}
+            toastOptions={{
+              success: {
+                duration: 3000,
+              },
+              error: { duration: 5000 },
+              loading: { duration: 3000 },
+              style: {
+                fontSize: "16px",
+                maxWidth: "500px",
+                padding: "16px 24px",
+                backgroundColor: "var(--color-grey-0)",
+                color: "var(--color-grey-700)",
+              },
+            }}
+          />
+        </QueryClientProvider>
+      </DarkModeContextProvider>
+    </AuthContextProvider>
   );
 }
 

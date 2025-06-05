@@ -7,13 +7,29 @@ import {
   deleteDoc,
   arrayUnion,
   setDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { uploadFile } from "./apiUpload.js";
 
-export async function getStudents() {
+export async function getStudents({ classId, userId }) {
   try {
+    if (classId) {
+      const ref = collection(db, "students");
+      const q = query(ref, where("classId", "==", classId));
+      const querySnapshot = await getDocs(q);
+      const results = querySnapshot.docs
+        .filter((doc) => doc.id !== userId)
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+      return results;
+    }
+
     const ref = collection(db, "students");
+
     const querySnapshot = await getDocs(ref);
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -32,6 +48,8 @@ export async function createNewStudent(newStudentData = {}, id) {
     if (hasFile) {
       const bi = await uploadFile(newStudentData.biUpload[0]);
       const document = await uploadFile(newStudentData.docUpload[0]);
+
+      console.log(bi, document);
       const finalData = {
         ...newStudentData,
         docUpload: document,
@@ -43,7 +61,7 @@ export async function createNewStudent(newStudentData = {}, id) {
       const studentRef = doc(db, "students", id);
       await setDoc(studentRef, finalData);
 
-      const classRef = doc(db, "classes", newStudentData.grade);
+      const classRef = doc(db, "classes", newStudentData.classId);
       await updateDoc(classRef, { students: arrayUnion(id) });
 
       return studentRef;

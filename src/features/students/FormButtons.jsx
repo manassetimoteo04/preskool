@@ -47,7 +47,7 @@ function FormButtons({
       biUpload,
       docUpload,
       avatar: "",
-      grade,
+      classId: grade,
       province,
       parent: {
         type: parent,

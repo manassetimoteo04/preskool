@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import SmallUserImg from "./SmallUserImg";
 import { HiChevronDown } from "react-icons/hi2";
 import { useUser } from "@clerk/clerk-react";
+import { useCurrentUser } from "../context/AuthContext";
 const StyledUserBox = styled.button`
   background: none;
   border: none;
@@ -50,7 +51,8 @@ const StyledUserBox = styled.button`
 `;
 
 function UserBox({ isOpen, onClick }) {
-  const { isLoaded, user } = useUser();
+  const { user } = useUser();
+  const { currentUser } = useCurrentUser();
   return (
     <StyledUserBox onClick={onClick} isOpen={isOpen}>
       <SmallUserImg
@@ -59,7 +61,11 @@ function UserBox({ isOpen, onClick }) {
         src={user?.imageUrl || `/default-user.jpg`}
       />
       <span>
-        <p>{isLoaded ? "Manasse Timóteo" : "Carregando..."}</p>
+        <p>
+          {!currentUser?.isLoading
+            ? currentUser?.user?.fullName
+            : "Carregando..."}
+        </p>
         <span>
           {user?.publicMetadata?.role === "student"
             ? "Estudante"

@@ -17,7 +17,6 @@ const StyledSidebar = styled.aside`
 function Sidebar() {
   const { user } = useUser();
   const role = user?.publicMetadata?.role;
-  console.log(role);
   return (
     <StyledSidebar>
       <Logo />

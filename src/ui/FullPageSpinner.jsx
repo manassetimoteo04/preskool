@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Spinner from "./Spinner";
+import Logo from "./Logo";
 
 const StyledFullSpinner = styled.div`
   width: 100%;
@@ -12,7 +12,7 @@ const StyledFullSpinner = styled.div`
 function FullPageSpinner() {
   return (
     <StyledFullSpinner>
-      <Spinner />
+      <Logo pulse={true} />
     </StyledFullSpinner>
   );
 }

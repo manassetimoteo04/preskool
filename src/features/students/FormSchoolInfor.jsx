@@ -33,7 +33,7 @@ function FormSchoolInfor({ register, errors, isEditSession, watch }) {
           <InputRow label="Upload do Bilhete" error={errors?.biUpload?.message}>
             <FileInput
               id="biUpload"
-              accept="image/*"
+              accept="application/pdf"
               {...register("biUpload", {
                 required: "Este campo é obrigatório",
               })}
@@ -44,7 +44,7 @@ function FormSchoolInfor({ register, errors, isEditSession, watch }) {
             error={errors?.biUpload?.message}
           >
             <FileInput
-              accept="image/*"
+              accept="application/pdf"
               id="docUpload"
               {...register("docUpload", {
                 required: "Este campo é obrigatório",

@@ -104,8 +104,18 @@ export async function createNewCourse(courseData) {
   }
 }
 
-export async function getCourse(id) {
+export async function getCourse(id, classId) {
   try {
+    if (classId) {
+      const ref = collection(db, "courses");
+      const q = query(ref, where("classes", "array-contains", classId));
+      const querySnapshot = await getDocs(q);
+      const results = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return results;
+    }
     const docRef = doc(db, "courses", id);
     const docSnapshot = await getDoc(docRef);
     if (docSnapshot.exists()) {

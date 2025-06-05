@@ -1,5 +1,7 @@
+import StudentMates from "../features/areas/student/StudentMates";
+
 function AreaStudentMates() {
-  return <div>Students MAtes</div>;
+  return <StudentMates />;
 }
 
 export default AreaStudentMates;

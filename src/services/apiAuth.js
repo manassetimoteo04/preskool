@@ -1,3 +1,6 @@
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase";
+
 export async function createUserAuth(user, token) {
   try {
     const response = await fetch(
@@ -31,5 +34,19 @@ export async function createUserAuth(user, token) {
   } catch (error) {
     console.error("Erro na requisição:", error);
     throw error; // Propague o erro para ser tratado pelo componente
+  }
+}
+
+export async function getCurrentUserData({ table, id }) {
+  try {
+    const docRef = doc(db, table, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap?.exists()) {
+      return { ...docSnap.data(), id: docSnap.id };
+    } else {
+      throw new Error(`Nenhum ${table} encontrado`);
+    }
+  } catch (error) {
+    throw new Error(error.message);
   }
 }

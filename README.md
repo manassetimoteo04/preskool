@@ -27,8 +27,8 @@
 - **Forms:** React Hook Form
 - **Styling:** Styled Components
 - **Notifications:** React Toastify (or similar toast library)
-- **Backend & Auth:** Firebase (Firestore + Auth)
-- **Deployment:** Netlify
+- **Backend & Auth:** Firebase, Serverless with Vercel (Firestore + Clerk Auth)
+- **Deployment:** Vercel
 
 ---
 

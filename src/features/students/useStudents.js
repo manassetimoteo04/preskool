@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStudents } from "../../services/apiStudents";
 
-export function useStudents(ids) {
+export function useStudents(classId) {
   const { data: students, isLoading } = useQuery({
-    queryFn: () => getStudents(ids),
-    queryKey: ["students", ids],
+    queryFn: () => getStudents(classId),
+    queryKey: ["students", classId],
   });
   return { students, isLoading };
 }
