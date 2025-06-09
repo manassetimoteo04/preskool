@@ -59,3 +59,6 @@ export function generateUniqueCode(prefix = "PRES") {
   const random = Math.floor(1000 + Math.random() * 900000);
   return `${random}${prefix}${timestamp}`;
 }
+export function isIncluded(id, array) {
+  return array.some((el) => el === id);
+}

@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-export async function getSubject({ id, filterId, filterField }) {
+export async function getSubject({ id, filterId, filterField, method = "==" }) {
   try {
     if (id) {
       const docRef = doc(db, "subjects", id);
@@ -25,7 +25,7 @@ export async function getSubject({ id, filterId, filterField }) {
     }
     if (filterId) {
       const ref = collection(db, "subjects");
-      const q = query(ref, where(filterField, "==", filterId));
+      const q = query(ref, where(filterField, method, filterId));
       const querySnapshot = await getDocs(q);
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -49,7 +49,6 @@ export async function getSubject({ id, filterId, filterField }) {
 
 export async function createSubject(data) {
   try {
-    console.log(data);
     const refData = addDoc(collection(db, "subjects"), data);
     const docRef = doc(db, "classes", data.classId);
     await updateDoc(docRef, { subjects: arrayUnion(docRef.id) });

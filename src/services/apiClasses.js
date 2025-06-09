@@ -12,8 +12,21 @@ import {
 } from "firebase/firestore";
 
 import { db } from "./firebase.js";
-export async function getClasse({ id, gradeId, gradesIds }) {
+import { isIncluded } from "../utils/helpers.js";
+
+export async function getClasse({ id, gradeId, gradesIds, field = "gradeId" }) {
   try {
+    if (field) {
+      const ref = collection(db, "classes");
+      const querySnapshot = await getDocs(ref);
+      const data = querySnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((cl) => isIncluded(cl.id, gradesIds));
+      return data;
+    }
     if (id) {
       const docRef = doc(db, "classes", id);
       const docSnapshot = await getDoc(docRef);
@@ -36,7 +49,7 @@ export async function getClasse({ id, gradeId, gradesIds }) {
     }
     if (gradesIds?.length) {
       const ref = collection(db, "classes");
-      const q = query(ref, where("gradeId", "in", gradesIds));
+      const q = query(ref, where(field, "in", gradesIds));
       const querySnapshot = await getDocs(q);
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,

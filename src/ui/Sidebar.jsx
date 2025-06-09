@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import MainNav from "./MainNav";
 import { useUser } from "@clerk/clerk-react";
 import StudentNavList from "../features/areas/student/StudentNavList";
+import TeacherNavList from "../features/areas/teacher/TeacherNavList";
 
 const StyledSidebar = styled.aside`
   border-right: 1px solid var(--color-grey-100);
@@ -22,6 +23,7 @@ function Sidebar() {
       <Logo />
       {role === "admin" && <MainNav />}
       {role === "student" && <StudentNavList />}
+      {role === "teacher" && <TeacherNavList />}
     </StyledSidebar>
   );
 }

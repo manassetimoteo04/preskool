@@ -11,6 +11,9 @@ import {
 import Button from "../../ui/Button";
 
 import { useNavigate } from "react-router-dom";
+import { useGrades } from "../settings/classesAndGrades/useGrades";
+import { useCourse } from "./useCourse";
+import Spinner from "../../ui/Spinner";
 const StyledClassTable = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,36 +70,52 @@ function ClassesTable({ children }) {
   return <StyledClassTable>{children}</StyledClassTable>;
 }
 
-function Box({ classe }) {
+function Box({ classe, isTeacher }) {
   const navigate = useNavigate();
-  const { id, variation, capacity, subjects, grade, students, period, room } =
+  const { id, variation, capacity, subjects, gradeId, students, period, room } =
     classe;
+
+  const { data: gradeData, isLoading: gradeLoading } = useGrades(gradeId);
+  const { data: course, isLoading: courseLoading } = useCourse(
+    gradeData?.courseId
+  );
+  if (gradeLoading || courseLoading) return <Spinner />;
 
   return (
     <TableBox>
       <Heading as="h3">
-        {grade} &mdash; {period}
+        {course.courseName} &mdash; {period} &mdash; {gradeData.gradeYear}
       </Heading>
       <div>
         <span>
           <HiOutlineUsers /> {students?.length} Estudantes
         </span>
-        <span>
-          <HiOutlineBookOpen /> {subjects?.length} Cadeiras
-        </span>
+        {!isTeacher && (
+          <span>
+            <HiOutlineBookOpen /> {subjects?.length} Cadeiras
+          </span>
+        )}
         <span>
           <HiOutlineClock /> {period}
         </span>{" "}
         <span>
           <HiOutlineHomeModern /> Sala {room}
         </span>{" "}
-        <span>
-          <HiOutlineCube /> Capacidade {capacity}
-        </span>{" "}
+        {!isTeacher && (
+          <span>
+            <HiOutlineCube /> Capacidade {capacity}
+          </span>
+        )}
         <span>
           <HiOutlineDocumentCurrencyRupee /> Variação {variation}
         </span>
-        <Button onClick={() => navigate(`/classes/${id}`)}>Ver detalhes</Button>
+        <Button
+          onClick={() =>
+            navigate(`/area/${isTeacher ? "teacher" : "admin"}/classes/${id}`)
+          }
+        >
+          Ver detalhes
+        </Button>
       </div>
     </TableBox>
   );

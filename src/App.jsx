@@ -31,6 +31,10 @@ import { DarkModeContextProvider } from "./context/DarkModeContext";
 import FinancialLatePayments from "./pages/FinancialLatePayments";
 import Login from "./pages/Login";
 import AreaTeacher from "./pages/AreaTeacher";
+import AreaTeacherProfile from "./pages/AreaTeacherProfile";
+import AreaTeacherClasses from "./pages/AreaTeacherClasses";
+import AreaTeacherAddMarks from "./pages/AreaTeacherAddMarks";
+import AreaTeacherConfig from "./pages/AreaTeacherConfig";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import MainAppLayout from "./ui/MainAppLayout";
 import StudentAppLayout from "./features/areas/student/StudentAppLayout";
@@ -154,7 +158,25 @@ function App() {
                     element={<AreaStudentsMarks />}
                   />
                 </Route>
-                <Route path="/area/teacher" element={<AreaTeacher />} />
+                <Route path="/area/teacher" element={<AreaTeacher />}>
+                  <Route index element={<Navigate to="home" replace />} />
+                  <Route
+                    path="/area/teacher/home"
+                    element={<AreaTeacherProfile />}
+                  />
+                  <Route
+                    path="/area/teacher/classes"
+                    element={<AreaTeacherClasses />}
+                  />
+                  <Route
+                    path="/area/teacher/add-marks"
+                    element={<AreaTeacherAddMarks />}
+                  />
+                  <Route
+                    path="/area/teacher/settings"
+                    element={<AreaTeacherConfig />}
+                  />
+                </Route>
               </Route>
             </Routes>
           </BrowserRouter>
