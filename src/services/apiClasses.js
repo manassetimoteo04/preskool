@@ -23,6 +23,7 @@ export async function getClasse({ id, gradeId, gradesIds }) {
         throw new Error("Document not found");
       }
     }
+
     if (gradeId) {
       const ref = collection(db, "classes");
       const q = query(ref, where("gradeId", "==", gradeId));

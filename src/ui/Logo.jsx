@@ -3,13 +3,13 @@ import { useDarkMode } from "../context/DarkModeContext";
 
 const animation = keyframes`
  0% {
-    opacity: 0.5;
+    opacity: 0.3;
   }
   50% {
     opacity: 1;
   }
   100% {
-    opacity: 0.5;
+    opacity: 0.3;
   }
   
 `;
@@ -22,7 +22,7 @@ const StyledLogo = styled.div`
     ${(props) =>
       props.pulse &&
       css`
-        animation: ${animation} 2s ease-in-out infinite;
+        animation: ${animation} 2.5s ease-in-out infinite;
       `}
   }
 `;

@@ -72,13 +72,13 @@ function StudentTableRow({ student }) {
         <Menus.List>
           <Menus.Button
             icon={<HiEye />}
-            onClick={() => navigate(`/students/${student.id}`)}
+            onClick={() => navigate(`/area/admin/students/${student.id}`)}
           >
             See details
           </Menus.Button>
           <Menus.Button
             icon={<HiPencil />}
-            onClick={() => navigate(`/students/${student.id}/edit`)}
+            onClick={() => navigate(`/area/admin//students/${student.id}/edit`)}
           >
             Edit student
           </Menus.Button>

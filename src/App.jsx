@@ -39,6 +39,7 @@ import AreaStudentMates from "./pages/AreaStudentMates";
 import AreaStudentSchedules from "./pages/AreaStudentSchedules";
 import AreaStudentsMarks from "./pages/AreaStudentsMarks";
 import { AuthContextProvider } from "./context/AuthContext";
+import PageNotFound from "./ui/PageNotFound";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -57,6 +58,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="*" element={<PageNotFound />} />
               <Route
                 path="/"
                 element={

@@ -119,7 +119,9 @@ function TeachersTable() {
                       <Menus.List>
                         <Menus.Button
                           icon={<HiEye />}
-                          onClick={() => navigate(`/teachers/${teacher.id}`)}
+                          onClick={() =>
+                            navigate(`/area/admin/teachers/${teacher.id}`)
+                          }
                         >
                           Ver Perfil
                         </Menus.Button>

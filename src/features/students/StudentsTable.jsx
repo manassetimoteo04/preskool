@@ -24,7 +24,7 @@ const StyledStudentTable = styled.div`
 `;
 
 function StudentsTable() {
-  const { students, isLoading } = useStudents();
+  const { students, isLoading } = useStudents({});
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();

@@ -3,8 +3,10 @@ import Heading from "../../../ui/Heading";
 import Row from "../../../ui/Row";
 import Table from "../../../ui/Table";
 import Spinner from "../../../ui/Spinner";
+import Empty from "../../../ui/Empty";
 import { useStudentMates } from "./useStudentMates";
 import { calcAge } from "../../../utils/helpers";
+import { HiOutlineUsers } from "react-icons/hi2";
 
 const MatesTable = styled.div`
   background-color: var(--color-grey-0);
@@ -25,7 +27,6 @@ const FirstLetterBox = styled.div`
   font-weight: 600;
 `;
 function StudentMates() {
-  // eslint-disable-next-line no-unused-vars
   const { students, isLoading } = useStudentMates();
   const sorted = students?.sort((a, b) => a.fullName.localeCompare(b.fullName));
   if (isLoading) return <Spinner />;
@@ -36,28 +37,37 @@ function StudentMates() {
         <header>
           <strong>Todos os Colegas</strong>
         </header>
-        <Table columns=" 4rem 2fr 1fr 1fr 1fr">
-          <Table.Header>
-            <span></span>
-            <span>Nome</span>
-            <span>Sexo</span>
-            <span>Idade</span>
-            <span>Telefone</span>
-          </Table.Header>
-          <Table.Body
-            data={sorted}
-            render={(student, i) => (
-              <Table.Row>
-                <FirstLetterBox>{i + 1}</FirstLetterBox>
+        {!students.length ? (
+          <Empty>
+            <HiOutlineUsers />
+            <span>Nenhum colega foi encontrado</span>
+          </Empty>
+        ) : (
+          <Table columns=" 4rem 2fr 1fr 1fr 1fr">
+            <Table.Header>
+              <span></span>
+              <span>Nome</span>
+              <span>Sexo</span>
+              <span>Idade</span>
+              <span>Telefone</span>
+            </Table.Header>
+            <Table.Body
+              data={sorted}
+              render={(student, i) => (
+                <Table.Row>
+                  <FirstLetterBox>{i + 1}</FirstLetterBox>
 
-                <span>{student.fullName}</span>
-                <span>{student.gender === "m" ? "Masculino" : "Femenino"}</span>
-                <span>{calcAge(student.birthDate)}</span>
-                <span>{student.studentPhone}</span>
-              </Table.Row>
-            )}
-          />
-        </Table>
+                  <span>{student.fullName}</span>
+                  <span>
+                    {student.gender === "m" ? "Masculino" : "Femenino"}
+                  </span>
+                  <span>{calcAge(student.birthDate)}</span>
+                  <span>{student.studentPhone}</span>
+                </Table.Row>
+              )}
+            />
+          </Table>
+        )}
       </MatesTable>
     </Row>
   );

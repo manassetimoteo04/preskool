@@ -1,5 +1,7 @@
+import StudentsSchedules from "../features/areas/student/StudentsSchedules";
+
 function AreaStudentSchedules() {
-  return <div>Horário da Turma</div>;
+  return <StudentsSchedules />;
 }
 
 export default AreaStudentSchedules;

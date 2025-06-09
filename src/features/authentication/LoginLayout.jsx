@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import Logo from "../../ui/Logo";
-import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import { useState } from "react";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
+import Heading from "../../ui/Heading";
+import LoginInput from "../../ui/LoginInput";
+import { HiOutlineLockClosed, HiOutlineUser } from "react-icons/hi2";
 
 const LoginBox = styled.div`
   display: flex;
@@ -32,9 +34,11 @@ const LoginForm = styled.form`
     width: 100%;
   }
 `;
+
 function LoginLayout() {
-  const [username, setUsername] = useState("554043PRES353940");
+  const [username, setUsername] = useState("791822PRES885921");
   const [password, setPassword] = useState("PS0000000");
+
   const { login, isLoading } = useLogin();
 
   function handleSubmit(e) {
@@ -46,28 +50,25 @@ function LoginLayout() {
       <LoginBox>
         <header>
           <Logo />
+          <Heading as="h1">Iniciar Sessão</Heading>
           <p>Bem-vindo de volta! Faça login para acessao ao sistema</p>
         </header>
 
         <LoginForm onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="">Usuário</label>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="@username"
-            />
-          </div>
-          <div>
-            <label htmlFor="">Senha</label>
-            <Input
-              value={password}
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
-            />
-            <span>Esqueceu a senha?</span>
-          </div>
+          <LoginInput
+            value={username}
+            setValue={setUsername}
+            type="text"
+            label="Código Interno"
+            icon={<HiOutlineUser />}
+          />
+          <LoginInput
+            value={password}
+            setValue={setPassword}
+            type="password"
+            label="Palavra-passe"
+            icon={<HiOutlineLockClosed />}
+          />
           <Button disabled={isLoading}>
             {isLoading ? <SpinnerMini /> : "Login"}
           </Button>

@@ -20,7 +20,7 @@ function StudentTabNav({ active, setActive }) {
           onClick={() => setActive("payments")}
         >
           <HiOutlineCreditCard />
-          Pagamentos
+          Histórico de Pagamentos
         </DetailNavButton>
       </li>{" "}
     </DetailsNav>
