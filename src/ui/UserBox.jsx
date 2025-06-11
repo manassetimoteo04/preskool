@@ -53,7 +53,6 @@ const StyledUserBox = styled.button`
 function UserBox({ isOpen, onClick }) {
   const { user } = useUser();
   const { currentUser } = useCurrentUser();
-  console.log(user);
   return (
     <StyledUserBox onClick={onClick} isOpen={isOpen}>
       <SmallUserImg

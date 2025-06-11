@@ -84,7 +84,7 @@ function Box({ classe, isTeacher }) {
   return (
     <TableBox>
       <Heading as="h3">
-        {course.courseName} &mdash; {period} &mdash; {gradeData.gradeYear}
+        {course?.courseName} &mdash; {period} &mdash; {gradeData.gradeYear}
       </Heading>
       <div>
         <span>

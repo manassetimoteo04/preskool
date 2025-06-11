@@ -41,6 +41,7 @@ import StudentAppLayout from "./features/areas/student/StudentAppLayout";
 import AreaStudentProfile from "./pages/AreaStudentProfile";
 import AreaStudentMates from "./pages/AreaStudentMates";
 import AreaStudentSchedules from "./pages/AreaStudentSchedules";
+import AreaTeacherClassDetail from "./pages/AreaTeacherClassDetail";
 import AreaStudentsMarks from "./pages/AreaStudentsMarks";
 import { AuthContextProvider } from "./context/AuthContext";
 import PageNotFound from "./ui/PageNotFound";
@@ -167,6 +168,10 @@ function App() {
                   <Route
                     path="/area/teacher/classes"
                     element={<AreaTeacherClasses />}
+                  />{" "}
+                  <Route
+                    path="/area/teacher/classes/:classId"
+                    element={<AreaTeacherClassDetail />}
                   />
                   <Route
                     path="/area/teacher/add-marks"

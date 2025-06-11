@@ -12,7 +12,7 @@ function TeacherClasses() {
     filterField: "teacherId",
     filterId: user.id,
   });
-  const ids = data.map((sub) => sub.classId);
+  const ids = data?.map((sub) => sub.classId);
   const { classe } = useClasse({ gradesIds: ids, field: "id" });
   if (isLoading) return <Spinner />;
 
