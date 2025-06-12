@@ -6,7 +6,10 @@ import Empty from "../../ui/Empty";
 import SettingRow from "./SettingRow";
 import { useSettings } from "./useSettings";
 import Modal from "../../ui/Modal";
+import DotLoader from "../../ui/DotLoader";
 import { HiFaceFrown } from "react-icons/hi2";
+import { useAcademicYear } from "./useAcademicYear";
+import { useTrimester } from "./useTrimester";
 
 const StyledGeneralSetting = styled.div`
   display: flex;
@@ -14,9 +17,14 @@ const StyledGeneralSetting = styled.div`
 `;
 function GeneralSettingTab() {
   const { settings = {}, isLoading, error } = useSettings("generalSettings");
-  if (isLoading) return <Spinner />;
-  const { schoolName, currentQuarter, currentSchoolYear, description, id } =
+
+  const { schoolName, currentTrimester, currentSchoolYear, description, id } =
     settings;
+  const { academicYear, isLoading: isLoadingYear } =
+    useAcademicYear(currentSchoolYear);
+  const { trimester, isLoading: isLoadingTrimester } =
+    useTrimester(currentTrimester);
+  if (isLoading) return <Spinner />;
 
   return (
     <Modal>
@@ -39,15 +47,19 @@ function GeneralSettingTab() {
                 value={{ currentSchoolYear }}
               >
                 <strong>Ano Lectivo Actual</strong>
-                <p>{currentSchoolYear}</p>
+                {!isLoadingYear && <p>{academicYear?.year}</p>}
+                {isLoadingYear && <DotLoader />}
               </SettingRow>{" "}
               <SettingRow
                 name="currentQuarter"
                 settingId={id}
-                value={{ currentQuarter }}
+                value={{ trimester }}
               >
                 <strong>Trimestre Actual</strong>
-                <p>{currentQuarter} Trimestre</p>
+                {!isLoadingTrimester && (
+                  <p>{trimester?.trimester}º Trimestre</p>
+                )}
+                {isLoadingTrimester && <DotLoader />}
               </SettingRow>{" "}
               <SettingRow
                 name="description"

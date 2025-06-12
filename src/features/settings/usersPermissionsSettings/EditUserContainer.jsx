@@ -43,7 +43,6 @@ const ButtonsGroups = styled.div`
 function EditUserContainer() {
   const { setTableEditTab } = useCurrentTab();
   const [status, setStatus] = useState(false);
-
   return (
     <div>
       <TableHeader>
@@ -81,7 +80,7 @@ function EditUserContainer() {
         <SettingRow>
           <label htmlFor="">Redefinir Senha</label>
           <Modal.Open opens="reset-password">
-            <Button>
+            <Button onClick={(e) => e.preventDefault()}>
               <HiRefresh /> Refefinir Senha
             </Button>
           </Modal.Open>

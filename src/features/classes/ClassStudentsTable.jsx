@@ -28,7 +28,7 @@ const TableContainer = styled.div`
 `;
 function ClassStudentsTable({ classe }) {
   const navigate = useNavigate();
-  const { students } = useStudents();
+  const { students } = useStudents(classe.id);
   const [query, setQuery] = useState("");
 
   const filteredStudents = students

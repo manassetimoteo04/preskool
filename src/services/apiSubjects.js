@@ -12,7 +12,13 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-export async function getSubject({ id, filterId, filterField, method = "==" }) {
+export async function getSubject({
+  id,
+  filterId,
+  filterField,
+  classId,
+  method = "==",
+}) {
   try {
     if (id) {
       const docRef = doc(db, "subjects", id);
@@ -23,7 +29,22 @@ export async function getSubject({ id, filterId, filterField, method = "==" }) {
         throw new Error("Document not found");
       }
     }
-    if (filterId) {
+
+    if (classId) {
+      const ref = collection(db, "subjects");
+      const q = query(
+        ref,
+        where(filterField, method, filterId),
+        where("classId", method, classId)
+      );
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return data;
+    }
+    if (filterId && !classId) {
       const ref = collection(db, "subjects");
       const q = query(ref, where(filterField, method, filterId));
       const querySnapshot = await getDocs(q);
@@ -33,7 +54,6 @@ export async function getSubject({ id, filterId, filterField, method = "==" }) {
       }));
       return data;
     }
-
     const ref = collection(db, "subjects");
     const querySnapshot = await getDocs(ref);
     const data = querySnapshot.docs.map((doc) => ({

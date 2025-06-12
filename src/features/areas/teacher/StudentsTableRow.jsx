@@ -8,17 +8,22 @@ import styled from "styled-components";
 import DotLoader from "../../../ui/DotLoader";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import CreateEditStudentsMarks from "./CreateEditStudentsMarks";
+import { useAcademic } from "../../../context/AcademicYearContext";
 const SpanIcon = styled.span`
   color: var(--color-${(props) => (props.isApprovad ? "brand" : "red")}-500);
 `;
-function StudentsTableRow({ student }) {
+
+function StudentsTableRow({ student, currentSubject }) {
+  const { currentTrimester } = useAcademic();
   const { classId } = useParams();
   const { marks, isLoading } = useMarks({
     classId,
-    studentId: student.id,
-    subjectId: "SIXB0i28afyVcWY6fGi8",
-    trimesterId: "1",
+    studentId: student?.id,
+    subjectId: currentSubject?.id,
+    trimesterId: currentTrimester?.id,
   });
+  console.log(currentTrimester?.id);
+
   const final =
     (+marks?.at(0)?.marks?.mac +
       +marks?.at(0)?.marks?.mpp +
@@ -57,16 +62,21 @@ function StudentsTableRow({ student }) {
       <Menus.Menu menuId={student.id}>
         <Menus.List>
           <Modal.Open opens={student.id}>
-            <Menus.Button icon={<HiOutlinePencilSquare />}>Notas</Menus.Button>
+            <Menus.Button
+              disabled={!currentTrimester?.canEdit}
+              icon={<HiOutlinePencilSquare />}
+            >
+              {currentTrimester?.canEdit ? "Notas" : "Visualizar apenas"}
+            </Menus.Button>
           </Modal.Open>
         </Menus.List>
       </Menus.Menu>
-      <Modal.Window name={student.id} buttonClose={true}>
+      <Modal.Window name={student?.id} buttonClose={true}>
         <CreateEditStudentsMarks
-          subjectId="SIXB0i28afyVcWY6fGi8"
-          studentId={student.id}
+          subjectId={currentSubject?.id}
+          studentId={student?.id}
           marks={marks?.at(0)}
-          trimesterId="1"
+          trimesterId={currentTrimester?.id}
         />
       </Modal.Window>
     </Table.Row>

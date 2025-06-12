@@ -14,10 +14,9 @@ import {
 import { db } from "./firebase.js";
 import { isIncluded } from "../utils/helpers.js";
 
-export async function getClasse({ id, gradeId, gradesIds, field }) {
+export async function getClasse({ id, gradeId, gradesIds, field = "" }) {
   try {
     if (field) {
-      console.log(id, gradeId, gradesIds, field);
       const ref = collection(db, "classes");
       const querySnapshot = await getDocs(ref);
       const data = querySnapshot.docs

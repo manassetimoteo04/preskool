@@ -92,13 +92,12 @@ function CreateEditStudentsMarks({
           </InputRow>{" "}
         </div>
         <Button disabled={isLoading || isCreating}>
-          {!isLoading ||
-            (isCreating && (
-              <>
-                <HiOutlineCheck /> Salvar Dados
-              </>
-            ))}
-          {isLoading || (isCreating && <SpinnerMini />)}
+          {(!isLoading || !isCreating) && (
+            <>
+              <HiOutlineCheck /> Salvar Dados
+            </>
+          )}
+          {(isLoading || isCreating) && <SpinnerMini />}
         </Button>
       </StyledForm>
     </StyledCreateMark>
