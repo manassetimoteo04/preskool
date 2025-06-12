@@ -3,7 +3,15 @@ import { db } from "./firebase";
 
 export async function createUserAuth(user, token) {
   try {
-    console.log(token);
+    console.log({
+      password: import.meta.env.VITE_DEFAULT_USER_PASSWORD,
+      username: user.username,
+      email: user.name.split(" ").join("").toLowerCase() + "@gmail.com",
+
+      publicMetadata: {
+        role: user.role,
+      },
+    });
     const response = await fetch(
       `${import.meta.env.VITE_BASE_URL}/api/createUser`,
       {
@@ -34,7 +42,7 @@ export async function createUserAuth(user, token) {
     return data;
   } catch (error) {
     console.error("Erro na requisição:", error);
-    throw error; // Propague o erro para ser tratado pelo componente
+    throw error;
   }
 }
 

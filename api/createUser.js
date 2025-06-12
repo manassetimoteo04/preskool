@@ -26,11 +26,14 @@ export default async function handler(req, res) {
     });
 
     const { username, password, publicMetadata, email } = req.body;
-
-    if (!username || !password || !email) {
-      return res
-        .status(400)
-        .json({ message: "Faltando username, email ou senha" });
+    console.log("Dados recebidos:", {
+      username,
+      password,
+      publicMetadata,
+      email,
+    });
+    if (!username || !password) {
+      return res.status(400).json({ message: "Faltando username ou senha" });
     }
 
     const cleanUsername = username.trim().toLowerCase();
